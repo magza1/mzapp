@@ -1,0 +1,17 @@
+{
+    "name": "vnecoms/module-vendors-sales",
+    "description": "N/A",
+    "require": {
+        "magento/module-sales": "100.1.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.4",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\VendorsSales\\": ""
+        }
+    }
+}

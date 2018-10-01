@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Vnecoms_Vendors::css/register.css"/>
+    </head>
+    <body>
+        <referenceBlock name="head.components">
+            <block class="Magento\Framework\View\Element\Js\Components" name="customer_account_edit_head_components" template="Magento_Customer::js/components.phtml"/>
+        </referenceBlock>
+        <referenceBlock name="page.main.title">
+            <action method="setPageTitle">
+                <argument translate="true" name="title" xsi:type="string">Register New Seller Account</argument>
+            </action>
+        </referenceBlock>
+        <referenceContainer name="content">
+            <block class="Vnecoms\Vendors\Block\Account\Create" name="vendor.create" template="account/create.phtml">
+                <block class="Vnecoms\Vendors\Block\Account\Create\Vendor" name="vendor_create_form" template="account/create/vendor-from-exist-customer.phtml"/>
+                <container name="vendor_register_form_after" />
+                <container name="vendor_register_form_after" />
+                <container name="vendor_register_form_actions_before" />
+            </block>
+        </referenceContainer>
+    </body>
+</page>

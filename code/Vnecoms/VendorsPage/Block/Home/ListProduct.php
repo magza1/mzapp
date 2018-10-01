@@ -1,0 +1,124 @@
+<?php
+namespace Vnecoms\VendorsPage\Block\Home;
+
+use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
+use \Vnecoms\VendorsProduct\Model\Source\Approval as ProductApproval;
+
+class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
+{
+    /**
+     * @var \Magento\Catalog\Model\ResourceModel\Product\CollectionFactory
+     */
+    protected $_productCollectionFactory;
+    
+    /**
+     * Catalog product visibility
+     *
+     * @var \Magento\Catalog\Model\Product\Visibility
+     */
+    protected $productVisibility;
+    
+    /**
+     * Catalog config
+     *
+     * @var \Magento\Catalog\Model\Config
+     */
+    protected $catalogConfig;
+    
+    /**
+     * Core registry
+     *
+     * @var \Magento\Framework\Registry
+     */
+    protected $_coreRegistry = null;
+    
+    public function __construct(
+        \Magento\Catalog\Block\Product\Context $context,
+        \Magento\Framework\Data\Helper\PostHelper $postDataHelper,
+        \Magento\Catalog\Model\Layer\Resolver $layerResolver,
+        CategoryRepositoryInterface $categoryRepository,
+        \Magento\Framework\Url\Helper\Data $urlHelper,
+        CollectionFactory $productCollectionFactory,
+        \Magento\Catalog\Model\Product\Visibility $productVisibility,
+        array $data = []
+    ) {
+        $this->_productCollectionFactory = $productCollectionFactory;
+        $this->productVisibility = $productVisibility;
+        $this->catalogConfig = $context->getCatalogConfig();
+        $this->_coreRegistry = $context->getRegistry();
+        parent::__construct($context, $postDataHelper, $layerResolver, $categoryRepository, $urlHelper,$data);
+    }
+    
+    /**
+     * Get current vendor
+     * 
+     * @return \Vnecoms\Vendors\Model\Vendor
+     */
+    public function getVendor(){
+        return $this->_coreRegistry->registry('vendor');
+    }
+    
+    /**
+     * Retrieve loaded category collection
+     *
+     * @return AbstractCollection
+     */
+    protected function _getProductCollection()
+    {
+        if ($this->_productCollection === null) {
+            $layer = $this->getLayer();
+            $this->_productCollection = $layer->getProductCollection();
+        //    echo $layer->getProductCollection()->getSelect();
+//            $this->_productCollection = $this->_productCollectionFactory->create();
+//            $this->_productCollection->addAttributeToSelect($this->catalogConfig->getProductAttributes())
+//                ->addAttributeToFilter('vendor_id',$this->getVendor()->getId())
+//                ->addAttributeToFilter('approval',ProductApproval::STATUS_APPROVED)
+//
+//            ->addMinimalPrice()
+//            ->addFinalPrice()
+//            ->addTaxPercents()
+//            ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
+        }
+        return $this->_productCollection;
+    }
+    
+    /**
+     * Get total number of vendor's product.
+     * 
+     * @return int
+     */
+    public function getTotalNumberOfProducts(){
+        if(!$this->getData('total_num_products')){
+            $collection = $this->_productCollectionFactory->create();
+            $collection->addAttributeToFilter('vendor_id',$this->getVendor()->getId())
+                ->addAttributeToFilter('approval',ProductApproval::STATUS_APPROVED)
+                ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
+
+            $this->setData('total_num_products',sizeof($collection));
+        }
+        
+        return $this->getData('total_num_products');
+    }
+    
+    /**
+     * Add items link to the menu
+     * 
+     * @see \Magento\Framework\View\Element\AbstractBlock::_prepareLayout()
+     */
+    protected function _prepareLayout(){
+        parent::_prepareLayout();
+        $menuBlock = $this->getLayout()->getBlock('vendor.menu.top');
+        if($menuBlock){
+            $totalProduct = $this->getTotalNumberOfProducts();
+            $menuBlock->addLink(
+                __("Items (%1)",$totalProduct),
+                __("Items (%1)",$totalProduct),
+                '#vendor-products',
+                10
+            );
+        }
+    
+        return $this;
+    }
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\Logo\Upload">
+        <arguments>
+            <argument name="imageUploader" xsi:type="object">Aheadworks\ShopByBrand\ImageUploader</argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\Composite">
+        <arguments>
+            <argument name="processors" xsi:type="array">
+                <item name="brandId" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\BrandId</item>
+                <item name="brandAttributeId" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\BrandAttributeId</item>
+                <item name="websiteIds" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\WebsiteIds</item>
+                <item name="contentData" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\ContentData</item>
+                <item name="logo" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\Logo</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

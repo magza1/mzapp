@@ -1,0 +1,9 @@
+<?php
+    $porto_helper = $this->helper('Smartwave\Porto\Helper\Data');
+    echo $porto_helper->getConfig('porto_settings/product/custom_social');
+    $_product = $block->getProduct();
+?>
+<div class="quick-view">
+	<a class="weltpixel-quickview weltpixel_quickview_button_v2" data-quickview-url="<?php echo $block->getUrl("weltpixel_quickview/catalog_product/view",array('id' =>  $_produc->getId() )) ?>" href="javascript:void(0);">
+	<span><?php echo __("Quickview") ?></span></a>
+</div>

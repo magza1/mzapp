@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <aw_sbb>
+            <product_page>
+                <display_brand_info>dont_display</display_brand_info>
+                <display_brand_description>0</display_brand_description>
+            </product_page>
+            <more_from_this_brand_block>
+                <enabled>0</enabled>
+                <block_name>More from this brand</block_name>
+                <block_position>content_bottom</block_position>
+                <block_layout>single_row</block_layout>
+                <products_limit>5</products_limit>
+                <display_add_to_cart>1</display_add_to_cart>
+                <sort_by>bestsellers</sort_by>
+            </more_from_this_brand_block>
+            <seo>
+                <noindex_pagination_pages>0</noindex_pagination_pages>
+            </seo>
+        </aw_sbb>
+        <sitemap>
+            <aw_sbb>
+                <priority>0.5</priority>
+                <changefreq>weekly</changefreq>
+            </aw_sbb>
+        </sitemap>
+    </default>
+</config>

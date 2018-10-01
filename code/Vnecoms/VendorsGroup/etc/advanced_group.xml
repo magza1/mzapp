@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Vnecoms_VendorsGroup:etc/advanced_group.xsd">
+<advanced_group>
+	<group id="catalog" translate="label tooltip" type="text" sortOrder="10">
+		<label>Catalog</label>
+		<field id="can_add_product" translate="label" type="select" sortOrder="10">
+			<label>Can Add New Product</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+			<comment>If this option is set to No, Sellers in this group can't add new products from seller panel. They can only edit assigned products.</comment>
+		</field>
+		<field id="product_limit" translate="label" type="text" sortOrder="20">
+			<label>Product Limitation</label>
+			<frontend_class>validate-number</frontend_class>
+			<comment><![CDATA[Maximum number of products that you allow sellers in this group to add from seller panel.<br />Leave blank or zero to allow seller to add unlimited products.]]></comment>
+		</field>
+	</group>
+	<group id="sales" translate="label tooltip" type="text" sortOrder="20">
+		<label>Sales</label>
+		<field id="can_cancel" translate="label" type="select" sortOrder="10">
+			<label>Can Cancel Order</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+		<field id="can_create_invoice" translate="label" type="select" sortOrder="20">
+			<label>Can Create Invoice</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+		<field id="can_create_shipment" translate="label" type="select" sortOrder="30">
+			<label>Can Create Shipment</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+		<field id="can_create_creditmemo" translate="label" type="select" sortOrder="40">
+			<label>Can Create Credit Memo</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+		<field id="can_submit_order_comments" translate="label" type="select" sortOrder="50">
+			<label>Can submit comments</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+		<field id="hide_customer_email" translate="label" type="select" sortOrder="50">
+			<label>Hide Customer Email</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+			<comment>Customer email from order will be hidden.</comment>
+		</field>
+		<field id="hide_payment_info" translate="label" type="select" sortOrder="50">
+			<label>Hide Payment Information</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+			<comment>The payment information of customer will be hidden from order.</comment>
+		</field>
+	</group>
+</advanced_group>
+</config>

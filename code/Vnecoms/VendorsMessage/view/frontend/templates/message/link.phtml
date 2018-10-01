@@ -1,0 +1,4 @@
+<li class="vendor-message-link">
+    <a href="<?php echo $block->getMessageUrl()?>"><i class="vnecoms-mfa vnecoms-mfa-envelope-o"></i></a>
+    <?php if($count = $block->getUnreadMessageCount()):?><span class="vnecoms-unread-message-count"><?php echo $count?></span><?php endif;?>
+</li>

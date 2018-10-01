@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+	<event name="controller_action_predispatch_catalog_product_new">
+		<observer name="vendorsgroup_predispatch_catalog_product_new" instance="Vnecoms\VendorsGroup\Observer\ProductNewPredispatch" />
+	</event>
+	<event name="controller_action_predispatch_pricecomparison_selectandsell_new">
+		<observer name="vendorsgroup_pricecomparison_selectandsell_new" instance="Vnecoms\VendorsGroup\Observer\SelectAndSellNewPredispatch" />
+	</event>
+	<event name="controller_action_predispatch_pricecomparison_selectandsell_index">
+		<observer name="vendorsgroup_pricecomparison_selectandsell_index" instance="Vnecoms\VendorsGroup\Observer\SelectAndSellNewPredispatch" />
+	</event>
+	<event name="controller_action_predispatch_sales_order_cancel">
+		<observer name="vendorsgroup_sales_order_cancel" instance="Vnecoms\VendorsGroup\Observer\CancelOrderPredispatch" />
+	</event>
+	<event name="controller_action_predispatch_sales_order_invoice_new">
+		<observer name="vendorsgroup_sales_order_invoice_new" instance="Vnecoms\VendorsGroup\Observer\CreateInvoicePredispatch" />
+	</event>
+	<event name="controller_action_predispatch_sales_order_shipment_new">
+		<observer name="vendorsgroup_sales_order_shipment_new" instance="Vnecoms\VendorsGroup\Observer\CreateShipmentPredispatch" />
+	</event>
+	<event name="controller_action_predispatch_sales_order_creditmemo_new">
+		<observer name="vendorsgroup_sales_order_creditmemo_new" instance="Vnecoms\VendorsGroup\Observer\CreateCreditMemoPredispatch" />
+	</event>
+	
+</config>

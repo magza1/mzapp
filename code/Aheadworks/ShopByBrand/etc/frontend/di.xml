@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\App\RouterList">
+        <arguments>
+            <argument name="routerList" xsi:type="array">
+                <item name="aw_sbb" xsi:type="array">
+                    <item name="class" xsi:type="string">Aheadworks\ShopByBrand\Controller\Router</item>
+                    <item name="disable" xsi:type="boolean">false</item>
+                    <item name="sortOrder" xsi:type="string">60</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Aheadworks\ShopByBrand\Block\Brand\ListProduct" type="Magento\Catalog\Block\Product\ListProduct">
+        <arguments>
+            <argument name="catalogLayer" xsi:type="object">Aheadworks\ShopByBrand\Model\Layer</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Magento\LayeredNavigation\Block\Navigation\Brand" type="Magento\LayeredNavigation\Block\Navigation">
+        <arguments>
+            <argument name="filterList" xsi:type="object">brandFilterList</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Aheadworks\Layerednav\Model\Layer\Brand\FilterList" type="Aheadworks\Layerednav\Model\Layer\Category\FilterList">
+        <arguments>
+            <argument name="filterableAttributes" xsi:type="object">Aheadworks\ShopByBrand\Model\Layer\FilterableAttributeList</argument>
+        </arguments>
+    </virtualType>
+    <type name="Aheadworks\Layerednav\Model\Layer\FilterListResolver">
+        <arguments>
+            <argument name="filterListPool" xsi:type="array">
+                <item name="aw_brand" xsi:type="string">Aheadworks\Layerednav\Model\Layer\Brand\FilterList</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Layerednav\Model\PageTypeResolver">
+        <arguments>
+            <argument name="pageHandles" xsi:type="array">
+                <item name="aw_brand" xsi:type="string">aw_sbb_brand_view</item>
+            </argument>
+            <argument name="pageLayers" xsi:type="array">
+                <item name="aw_brand" xsi:type="string">aw_brand</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Layerednav\Model\Layer\DataSource\CompositeConfigProvider">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="aw_sbb" xsi:type="object">Aheadworks\ShopByBrand\Model\Layer\DataSource\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Aheadworks\Layerednav\App\Request\Matcher\Base\PathMatcher">
+        <arguments>
+            <argument name="paths" xsi:type="array">
+                <item name="aw_sbb" xsi:type="string">aw_sbb/brand/view</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

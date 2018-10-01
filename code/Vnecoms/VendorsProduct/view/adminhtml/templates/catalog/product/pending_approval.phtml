@@ -1,0 +1,39 @@
+<?php
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+$_product = $block->getProduct();
+?>
+<?php foreach($block->getUpdates() as $update):?>
+<section class="admin__page-section order-view-account-information">
+    <?php $updateData = unserialize($update->getProductData());?>
+    <?php $_product->setStoreId($update->getStoreId());?>
+    <div class="admin__page-section-title">
+        <span class="title"><?php echo __("Store: %1",$update->getStore()->getName())?></span>
+    </div>
+    <div class="admin__page-section-content">
+      <table class="data-table admin__table-primary">
+        <thead>
+            <tr class="headings">
+                <th class="col-attribute"><span><?php echo __("Attribute")?></span></th>
+                <th class="col-current-value"><span><?php echo __("Current Value")?></span></th>
+                <th class="col-new-value"><span><?php echo __("New Value")?></span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($updateData as $attributeCode => $value):?>
+            <?php $attribute = $block->getProductAttribute($attributeCode)?>
+            <tr>
+                <td class="col-attribute"><span><strong><?php echo $attributeCode?></strong></span></td>
+                <td class="col-current-value"><span><?php echo $block->getProductAttributeValue($_product,$attributeCode)?></span></td>
+                <td class="col-new-value"><span><?php echo $block->getProductAttributeValue($_product,$attributeCode, $value)?></span></td>
+            </tr>
+            <?php endforeach;?>
+        </tbody>
+      </table>
+    </div>
+</section>
+<?php endforeach;?>

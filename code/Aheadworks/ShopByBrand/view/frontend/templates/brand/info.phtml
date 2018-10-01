@@ -1,0 +1,37 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+/* @var $block \Aheadworks\ShopByBrand\Block\Brand\Info */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+    $brand = $block->getBrand();
+?>
+<div class="aw-sbb-brand-info">
+    <?php if (!empty($brand->getLogo())): ?>
+    <div class="brand-logo">
+        <a href="<?php echo $block->escapeUrl($block->getBrandUrl()) ?>">
+            <img src="<?php echo $block->escapeUrl($block->getBrandLogoUrl()) ?>"
+                 alt="<?php /* @noEscape */ echo $block->stripTags($brand->getName(), null, true) ?>" />
+        </a>
+
+    </div>
+    <?php endif; ?>
+    <?php if ($block->canShowDescription()): ?>
+        <div class="brand-description">
+            <?php if ($block->wrapDescription()): ?>
+                <!--googleoff: all-->
+                    <noindex>
+            <?php endif; ?>
+            <?php /* @noEscape */ echo $block->getDescriptionHtml() ?>
+            <?php if ($block->wrapDescription()): ?>
+                    </noindex>
+                <!--googleon: all-->
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>
+</div>

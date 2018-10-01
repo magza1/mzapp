@@ -1,0 +1,84 @@
+<?php
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+
+/* @var $block \Aheadworks\ShopByBrand\Block\Brand\ProductList */
+
+// @codingStandardsIgnoreFile
+?>
+<?php
+    $items = $block->getItems();
+?>
+<div class="aw-sbb-brand-products <?php echo $block->escapeHtml($block->getProductListLayoutType()) ?>"
+     data-mage-init='{"awSbbProductListLayout": {
+        "layoutType": <?php /* @noEscape */ echo \Zend_Json::encode($block->getProductListLayoutType()) ?>}}'>
+    <div class="block-title title">
+        <h3 id="block-aw-sbb-heading" role="heading" aria-level="2"><?php echo $block->escapeHtml(__($block->getTitle())) ?></h3>
+    </div>
+    <div class="block-content content">
+        <div class="products wrapper grid products-grid">
+            <ol class="products list items product-items" data-role="item-list">
+                <?php $iterator = 1; ?>
+                <?php foreach ($items as $item): ?>
+                    <?php $available = ''; ?>
+                    <?php if (!$item->isComposite() && $item->isSaleable()): ?>
+                        <?php if (!$item->getRequiredOptions()): ?>
+                            <?php $available = 'related-available'; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                    <?php /* @noEscape */ echo ($iterator++ == 1) ? '<li class="item product product-item" data-role="item">' : '</li><li class="item product product-item" data-role="item">' ?>
+                    <div class="product-item-info <?php /* @noEscape */ echo $available; ?>">
+                        <?php /* @noEscape */ echo '<!-- ' . \Aheadworks\ShopByBrand\Block\Brand\ProductList::IMAGE_ID . '-->' ?>
+                        <a href="<?php echo $block->escapeUrl($block->getProductUrl($item)) ?>" class="product photo product-item-photo">
+                            <?php echo $block->getImage($item)->toHtml(); ?>
+                        </a>
+
+                        <div class="product details product-item-details">
+                            <strong class="product name product-item-name">
+                                <a class="product-item-link"
+                                   title="<?php echo $block->escapeHtml($item->getName()) ?>"
+                                   href="<?php echo $block->escapeUrl($block->getProductUrl($item)) ?>">
+                                    <?php echo $block->escapeHtml($item->getName()) ?>
+                                </a>
+                            </strong>
+                            <?php /* @noEscape */ echo $block->getProductPriceHtml($item); ?>
+                            <?php if ($block->isDisplayAddToCart()): ?>
+                                <div class="actions-primary">
+                                    <?php if ($item->isSaleable()): ?>
+                                        <?php if ($item->getTypeInstance()->hasRequiredOptions($item)): ?>
+                                            <button class="action tocart primary"
+                                                    data-mage-init='{"redirectUrl": {"url": "<?php /* @noEscape */ echo $block->getAddToCartUrl($item) ?>"}}'
+                                                    type="button"
+                                                    title="<?php echo $block->escapeHtml(__('Add to Cart')) ?>">
+                                                <span><?php echo $block->escapeHtml(__('Add to Cart')) ?></span>
+                                            </button>
+                                        <?php else: ?>
+                                            <button class="action tocart primary"
+                                                    data-post='<?php /* @noEscape */ echo $block->getAddToCartPostData($item); ?>'
+                                                    type="button" title="<?php echo $block->escapeHtml(__('Add to Cart')) ?>">
+                                                <span><?php echo $block->escapeHtml(__('Add to Cart')) ?></span>
+                                            </button>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <?php if ($item->getIsSalable()): ?>
+                                            <div class="stock available">
+                                                <span><?php echo $block->escapeHtml(__('In stock')) ?></span>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="stock unavailable">
+                                                <span><?php echo $block->escapeHtml(__('Out of stock')) ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php echo ($iterator == count($items) + 1) ? '</li>' : '' ?>
+                <?php endforeach ?>
+            </ol>
+        </div>
+    </div>
+</div>

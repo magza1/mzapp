@@ -1,0 +1,21 @@
+{
+    "name": "vnecoms/module-marketplace-credit",
+    "description": "N/A",
+    "require": {
+        "magento/module-sales": "~100.1.5",
+        "magento/module-checkout": "~100.1.5",
+        "magento/module-catalog": "~101.0.5",
+        "magento/module-customer": "~100.1.5",
+        "vnecoms/module-core": "2.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.1",
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\Credit\\": ""
+        }
+    }
+}

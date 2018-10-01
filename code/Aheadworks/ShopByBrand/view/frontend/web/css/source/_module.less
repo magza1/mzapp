@@ -1,0 +1,125 @@
+//
+//  Variables
+//  _____________________________________________
+
+@brand-list-item__border_color: @color-gray80;
+
+//
+//  Common
+//  _____________________________________________
+
+& when (@media-common = true) {
+    .catalog-product-view {
+        .aw-sbb-brand-info {
+            margin: 0;
+        }
+    }
+
+    .aw-sbb-brand-info {
+        margin: 0 0 35px 0;
+
+        .brand-logo {
+            float: left;
+            margin-right: 10px;
+        }
+
+        &:after {
+            display: table;
+            clear: both;
+            content: '';
+        }
+    }
+
+    .aw-sbb-list-brand {
+        .brand-item {
+            border: solid 1px @brand-list-item__border_color;
+            box-shadow: 1px 1px 1px 0 rgba(158, 149, 158, 0.4);
+            display: inline-block;
+            margin: 0 5px 8px 0;
+            padding: 5px 2px 0 2px;
+            text-align: center;
+            width: 130px;
+            -moz-box-shadow: 1px 1px 1px 0 rgba(158, 149, 158, 0.4);
+            -webkit-box-shadow: 1px 1px 1px 0 rgba(158, 149, 158, 0.4);
+
+            .brand-logo {
+                display: block;
+            }
+        }
+
+        .block-title {
+            .title {
+                font-weight: 600;
+            }
+        }
+
+        .box {
+            &.featured-brands {
+                margin-bottom: 15px;
+            }
+        }
+
+        .box-title {
+            color: #333;
+            font-size: 1.6rem;
+            margin: 0 0 12px 0;
+
+            strong {
+                font-weight: 600;
+            }
+        }
+    }
+
+    .aw-sbb-brand-products {
+        .products-grid {
+            margin-left: 0;
+        }
+
+        &.slider {
+            visibility: hidden;
+        }
+
+        .products {
+            &.product-items {
+                &.slick-slider {
+                    margin-left: 0;
+                }
+            }
+
+            .slick-list {
+                margin: 0 15px;
+                padding-top: 10px;
+            }
+
+            .slick-slider {
+                .product-item {
+                    text-align: center;
+                }
+            }
+        }
+
+        .product-item-info {
+            max-width: 90%;
+            width: auto;
+
+            .actions-primary {
+                margin-bottom: 25px;
+            }
+        }
+    }
+}
+
+//
+//  Mobile
+//  _____________________________________________
+
+.media-width(@extremum, @break) when (@extremum = 'max') and (@break = @screen__xs) {
+    .aw-sbb-brand-info {
+        .brand-logo {
+            float: none;
+            margin-right: 0;
+            text-align: center;
+        }
+    }
+}
+

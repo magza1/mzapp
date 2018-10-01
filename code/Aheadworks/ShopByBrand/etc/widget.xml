@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget id="aw_sbb_brands" class="Aheadworks\ShopByBrand\Block\Widget\ListBrand">
+        <label translate="true">Brands</label>
+        <description translate="true">List Of Brands</description>
+        <parameters>
+            <parameter name="title" xsi:type="text" required="false" visible="true">
+                <label translate="true">Widget Title</label>
+                <description translate="true">Leave empty to hide.</description>
+            </parameter>
+            <parameter name="show_name" xsi:type="select" visible="true" sort_order="10"
+                       source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Brand Name</label>
+            </parameter>
+            <parameter name="template" xsi:type="select" visible="true" required="true" sort_order="20">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/brands/default.phtml" selected="true">
+                        <label translate="true">Shop by Brand Default Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>

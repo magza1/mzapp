@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="aheadworks" translate="label" sortOrder="300">
+            <label>Aheadworks Extensions</label>
+        </tab>
+        <section id="aw_sbb" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Shop by Brand</label>
+            <tab>aheadworks</tab>
+            <resource>Aheadworks_ShopByBrand::config_aw_sbb</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <field id="brand_product_attribute" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Brand Product Attribute</label>
+                    <source_model>Aheadworks\ShopByBrand\Model\Config\Source\BrandAttribute</source_model>
+                </field>
+            </group>
+            <group id="product_page" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Product Page</label>
+                <field id="display_brand_info" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Brand Info on Product Page</label>
+                    <source_model>Aheadworks\ShopByBrand\Model\Config\Source\ProductPage\BrandInfoBlockPosition</source_model>
+                </field>
+                <field id="display_brand_description" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display Brand Description</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+            <group id="more_from_this_brand_block" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>"More from this Brand" Block</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable "More from this Brand" Block</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="block_name" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Block Name</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="block_position" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Block Position</label>
+                    <source_model>Aheadworks\ShopByBrand\Model\Config\Source\ProductPage\MoreFromThisBrand\BlockPosition</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="block_layout" translate="label" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Block Layout</label>
+                    <source_model>Aheadworks\ShopByBrand\Model\Config\Source\ProductPage\MoreFromThisBrand\BlockLayout</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="products_limit" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Max Products to Display</label>
+                    <validate>required-entry</validate>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="block_layout" separator=",">multiple_rows,slider</field>
+                    </depends>
+                </field>
+                <field id="display_add_to_cart" translate="label" type="select" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Display "Add to Cart" Button</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="sort_by" translate="label" type="select" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Sort Products by</label>
+                    <source_model>Aheadworks\ShopByBrand\Model\Config\Source\ProductPage\MoreFromThisBrand\SortBy</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="seo" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>SEO</label>
+                <field id="noindex_pagination_pages" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Add Noindex to Pagination Pages</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

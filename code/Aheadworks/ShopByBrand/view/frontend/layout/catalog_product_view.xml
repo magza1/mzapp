@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Aheadworks_ShopByBrand::css/slider.css"/>
+    </head>
+    <body>
+        <referenceContainer name="product.info.main">
+            <block class="Aheadworks\ShopByBrand\Block\Product\BrandInfo" name="aw_sbb.product.before_short_description" before="product.info.overview">
+                <arguments>
+                    <argument name="position" xsi:type="string">before_short_description</argument>
+                </arguments>
+            </block>
+            <block class="Aheadworks\ShopByBrand\Block\Product\BrandInfo" name="aw_sbb.product.after_short_description" after="product.info.overview">
+                <arguments>
+                    <argument name="position" xsi:type="string">after_short_description</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content.top">
+            <block class="Aheadworks\ShopByBrand\Block\Brand\ProductList" name="aw_sbb.product.brand_products.content_top" before="-">
+                <arguments>
+                    <argument name="position" xsi:type="string">content_top</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceContainer name="content.aside">
+            <block class="Aheadworks\ShopByBrand\Block\Brand\ProductList" name="aw_sbb.product.brand_products.before_related_products" before="catalog.product.related">
+                <arguments>
+                    <argument name="position" xsi:type="string">before_related_products</argument>
+                </arguments>
+            </block>
+            <block class="Aheadworks\ShopByBrand\Block\Brand\ProductList" name="aw_sbb.product.brand_products.after_related_products" after="catalog.product.related">
+                <arguments>
+                    <argument name="position" xsi:type="string">after_related_products</argument>
+                </arguments>
+            </block>
+            <block class="Aheadworks\ShopByBrand\Block\Brand\ProductList" name="aw_sbb.product.brand_products.content_bottom" after="-">
+                <arguments>
+                    <argument name="position" xsi:type="string">content_bottom</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

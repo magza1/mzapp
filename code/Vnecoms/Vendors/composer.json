@@ -1,0 +1,33 @@
+{
+    "name": "vnecoms/module-vendors",
+    "description": "N/A",
+    "require": {
+        "magento/framework": "100.1.*",
+        "vnecoms/module-marketplace-credit": "2.*",
+        "vnecoms/module-vendors-commission": "2.*",
+        "vnecoms/module-vendors-config": "2.*",
+        "vnecoms/module-vendors-credit": "2.*",
+        "vnecoms/module-vendors-dashboard": "2.*",
+        "vnecoms/module-vendors-notification": "2.*",
+        "vnecoms/module-vendors-product": "2.*",
+        "vnecoms/module-vendors-product-configurable": "2.*",
+        "vnecoms/module-vendors-sales": "2.*",
+        "vnecoms/module-vendors-ui": "2.*",
+        "vnecoms/theme-vendors-default": "2.*",
+        "vnecoms/module-core": "2.*"
+    },
+    "type": "magento2-module",
+    "version": "2.1.8",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\Vendors\\": ""
+        }
+    }
+}

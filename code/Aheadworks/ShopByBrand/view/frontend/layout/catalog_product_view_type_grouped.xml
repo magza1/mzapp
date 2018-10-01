@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!--
+/**
+* Copyright 2016 aheadWorks. All rights reserved.
+* See LICENSE.txt for license details.
+*/
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="product.info.form.content">
+            <block class="Aheadworks\ShopByBrand\Block\Product\BrandInfo" name="aw_sbb.product.before_product_options" before="product.info.grouped">
+                <arguments>
+                    <argument name="position" xsi:type="string">before_product_options</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+    </body>
+</page>

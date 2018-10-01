@@ -1,0 +1,36 @@
+<?php
+// @codingStandardsIgnoreFile
+
+/** @var $block \WeltPixel\Quickview\Block\Initialize */
+?>
+<script>
+    requirejs(['jquery', 'weltpixel_quickview' ],
+        function   ($, quickview) {
+            $(document).ready(function() {
+                $('.weltpixel-quickview').bind('click', function() {
+                    var prodUrl = $(this).attr('data-quickview-url');
+                    if (prodUrl.length) {
+                        quickview.displayContent(prodUrl);
+                    }
+                });
+            });
+        });
+
+    window.weltpixel_quickview = <?php /* @escapeNotVerified */ echo \Zend_Json::encode($block->getConfig()); ?>;
+</script>
+
+<?php
+
+
+$routeName = $this->getRequest()->getRouteName();
+if($routeName != 'cms') {
+	//echo $block->getChildHtml('storelocator.wrapper'); 
+	$objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+	$resource = $objectManager->get('Magento\Framework\App\ResourceConnection');
+	$connection = $resource->getConnection();
+	$product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+	if($product){
+			echo $block->getChildHtml('storelocator.wrapper'); 
+		}
+	}
+?>

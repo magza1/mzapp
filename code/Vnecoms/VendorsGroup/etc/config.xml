@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+    	<!-- Set default value for advaned group config -->
+        <vendor_advanced_group>
+        	<catalog>
+        		<can_add_product>1</can_add_product>
+        		<product_limit>0</product_limit>
+        	</catalog>
+        	<sales>
+        		<can_cancel>1</can_cancel>
+        		<can_create_invoice>1</can_create_invoice>
+        		<can_create_shipment>1</can_create_shipment>
+        		<can_create_creditmemo>1</can_create_creditmemo>
+        		<can_submit_order_comments>1</can_submit_order_comments>
+        		<hide_customer_email>0</hide_customer_email>
+        		<hide_payment_info>0</hide_payment_info>
+        	</sales>
+        </vendor_advanced_group>
+    </default>
+</config>
