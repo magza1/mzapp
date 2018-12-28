@@ -65,7 +65,7 @@ class Attributes extends Generic
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('vendor_');
         
-        $fieldset = $form->addFieldset('fieldset_'+$fset->getId(), ['legend' => $fset->getTitle(),'class' => 'fieldset-wide']);
+        $fieldset = $form->addFieldset('fieldset_'.$fset->getId(), ['legend' => $fset->getTitle(),'class' => 'fieldset-wide']);
         $fieldset->addType('file', 'Vnecoms\Vendors\Block\Adminhtml\Form\Element\File');
         $fieldset->addType('image', 'Vnecoms\Vendors\Block\Adminhtml\Form\Element\Image');
         $fieldset->addType('boolean', 'Vnecoms\Vendors\Block\Adminhtml\Form\Element\Boolean');

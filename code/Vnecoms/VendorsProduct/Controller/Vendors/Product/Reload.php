@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsProduct\Controller\Vendors\Product;
 
 use Magento\Framework\Controller\ResultFactory;
@@ -12,6 +9,13 @@ use Magento\Framework\Controller\ResultFactory;
  */
 class Reload extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::product_action_save';
+    
     /**
      * {@inheritdoc}
      */
@@ -24,10 +28,10 @@ class Reload extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
         $product = $this->productBuilder->build($this->getRequest());
 
         /** @var \Magento\Framework\View\Result\Layout $resultLayout */
-        $resultLayout = $this->resultFactory->create(ResultFactory::TYPE_LAYOUT);
-        $resultLayout->getLayout()->getUpdate()->addHandle(['catalog_product_' . $product->getTypeId()]);
-        $resultLayout->getLayout()->getUpdate()->removeHandle('default');
-        $resultLayout->setHeader('Content-Type', 'application/json', true);
-        return $resultLayout;
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getUpdate()->addHandle(['catalog_product_' . $product->getTypeId()]);
+        $this->_view->getLayout()->getUpdate()->removeHandle('default');
+        $this->_view->getPage()->setHeader('Content-Type', 'application/json', true);
+        $this->_view->renderLayout();
     }
 }

@@ -20,7 +20,25 @@
 	<preference for="Magento\Framework\View\Page\FaviconInterface" type="Vnecoms\Vendors\Model\Favicon" />
 	
 	<preference for="Magento\Ui\Model\Manager" type="Vnecoms\Vendors\Model\Config\Manager" />
-	
+
+    <type name="Vnecoms\Vendors\Model\Image">
+        <arguments>
+            <argument name="viewAssetImageFactory" xsi:type="object">Vnecoms\Vendors\Model\View\Asset\ImageFactory</argument>
+        </arguments>
+    </type>
+
+    <type name="Vnecoms\Vendors\Model\View\Asset\Image">
+        <arguments>
+            <argument name="mediaConfig" xsi:type="object">Vnecoms\Vendors\Model\Media\Config</argument>
+            <argument name="context" xsi:type="object">Vnecoms\Vendors\Model\View\Asset\Image\Context</argument>
+        </arguments>
+    </type>
+    <type name="Vnecoms\Vendors\Model\View\Asset\Image\Context">
+        <arguments>
+            <argument name="mediaConfig" xsi:type="object">Vnecoms\Vendors\Model\Media\Config</argument>
+        </arguments>
+    </type>
+
 	<type name="Vnecoms\Vendors\App\Action\Context">
         <arguments>
             <argument name="helper" xsi:type="object">Vnecoms\Vendors\Helper\Data</argument>
@@ -43,9 +61,10 @@
             </argument>
         </arguments>
     </type>
- <!--    <type name="Vnecoms\Vendors\App\AbstractAction">
-        <plugin name="adminAuthentication" type="Vnecoms\Vendors\App\Action\Plugin\Authentication" sortOrder="100" />
-    </type> -->
+    
+    <type name="Magento\Backend\Block\Widget\Button\Toolbar">
+        <plugin name="vendor_plugin_toolbar" type="Vnecoms\Vendors\Plugin\Widget\Button\Toolbar" sortOrder="100" />
+    </type>
     
     <type name="Magento\Store\App\Response\Redirect">
         <arguments>

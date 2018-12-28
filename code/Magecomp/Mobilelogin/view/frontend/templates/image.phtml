@@ -1,0 +1,19 @@
+<?php
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$helper = $om->get('Magecomp\Mobilelogin\Helper\Data');
+$storeManager = $om->get('\Magento\Store\Model\StoreManagerInterface');
+$currentStore = $storeManager->getStore();
+$mediaUrl = $currentStore->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+
+if($helper->getLayoutType())
+{
+?>
+<div class="leftimage">
+    <?php $image = $helper->getTemplateImage(); ?>
+    <?php if($helper->getImageType()) { ?>
+        <img  class="leftimg" src="<?php echo $this->getViewFileUrl('Magecomp_Mobilelogin::images/'.$image.'.png'); ?>"  alt="mobile login popup image"/>
+    <?php }else { ?>
+        <img class="leftimg" src="<?php echo $mediaUrl.'mobilelogin/image/'.$image ?>"  alt="mobile login popup image"/>
+    <?php } ?>
+</div>
+<?php } ?>

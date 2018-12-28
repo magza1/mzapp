@@ -68,20 +68,24 @@ class MassApprove extends \Magento\Catalog\Controller\Adminhtml\Product
         \Magento\Catalog\Model\Product $product,
         \Vnecoms\Vendors\Model\Vendor $vendor
     ) {
+
         $updateCollection = $this->_objectManager->create('Vnecoms\VendorsProduct\Model\ResourceModel\Product\Update\Collection');
         $updateCollection->addFieldToFilter('product_id', $product->getId())
             ->addFieldToFilter('status', ProductUpdate::STATUS_PENDING);
         
         foreach ($updateCollection as $update) {
             $productData = unserialize($update->getProductData());
+						$product->setStoreId($update->getStoreId());
             foreach ($productData as $attributeCode => $value) {
-                $product->setData($attributeCode, $value);
+                $product->setData($attributeCode, $value)
+									->getResource()
+									->saveAttribute($product, $attributeCode);
             }
             $update->setStatus(ProductUpdate::STATUS_APPROVED)->setId($update->getUpdateId())->save();
-            $product->setStoreId($update->getStoreId())->save();
         }
         /*Send update product notification email*/
-        $this->productHelper->sendUpdateProductApprovedEmailToVendor($product, $vendor, $updateCollection);
+        /*$this->productHelper->sendUpdateProductApprovedEmailToVendor($product, $vendor, $updateCollection);*/
+
     }
     
     /**
@@ -111,16 +115,19 @@ class MassApprove extends \Magento\Catalog\Controller\Adminhtml\Product
              * Approve Pending updates.
              */
             if ($product->getApproval() == Approval::STATUS_PENDING_UPDATE) {
+				/*Disable sending mail for now*/
                 $this->approveExistProduct($product, $vendor);
                 $message = __('Updates of %1 are approved', '<strong>'.$product->getName().'</strong>');
             } else {
-                $this->productHelper->sendProductApprovedEmailToVendor($product, $vendor);
+				/*Disable sending mail for now*/
+                /*$this->productHelper->sendProductApprovedEmailToVendor($product, $vendor);*/
                 $message = __('Product %1 is approved', '<strong>'.$product->getName().'</strong>');
             }
             
             $product->setApproval(Approval::STATUS_APPROVED)
                 ->getResource()
                 ->saveAttribute($product, 'approval');
+        
             
             $this->_eventManager->dispatch(
                 'vnecoms_vendors_push_notification',

@@ -95,9 +95,17 @@ class Main extends Generic implements TabInterface
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $form->setUseContainer(true);
-        
+       // $form->setUseContainer(true);
+        $withdrawal = $this->getWithdrawal();
+
         $fieldset = $form->addFieldset('withdrawal_form', ['legend' => __('Withdrawal Request'), 'class' => 'withdrawal-form']);
+
+
+        if ($withdrawal->getId()) {
+            $fieldset->addField('withdrawal_id', 'hidden', ['name' => 'withdrawal_id']);
+
+        }
+
         $fieldset->addType('status', 'Vnecoms\VendorsCredit\Block\Form\Element\Status');
         $fieldset->addType('price', 'Vnecoms\VendorsCredit\Block\Form\Element\Price');
         $fieldset->addField(
@@ -105,6 +113,7 @@ class Main extends Generic implements TabInterface
             'label',
             ['name' => 'payment_method', 'label' => __('Payment Method'), 'title' => __('Payment Method'),]
         );
+
         $fieldset->addField(
             'amount',
             'price',
@@ -135,8 +144,30 @@ class Main extends Generic implements TabInterface
             'label',
             ['name' => 'updated_at', 'label' => __('Updated At'), 'title' => __('Updated At'),]
         );
-        
-        $withdrawal = $this->getWithdrawal();
+
+        if($withdrawal->getStatus() == \Vnecoms\VendorsCredit\Model\Withdrawal::STATUS_PENDING){
+            $fieldset->addField(
+                'code_of_transfer',
+                'text',
+                ['name' => 'code_of_transfer', 'label' => __('Transaction Reference'), 'title' => __('Transaction Reference')]
+            );
+        }else{
+            if($withdrawal->getStatus() == \Vnecoms\VendorsCredit\Model\Withdrawal::STATUS_CANCELED){
+                $fieldset->addField(
+                    'reason_cancel',
+                    'label',
+                    ['name' => 'reason_cancel', 'label' => __('Reason For'), 'title' => __('Reason For'),]
+                );
+            }else if($withdrawal->getData("code_of_transfer")){
+                $fieldset->addField(
+                    'code_of_transfer',
+                    'label',
+                    ['name' => 'code_of_transfer', 'label' => __('Transaction Reference'), 'title' => __('Transaction Reference'),]
+                );
+            }
+        }
+
+
         $values = $withdrawal->getData();
         $values['payment_method'] = $this->getPaymentMethodTitle();
         $values['amount'] = $this->formatBaseCurrency($withdrawal->getAmount());

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 -->
 
@@ -160,6 +160,24 @@
             </argument>
             <htmlContent name="html_content">
                 <argument name="block" xsi:type="object">Aheadworks\ShopByBrand\Block\Adminhtml\Brand\Content</argument>
+            </htmlContent>
+        </container>
+    </fieldset>
+    <fieldset name="assign_products" class="Aheadworks\ShopByBrand\Ui\Component\Form\BrandProductsFieldset">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string" translate="true">Brand products</item>
+                <item name="visible" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <container name="assign_products_container" >
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortOrder" xsi:type="number">10</item>
+                </item>
+            </argument>
+            <htmlContent name="html_content">
+                <argument name="block" xsi:type="object">Aheadworks\ShopByBrand\Block\Adminhtml\Brand\AssignProducts</argument>
             </htmlContent>
         </container>
     </fieldset>

@@ -6,6 +6,13 @@ use \Vnecoms\Vendors\Controller\Vendors\Action;
 class Save extends Action
 {
     /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::account';
+    
+    /**
      * @return void
      */
     public function execute()

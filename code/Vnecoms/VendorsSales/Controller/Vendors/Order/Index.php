@@ -1,14 +1,16 @@
 <?php
-/**
- *
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order;
 
 class Index extends \Vnecoms\VendorsSales\Controller\Vendors\Order
 {
-
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_orders';
+    
     /**
      * @return void
      */
@@ -16,6 +18,7 @@ class Index extends \Vnecoms\VendorsSales\Controller\Vendors\Order
     {
         $this->getRequest()->setParam('vendor_id', $this->_session->getVendor()->getId());
         $this->_initAction();
+        $this->setActiveMenu('Vnecoms_VendorsSales::sales_orders');
         $title = $this->_view->getPage()->getConfig()->getTitle();
         $title->prepend(__("Sales"));
         $title->prepend(__("Orders"));

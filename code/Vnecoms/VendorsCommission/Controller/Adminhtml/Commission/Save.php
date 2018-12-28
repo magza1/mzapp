@@ -59,13 +59,12 @@ class Save extends Action
                 }
                 $tmpData = ['conditions'=>$data['rule']['conditions']];
                 $tmpRule = $this->_objectManager->create(
-                    'Magento\CatalogRule\Model\Rule'
+                    'Vnecoms\VendorsCommission\Model\TmpRule'
                 );
                 $tmpRule->loadPost($tmpData);
                 
-                $data['condition_serialized'] = serialize(
-                    $tmpRule->getConditions()->asArray()
-                );
+                $data['condition_serialized'] = $tmpRule->getSerializedConditions();
+                
                 unset($data['rule']);
 
                 $model->addData($data);

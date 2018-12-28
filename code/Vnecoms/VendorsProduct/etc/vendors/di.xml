@@ -44,7 +44,7 @@
         <arguments>
             <argument name="modifiers" xsi:type="array">
                 <item name="eav" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Eav</item>
+                    <item name="class" xsi:type="string">Vnecoms\VendorsProduct\Ui\DataProvider\Product\Form\Modifier\Eav</item>
                     <item name="sortOrder" xsi:type="number">10</item>
                 </item>
                 <item name="attribute_set_id" xsi:type="array">
@@ -64,7 +64,7 @@
                     <item name="sortOrder" xsi:type="number">50</item>
                 </item>
                 <item name="categories" xsi:type="array">
-                    <item name="class" xsi:type="string">Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Categories</item>
+                    <item name="class" xsi:type="string">Vnecoms\VendorsProduct\Ui\DataProvider\Product\Form\Modifier\Categories</item>
                     <item name="sortOrder" xsi:type="number">60</item>
                 </item>
                 <item name="custom-options" xsi:type="array">
@@ -90,6 +90,11 @@
                 
                 <item name="advancedInventory" xsi:type="array">
                     <item name="class" xsi:type="string">Magento\CatalogInventory\Ui\DataProvider\Product\Form\Modifier\AdvancedInventory</item>
+                    <item name="sortOrder" xsi:type="number">20</item>
+                </item>
+
+                <item name="gift-message" xsi:type="array">
+                    <item name="class" xsi:type="string">Magento\GiftMessage\Ui\DataProvider\Product\Modifier\GiftMessage</item>
                     <item name="sortOrder" xsi:type="number">20</item>
                 </item>
                 
@@ -161,7 +166,7 @@
             <argument name="pool" xsi:type="object">Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Pool</argument>
         </arguments>
     </type>
-    <type name="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\CustomOptions">
+    <type name="Vnecoms\VendorsProduct\Ui\DataProvider\Product\Form\Modifier\CustomOptions">
         <arguments>
             <argument name="scopeName" xsi:type="string">product_form.product_form</argument>
         </arguments>
@@ -176,7 +181,8 @@
             <argument name="scopeName" xsi:type="string">product_form.product_form</argument>
         </arguments>
     </type>
+    <!--
     <type name="Magento\Catalog\Block\Adminhtml\Product\Helper\Form\BaseImage">
         <plugin name="base_image_element_render" disabled="true" />
-    </type>
+    </type> -->
 </config>

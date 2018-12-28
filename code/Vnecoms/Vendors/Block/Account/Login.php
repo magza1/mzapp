@@ -5,6 +5,8 @@
  */
 namespace Vnecoms\Vendors\Block\Account;
 
+use Vnecoms\Vendors\App\Area\FrontNameResolver;
+
 class Login extends \Magento\Framework\View\Element\Template
 {
     /**
@@ -17,6 +19,10 @@ class Login extends \Magento\Framework\View\Element\Template
      */
     protected $_vendorSession;
 
+    /**
+     * @var \Vnecoms\Vendors\Model\Url
+     */
+    protected $backendUrl;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -27,11 +33,13 @@ class Login extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Vnecoms\Vendors\Model\Session $vendorSession,
+        \Vnecoms\Vendors\Model\Url $backendUrl,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_isScopePrivate = false;
         $this->_vendorSession = $vendorSession;
+        $this->backendUrl = $backendUrl;
     }
 
     /**
@@ -44,13 +52,33 @@ class Login extends \Magento\Framework\View\Element\Template
     }
 
     /**
+     * @return \Magento\Framework\App\Config\mixed
+     */
+    public function isUsedCustomVendorUrl(){
+        return $this->_scopeConfig->getValue(FrontNameResolver::XML_PATH_USE_CUSTOM_VENDOR_URL);
+    }
+    
+    /**
+     * Retrieve form posting url
+     *
+     * @return string
+     */
+    public function getLoginUrl()
+    {
+        return $this->backendUrl->getUrl('account/login');
+    }
+    
+    /**
      * Retrieve form posting url
      *
      * @return string
      */
     public function getPostActionUrl()
     {
-        return $this->getUrl('marketplace/seller/loginPost');
+        if(!$this->isUsedCustomVendorUrl()){
+            return $this->getUrl('marketplace/seller/loginPost');
+        }
+        return $this->backendUrl->getUrl('account/login/loginPost');
     }
 
     /**

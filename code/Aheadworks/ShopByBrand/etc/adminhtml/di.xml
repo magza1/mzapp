@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 -->
 
@@ -20,6 +20,7 @@
                 <item name="websiteIds" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\WebsiteIds</item>
                 <item name="contentData" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\ContentData</item>
                 <item name="logo" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\Logo</item>
+                <item name="additional_products" xsi:type="object">Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\AdditionalProducts</item>
             </argument>
         </arguments>
     </type>

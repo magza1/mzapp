@@ -1,15 +1,18 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment;
 
 use Magento\Framework\Registry;
 
 class View extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_shipments';
+    
     /**
      * @var \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader
      */
@@ -50,14 +53,6 @@ class View extends \Vnecoms\Vendors\App\AbstractAction
     }
 
     /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return true;
-    }
-
-    /**
      * Shipment information page
      *
      * @return void
@@ -79,6 +74,7 @@ class View extends \Vnecoms\Vendors\App\AbstractAction
             $this->registry->register('vendor_order', $vendorOrder);
             
             $resultPage = $this->resultPageFactory->create();
+            $this->setActiveMenu('Vnecoms_VendorsSales::sales_shipments');
             $resultPage->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
 //             $resultPage->setActiveMenu('Vnecoms_VendorsSales::sales_orders');

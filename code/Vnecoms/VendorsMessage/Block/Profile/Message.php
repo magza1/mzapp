@@ -8,8 +8,11 @@ class Message extends \Vnecoms\VendorsMessage\Block\Message
      *
      * @see \Magento\Framework\View\Element\Template::_toHtml()
      */
-    protected function _toHtml(){
-        if(!$this->getVendor()) return '';
+    protected function _toHtml()
+    {
+        if (!$this->getVendor()) {
+            return '';
+        }
         return parent::_toHtml();
     }
 }

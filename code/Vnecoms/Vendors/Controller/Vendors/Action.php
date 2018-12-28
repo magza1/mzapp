@@ -20,19 +20,25 @@ abstract class Action extends AbstractAction
      * @var Registry
      */
     protected $_coreRegistry = null;
-    
+
     /**
      * Date filter instance
      *
      * @var \Magento\Framework\Stdlib\DateTime\Filter\Date
      */
     protected $_dateFilter;
-    
+
     /**
      * @var \Vnecoms\Vendors\App\ConfigInterface
      */
     protected $_config;
-    
+
+    /**
+     * @var \Magento\Framework\Locale\ResolverInterface
+     */
+    protected $_localeResolver;
+
+
     /**
      * Constructor
      *
@@ -47,8 +53,9 @@ abstract class Action extends AbstractAction
         $this->_coreRegistry = $context->getCoreRegsitry();
         $this->_dateFilter = $context->getDateFilter();
         $this->_config = $context->getConfig();
+        $this->_localeResolver = $context->getLocaleResolver();
     }
-    
+
     /**
      * Init action
      *
@@ -57,17 +64,15 @@ abstract class Action extends AbstractAction
     protected function _initAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getPage()->getConfig()->getTitle()->set($this->_config->getValue(self::XML_PATH_VENDOR_DESIGN_HEAD_DEFAULT_TITLE));
+
+        $config = $this->_view->getPage()->getConfig();
+        $config->setElementAttribute(
+            \Magento\Framework\View\Page\Config::ELEMENT_TYPE_HTML,
+            \Magento\Framework\View\Page\Config::HTML_ATTRIBUTE_LANG,
+            strstr($this->_localeResolver->getLocale(), '_', true)
+        );
+
+        $config->getTitle()->set($this->_config->getValue(self::XML_PATH_VENDOR_DESIGN_HEAD_DEFAULT_TITLE));
         return $this;
-    }
-    
-    /**
-     * Check if user has permissions to access this controller
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return false;
     }
 }

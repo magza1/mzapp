@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Layer;
@@ -14,11 +14,12 @@ use Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Layer\FilterableAttributeList
  */
-class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
+class FilterableAttributeListTest extends TestCase
 {
     /**
      * @var FilterableAttributeList
@@ -43,9 +44,11 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->collectionFactoryMock = $this->getMock(CollectionFactory::class, ['create'], [], '', false);
-        $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
-        $this->configMock = $this->getMock(Config::class, ['getBrandProductAttributeCode'], [], '', false);
+        $this->collectionFactoryMock = $this->createPartialMock(CollectionFactory::class, ['create']);
+        $this->storeManagerMock = $this->getMockBuilder(StoreManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->configMock = $this->createPartialMock(Config::class, ['getBrandProductAttributeCode']);
         $this->filterableAttributeList = $objectManager->getObject(
             FilterableAttributeList::class,
             [
@@ -61,7 +64,7 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
         $storeId = 1;
         $brandAttributeCode = 'manufacturer';
 
-        $collectionMock = $this->getMock(
+        $collectionMock = $this->createPartialMock(
             Collection::class,
             [
                 'setItemObjectClass',
@@ -70,12 +73,11 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
                 'addIsFilterableFilter',
                 'addFieldToFilter',
                 'load'
-            ],
-            [],
-            '',
-            false
+            ]
         );
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->collectionFactoryMock->expects($this->once())
             ->method('create')

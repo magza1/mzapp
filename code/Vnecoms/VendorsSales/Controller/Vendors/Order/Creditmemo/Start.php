@@ -1,20 +1,16 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Creditmemo;
 
 class Start extends \Vnecoms\Vendors\App\AbstractAction
 {
     /**
-     * @return bool
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
      */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorsSales::sales_creditmemo');
-    }
-
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_creditmemo';
+    
     /**
      * Start create creditmemo action
      *

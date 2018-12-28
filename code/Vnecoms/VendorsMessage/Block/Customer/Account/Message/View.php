@@ -40,10 +40,11 @@ class View extends \Magento\Framework\View\Element\Template
    
     /**
      * Get Current Message
-     * 
+     *
      * @return \Vnecoms\VendorsMessage\Model\Message
      */
-    public function getMessage(){
+    public function getMessage()
+    {
         return $this->_coreRegistry->registry('message');
     }
     
@@ -52,7 +53,8 @@ class View extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getBackUrl(){
+    public function getBackUrl()
+    {
         return $this->getUrl("customer/message");
     }
     
@@ -61,8 +63,9 @@ class View extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getDeleteUrl(){
-        return $this->getUrl("customer/message/delete",['id' => $this->getMessage()->getId()]);
+    public function getDeleteUrl()
+    {
+        return $this->getUrl("customer/message/delete", ['id' => $this->getMessage()->getId()]);
     }
     
     /**
@@ -70,7 +73,8 @@ class View extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getSendUrl(){
-        return $this->getUrl("customer/message/reply",['id' => $this->getMessage()->getId()]);
+    public function getSendUrl()
+    {
+        return $this->getUrl("customer/message/reply", ['id' => $this->getMessage()->getId()]);
     }
 }

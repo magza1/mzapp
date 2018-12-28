@@ -209,6 +209,7 @@ class NewProducts extends \Magento\Framework\View\Element\Template
     */
     public function formatDescription($description)
     {
+        $description= strip_tags($description);
         $result = substr($description, 0, 40);
         if (strlen($result) < strlen($description)) {
             $result .= " ...";

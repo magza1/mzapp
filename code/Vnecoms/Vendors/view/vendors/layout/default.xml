@@ -39,11 +39,12 @@
     			-->
     			<block class="Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Users" name="vendor.toplinks.users" template="Vnecoms_Vendors::page/toplinks/users.phtml" after="-">
     				<action method="addLink">
-    					<argument name="label" translate="true" xsi:type="string">My Account</argument>
-    					<argument name="title" translate="true" xsi:type="string">My Account</argument>
+    					<argument name="label" translate="true" xsi:type="string">Vendor Information</argument>
+    					<argument name="title" translate="true" xsi:type="string">Vendor Information</argument>
     					<argument name="url" xsi:type="string">account</argument>
     					<argument name="sort_order" xsi:type="string">10</argument>
-    					<argument name="icon_class"  xsi:type="string">fa fa-user fa-fw</argument>
+    					<argument name="icon_class" xsi:type="string">fa fa-user fa-fw</argument>
+    					<argument name="resource" xsi:type="string">Vnecoms_Vendors::account</argument>
     				</action>
     			</block>
     		</block>

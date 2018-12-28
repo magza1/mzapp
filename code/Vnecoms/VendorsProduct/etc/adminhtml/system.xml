@@ -30,6 +30,12 @@
                     <tooltip>Select attribute sets which you DON'T want vendor to use.</tooltip>
                 </field>
                 
+                <field id="can_set_website" translate="label tooltip" type="select" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Allow vendor to set website for product.</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <tooltip>If this option is set to yes, vendor can choose website for the product.</tooltip>
+                </field>
+                
 				<field id="new_product_approval" translate="label tooltip" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="0">
                     <label>New Product Approval</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
@@ -40,6 +46,28 @@
                     <label>Update Product Approval</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <tooltip>If this option is set to "Yes", Anytime vendor update product info the product will need to be reviewed and approved before it is showing on website.</tooltip>
+                </field>
+
+                <field id="attribute_approval_flag" translate="label tooltip" type="select" sortOrder="41" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Attribute Approval Flag</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Flag</source_model>
+                    <depends>
+                        <field id="update_product_approval">1</field>
+                    </depends>
+                </field>
+
+                <field id="attribute_approval" translate="label tooltip" type="multiselect" sortOrder="42" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Attributes for Approval.</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Attributes</source_model>
+                    <depends>
+                        <field id="update_product_approval">1</field>
+                    </depends>
+                </field>
+
+                <field id="attribute_restriction" translate="label tooltip" type="multiselect" sortOrder="43" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Hide these attributes in vendor's product form</label>
+                    <source_model>Vnecoms\VendorsProduct\Model\Source\Product\Attributes</source_model>
+                    <tooltip></tooltip>
                 </field>
                 
                 <field id="sender_email_identity" translate="label" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">

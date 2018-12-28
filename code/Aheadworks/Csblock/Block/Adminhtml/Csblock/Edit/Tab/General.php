@@ -12,7 +12,8 @@ use Aheadworks\Csblock\Model\Source\CustomerGroups;
  * Class General
  * @package Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab
  */
-class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class General extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @var \Magento\Framework\Api\SearchCriteriaBuilder
@@ -146,7 +147,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
         }
 
         $pageSource = \Magento\Framework\App\ObjectManager::getInstance()
-            ->create('Aheadworks\Csblock\Model\Source\PageType');
+            ->create(\Aheadworks\Csblock\Model\Source\PageType::class);
         $fieldset->addField(
             'page_type',
             'select',
@@ -162,7 +163,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
             $model->setData('position', \Aheadworks\Csblock\Model\Source\Position::DEFAULT_VALUE);
         }
         $positionSource = \Magento\Framework\App\ObjectManager::getInstance()
-            ->create('Aheadworks\Csblock\Model\Source\Position');
+            ->create(\Aheadworks\Csblock\Model\Source\Position::class);
         $fieldset->addField(
             'position',
             'select',
@@ -180,23 +181,23 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
             'conditions_fieldset',
             [
                 'legend' => __(''),
-                'comment' => __('Please specify products where the block should be displayed. Leave blank to display the block on all product pages.')
+                'comment' => __('Please specify products where the block should be displayed. '
+                    . 'Leave blank to display the block on all product pages.')
             ]
         )->setRenderer(
-                $this->_rendererFieldsetFactory->create()
-                    ->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
-                    ->setNewChildUrl(
-                        $this->getUrl(
-                            '*/*/newConditionHtml',
-                            [
-                                'form'   => $form->getHtmlIdPrefix().'conditions_fieldset',
-                                'prefix' => 'csblock',
-                                'rule'   => base64_encode('Aheadworks\Csblock\Model\Rule\Product')
-                            ]
-                        )
+            $this->_rendererFieldsetFactory->create()
+                ->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')
+                ->setNewChildUrl(
+                    $this->getUrl(
+                        '*/*/newConditionHtml',
+                        [
+                            'form'   => $form->getHtmlIdPrefix().'conditions_fieldset',
+                            'prefix' => 'csblock',
+                            'rule'   => base64_encode(\Aheadworks\Csblock\Model\Rule\Product::class)
+                        ]
                     )
-            )
-        ;
+                )
+        );
 
         $model
             ->getRuleModel()
@@ -222,18 +223,17 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
         /* CATALOG SECTION */
 
         $block = $this->getLayout()->createBlock(
-            'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree',
+            \Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree::class,
             null,
             ['data' => ['js_form_object' => "awCsblockCategoryIds"]]
-        )->setCategoryIds(
-                explode(',', $model->getCategoryIds())
-            );
+        )->setCategoryIds(explode(',', $model->getCategoryIds()));
 
         $fieldset = $form->addFieldset(
             'category_fieldset',
             [
                 'legend' => __(''),
-                'comment' => __('Please specify categories where the block should be displayed. Leave blank to display the block on all category pages.')
+                'comment' => __('Please specify categories where the block should be displayed.'
+                    . 'Leave blank to display the block on all category pages.')
             ]
         );
         $categoryTitle = __('Category');
@@ -250,7 +250,8 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
                             awCsblockCategoryIds = {updateElement : {value : '', linkedValue : ''}};
                             Object.defineProperty(awCsblockCategoryIds.updateElement, 'value', {
                                 get: function() { return awCsblockCategoryIds.updateElement.linkedValue},
-                                set: function(v) {awCsblockCategoryIds.updateElement.linkedValue = v; jQuery('#csblock_category_ids').val(v)}
+                                set: function(v) {awCsblockCategoryIds.updateElement.linkedValue = v;
+                                    jQuery('#csblock_category_ids').val(v)}
                             });
                         </script>"
                         ."<label class='label admin__field-label'><span>
@@ -281,9 +282,15 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic implements \Mag
                     'after_element_html' => "
                         <script type='text/javascript'>
                             require(['jquery', 'awCsblockManagerFieldset'], function($){
-                                $.awCsblockManagerFieldset.addDependence('#{$form->getHtmlIdPrefix()}'+'category_fieldset', '#{$form->getHtmlIdPrefix()}'+'page_type', ['{$categoryType}']);
-                                $.awCsblockManagerFieldset.addDependence('#{$form->getHtmlIdPrefix()}'+'conditions_fieldset', '#{$form->getHtmlIdPrefix()}'+'page_type', ['{$productType}']);
-                                $.awCsblockManagerFieldset.addDependence('.field-position', '#{$form->getHtmlIdPrefix()}'+'page_type', ['{$categoryType}', '{$productType}', '{$homepageType}', '{$shoppingCartType}']);
+                                $.awCsblockManagerFieldset.addDependence('#{$form->getHtmlIdPrefix()}'
+                                +'category_fieldset', '#{$form->getHtmlIdPrefix()}'+'page_type', ['{$categoryType}']);
+                                $.awCsblockManagerFieldset.addDependence('#{$form->getHtmlIdPrefix()}'
+                                +'conditions_fieldset', '#{$form->getHtmlIdPrefix()}'+'page_type', ['{$productType}']);
+                                $.awCsblockManagerFieldset.addDependence(
+                                    '.field-position',
+                                    '#{$form->getHtmlIdPrefix()}'+'page_type',
+                                    ['{$categoryType}', '{$productType}', '{$homepageType}', '{$shoppingCartType}']
+                                );
                             });
                         </script>"
                 ]

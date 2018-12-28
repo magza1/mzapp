@@ -43,41 +43,43 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
         $this->_customerSession = $customerSession;
         $this->_messageFactory = $messageFactory;
         
-        parent::__construct($context, $defaultPath,$data);
+        parent::__construct($context, $defaultPath, $data);
     }
     
     /**
      * Get link label
      * @return string
      */
-   public function getLabel(){
-       $count = $this->getUnreadMessageCount();
-       $labelWithCount = __(
-           "%1 Message %2",
-           '<i class="vnecoms-mfa vnecoms-mfa-envelope-o"></i>',
-           '<span class="vnecoms-unread-message-count">'.$count."</span>"
-       );
+    public function getLabel()
+    {
+        $count = $this->getUnreadMessageCount();
+        $labelWithCount = __(
+            "%1 Message %2",
+            '<i class="vnecoms-mfa vnecoms-mfa-envelope-o"></i>',
+            '<span class="vnecoms-unread-message-count">'.$count."</span>"
+        );
        
-       $labelWithoutCount = __(
-           "%1 Message",
-           '<i class="vnecoms-mfa vnecoms-mfa-envelope-o"></i>'
-       );
-       return $count?$labelWithCount:$labelWithoutCount;
-   }
+        $labelWithoutCount = __(
+            "%1 Message",
+            '<i class="vnecoms-mfa vnecoms-mfa-envelope-o"></i>'
+        );
+        return $count?$labelWithCount:$labelWithoutCount;
+    }
    
    /**
-     * Get Unread Message Collection
-     *
-     * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection
-     */
-    public function getUnreadMessageCollection(){
-        if(!$this->_unreadMessageCollection){
+    * Get Unread Message Collection
+    *
+    * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection
+    */
+    public function getUnreadMessageCollection()
+    {
+        if (!$this->_unreadMessageCollection) {
             $this->_unreadMessageCollection = $this->_messageFactory->create()->getCollection();
-            $this->_unreadMessageCollection->addFieldToFilter('owner_id',$this->_customerSession->getCustomerId())
-            ->addFieldToFilter('status',\Vnecoms\VendorsMessage\Model\Message::STATUS_UNDREAD)
-            ->addFieldToFilter('is_inbox',1)
-            ->addFieldToFilter('is_deleted',0)
-            ->setOrder('message_id','DESC')
+            $this->_unreadMessageCollection->addFieldToFilter('owner_id', $this->_customerSession->getCustomerId())
+            ->addFieldToFilter('status', \Vnecoms\VendorsMessage\Model\Message::STATUS_UNDREAD)
+            ->addFieldToFilter('is_inbox', 1)
+            ->addFieldToFilter('is_deleted', 0)
+            ->setOrder('message_id', 'DESC')
             ->setPageSize(5);
         }
     
@@ -90,54 +92,59 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
      *
      * @return int
      */
-    public function getUnreadMessageCount(){
+    public function getUnreadMessageCount()
+    {
         return $this->getUnreadMessageCollection()->getSize();
     }
    
    /**
     * Disable escape html for this block.
     */
-   public function escapeHtml($data, $allowedTags = null){
-       return $data;
-   }
+    public function escapeHtml($data, $allowedTags = null)
+    {
+        return $data;
+    }
    
    /**
     * Get current mca
     *
     * @return string
     */
-   private function getMca()
-   {
-       $routeParts = [
+    private function getMca()
+    {
+        $routeParts = [
            'module' => $this->_request->getModuleName(),
            'controller' => $this->_request->getControllerName(),
            'action' => $this->_request->getActionName(),
-       ];
+        ];
    
-       $parts = [];
-       foreach ($routeParts as $key => $value) {
-           if (!empty($value) && $value != $this->_defaultPath->getPart($key)) {
-               $parts[] = $value;
-           }
-       }
-       return implode('/', $parts);
-   }
+        $parts = [];
+        foreach ($routeParts as $key => $value) {
+            if (!empty($value) && $value != $this->_defaultPath->getPart($key)) {
+                $parts[] = $value;
+            }
+        }
+        return implode('/', $parts);
+    }
    
    /**
     * (non-PHPdoc)
     * @see \Magento\Framework\View\Element\Html\Link\Current::isCurrent()
     */
-   public function isCurrent()
-   {
-       return $this->getCurrent() ||
+    public function isCurrent()
+    {
+        return $this->getCurrent() ||
         $this->getUrl($this->getMca()) == $this->getUrl('customer/message') ||
         $this->getUrl($this->getMca()) == $this->getUrl('customer/message/sent') ||
         $this->getUrl($this->getMca()) == $this->getUrl('customer/message/trash') ||
         $this->getUrl($this->getMca()) == $this->getUrl('customer/message/view');
-   }
+    }
    
-   public function toHtml(){
-       if($this->isCurrent()) return '';
-       return parent::toHtml();
-   }
+    public function toHtml()
+    {
+        if ($this->isCurrent()) {
+            return '';
+        }
+        return parent::toHtml();
+    }
 }

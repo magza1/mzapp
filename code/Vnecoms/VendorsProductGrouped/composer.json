@@ -1,0 +1,22 @@
+{
+    "name": "vnecoms/module-vendors-product-grouped",
+    "description": "N/A",
+    "require": {
+        "magento/module-catalog": "^101.0.5",
+        "vnecoms/module-vendors-product": "2.0.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.1",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\VendorsProductGrouped\\": ""
+        }
+    }
+}

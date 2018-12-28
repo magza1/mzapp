@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\Content;
@@ -14,11 +14,12 @@ use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\EntityManager\EntityMetadataInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\Content\SaveHandler
  */
-class SaveHandlerTest extends \PHPUnit_Framework_TestCase
+class SaveHandlerTest extends TestCase
 {
     /**
      * @var SaveHandler
@@ -38,14 +39,11 @@ class SaveHandlerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resourceConnectionMock = $this->getMock(
+        $this->resourceConnectionMock = $this->createPartialMock(
             ResourceConnection::class,
-            ['getConnectionByName', 'getTableName'],
-            [],
-            '',
-            false
+            ['getConnectionByName', 'getTableName']
         );
-        $this->metadataPoolMock = $this->getMock(MetadataPool::class, ['getMetadata'], [], '', false);
+        $this->metadataPoolMock = $this->createPartialMock(MetadataPool::class, ['getMetadata']);
         $this->saveHandler = $objectManager->getObject(
             SaveHandler::class,
             [
@@ -66,10 +64,18 @@ class SaveHandlerTest extends \PHPUnit_Framework_TestCase
         $tableName = 'aw_sbb_brand_content';
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $contentMock = $this->getMockForAbstractClass(BrandContentInterface::class);
-        $metadataMock = $this->getMockForAbstractClass(EntityMetadataInterface::class);
-        $connectionMock = $this->getMockForAbstractClass(AdapterInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $contentMock = $this->getMockBuilder(BrandContentInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $metadataMock = $this->getMockBuilder(EntityMetadataInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $connectionMock = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $brandMock->expects($this->once())
             ->method('getBrandId')

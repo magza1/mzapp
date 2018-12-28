@@ -25,6 +25,7 @@ var config = {
         "Magento_ConfigurableProduct/js/variations/steps/attributes_values":"Vnecoms_VendorsProductConfigurable/js/variations/steps/attributes_values",
         "Magento_ConfigurableProduct/js/variations/steps/summary":"Vnecoms_VendorsProductConfigurable/js/variations/steps/summary",
         "Magento_ConfigurableProduct/js/components/custom-options-price-type":"Vnecoms_VendorsProductConfigurable/js/components/custom-options-price-type",
-        "Magento_ConfigurableProduct/js/components/file-uploader":"Vnecoms_VendorsProductConfigurable/js/components/file-uploader"
+        "Magento_ConfigurableProduct/js/components/file-uploader":"Vnecoms_VendorsProductConfigurable/js/components/file-uploader",
+        "Magento_ConfigurableProduct/js/configurable":"Vnecoms_VendorsProductConfigurable/js/configurable"
     }
 };

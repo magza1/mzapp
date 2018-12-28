@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\PostDataProcessor;
@@ -9,11 +9,12 @@ namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\PostDataProcessor;
 use Aheadworks\ShopByBrand\Model\Brand\PostDataProcessorInterface;
 use Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\Composite;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\Composite
  */
-class CompositeTest extends \PHPUnit_Framework_TestCase
+class CompositeTest extends TestCase
 {
     /**
      * @var Composite
@@ -28,7 +29,9 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->dataProcessorMock = $this->getMockForAbstractClass(PostDataProcessorInterface::class);
+        $this->dataProcessorMock = $this->getMockBuilder(PostDataProcessorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $this->compositeDataProcessor = $objectManager->getObject(
             Composite::class,
             ['processors' => [$this->dataProcessorMock]]

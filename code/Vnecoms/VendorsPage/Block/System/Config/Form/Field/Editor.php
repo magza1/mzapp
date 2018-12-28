@@ -1,7 +1,6 @@
 <?php
 namespace Vnecoms\VendorsPage\Block\System\Config\Form\Field;
 
-
 class Editor extends \Vnecoms\VendorsConfig\Block\System\Config\Form\Field
 {
     /**
@@ -10,7 +9,7 @@ class Editor extends \Vnecoms\VendorsConfig\Block\System\Config\Form\Field
     protected $_wysiwygConfig;
     
     /**
-     * 
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param array $data
@@ -21,11 +20,12 @@ class Editor extends \Vnecoms\VendorsConfig\Block\System\Config\Form\Field
         array $data = []
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
-        parent::__construct($context,$data);
+        parent::__construct($context, $data);
     }
     
     
-    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element) {
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    {
         //$wysiwygConfig = $this->_wysiwygConfig->getConfig();
         $wysiwygConfig = new \Magento\Framework\DataObject([
             'enabled' => true,

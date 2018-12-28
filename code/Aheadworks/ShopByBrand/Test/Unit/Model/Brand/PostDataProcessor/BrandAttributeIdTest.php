@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\PostDataProcessor;
@@ -11,11 +11,12 @@ use Aheadworks\ShopByBrand\Model\Config;
 use Magento\Catalog\Api\Data\ProductAttributeInterface;
 use Magento\Catalog\Api\ProductAttributeRepositoryInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\BrandAttributeId
  */
-class BrandAttributeIdTest extends \PHPUnit_Framework_TestCase
+class BrandAttributeIdTest extends TestCase
 {
     /**
      * @var BrandAttributeId
@@ -35,10 +36,10 @@ class BrandAttributeIdTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->configMock = $this->getMock(Config::class, ['getBrandProductAttributeCode'], [], '', false);
-        $this->productAttributeRepositoryMock = $this->getMockForAbstractClass(
-            ProductAttributeRepositoryInterface::class
-        );
+        $this->configMock = $this->createPartialMock(Config::class, ['getBrandProductAttributeCode']);
+        $this->productAttributeRepositoryMock = $this->getMockBuilder(ProductAttributeRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $this->dataProcessor = $objectManager->getObject(
             BrandAttributeId::class,
             [
@@ -58,7 +59,9 @@ class BrandAttributeIdTest extends \PHPUnit_Framework_TestCase
             'attribute_id' => $attributeId
         ];
 
-        $attributeMock = $this->getMockForAbstractClass(ProductAttributeInterface::class);
+        $attributeMock = $this->getMockBuilder(ProductAttributeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->configMock->expects($this->once())
             ->method('getBrandProductAttributeCode')

@@ -50,14 +50,21 @@ class Collection extends CsblockCollection implements SearchResultInterface
         $eventPrefix,
         $eventObject,
         $resourceModel,
-        $model = 'Magento\Framework\View\Element\UiComponent\DataProvider\Document',
+        $model = \Magento\Framework\View\Element\UiComponent\DataProvider\Document::class,
         $connection = null,
         \Magento\Framework\Model\ResourceModel\Db\AbstractDb $resource = null
     ) {
         parent::__construct(
-            $storeManager, $catalogConfFactory, $catalogAttrFactory,
-            $entityFactory, $logger, $fetchStrategy,
-            $eventManager, $dateTime, $connection,  $resource
+            $storeManager,
+            $catalogConfFactory,
+            $catalogAttrFactory,
+            $entityFactory,
+            $logger,
+            $fetchStrategy,
+            $eventManager,
+            $dateTime,
+            $connection,
+            $resource
         );
         $this->_eventPrefix = $eventPrefix;
         $this->_eventObject = $eventObject;
@@ -77,7 +84,7 @@ class Collection extends CsblockCollection implements SearchResultInterface
                     . " GROUP BY csblock_id)"
                 ),
                 "main_table.id = t.csblock_id",
-                array('static_block_id' => "IFNULL(t.static_block_ids, '')")
+                ['static_block_id' => "IFNULL(t.static_block_ids, '')"]
             );
             $this->addFilterToMap('static_block_id', 't.static_block_ids');
             $this->setFlag('static_block_ids_joined', true);
@@ -134,7 +141,6 @@ class Collection extends CsblockCollection implements SearchResultInterface
     {
         return $this->getSize();
     }
-
 
     /**
      * Set total count.

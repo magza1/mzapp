@@ -1,5 +1,19 @@
+<?php
+$_helper = $this->helper('WeltPixel\Quickview\Helper\Data');
+$customCss = $_helper->getCustomCSS();
+$zoomType = $_helper->getZoomType();
+?>
 <script>
     require(["jquery", 'underscore', 'Magento_Ui/js/modal/modal'], function ($, _, modal) {
+        <?php if ($zoomType == 'hover') : ?>
+        $(document).ready(function() {
+            $('.fotorama__stage').live('mouseleave', function() {
+                $('.magnify-lens').addClass('magnify-hidden');
+                $('.magnifier-preview').addClass('magnify-hidden');
+            });
+        });
+        <?php endif; ?>
+
         $(document).ready(function() {
             var documentPadding = 50;
             var firstAttempt = true;
@@ -96,10 +110,6 @@
         });
     });
 </script>
-<?php
-$_helper = $this->helper('WeltPixel\Quickview\Helper\Data');
-$customCss = $_helper->getCustomCSS();
-?>
 <?php if (strlen($customCss)) : ?>
 <style>
 <?php echo $customCss; ?>

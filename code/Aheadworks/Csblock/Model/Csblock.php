@@ -37,9 +37,8 @@ class Csblock extends \Magento\Framework\Model\AbstractModel
 
     protected function _construct()
     {
-        $this->_init('Aheadworks\Csblock\Model\ResourceModel\Csblock');
+        $this->_init(\Aheadworks\Csblock\Model\ResourceModel\Csblock::class);
     }
-
 
     /*
      * @return \Aheadworks\Csblock\Model\Rule\Product
@@ -47,8 +46,8 @@ class Csblock extends \Magento\Framework\Model\AbstractModel
     public function getRuleModel()
     {
         if (null === $this->_rule) {
-           $ruleModel = \Magento\Framework\App\ObjectManager::getInstance()
-               ->create('Aheadworks\Csblock\Model\Rule\Product');
+            $ruleModel = \Magento\Framework\App\ObjectManager::getInstance()
+               ->create(\Aheadworks\Csblock\Model\Rule\Product::class);
             $this->_rule = $ruleModel;
         }
         return $this->_rule;
@@ -72,7 +71,6 @@ class Csblock extends \Magento\Framework\Model\AbstractModel
         return $this;
     }
 
-
     /*
      * @param array $data
      * @param array $allowedKeys
@@ -92,7 +90,6 @@ class Csblock extends \Magento\Framework\Model\AbstractModel
                             $node[$key][$path[$i]] = [];
                         }
                         $node = & $node[$key][$path[$i]];
-
                     }
                     foreach ($data as $k => $v) {
                         $node[$k] = $v;

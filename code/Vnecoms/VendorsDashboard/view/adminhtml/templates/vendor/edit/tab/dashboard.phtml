@@ -104,7 +104,6 @@ require([
     	graphContainer.trigger('processStart');
         
         var xLabels = getChartXLabels(value);
-        
     	$.ajax({
       		  url: URL_GRAPH,
       		  method: "POST",
@@ -208,7 +207,9 @@ require([
     }
     
     $( document ).ready(function() {
-    	changeDiagramsPeriod($("#transaction_period").val());
+        setTimeout(function(){
+        	changeDiagramsPeriod($("#transaction_period").val());
+        }, 1000);
     });
     
     $('#vendor_dashboard_graph').on("tabsactivate", function(event, ui) {

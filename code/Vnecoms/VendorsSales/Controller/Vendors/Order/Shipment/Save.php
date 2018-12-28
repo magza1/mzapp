@@ -1,15 +1,18 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment;
 
 use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 
 class Save extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_ship';
+    
     /**
      * @var \Vnecoms\VendorsSales\Controller\Vendors\Order\ShipmentLoader
      */
@@ -41,14 +44,6 @@ class Save extends \Vnecoms\Vendors\App\AbstractAction
         $this->labelGenerator = $labelGenerator;
         $this->shipmentSender = $shipmentSender;
         parent::__construct($context);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return true;
     }
 
     /**

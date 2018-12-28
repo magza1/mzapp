@@ -2,7 +2,8 @@
 namespace Vnecoms\VendorsMessage\Model\Message;
 
 class Detail extends \Magento\Framework\Model\AbstractModel
-{    
+{
+
     const ENTITY = 'vendor_message_detail';
     
     /**
@@ -27,5 +28,5 @@ class Detail extends \Magento\Framework\Model\AbstractModel
     public function _construct()
     {
         $this->_init('Vnecoms\VendorsMessage\Model\ResourceModel\Message\Detail');
-    }    
+    }
 }

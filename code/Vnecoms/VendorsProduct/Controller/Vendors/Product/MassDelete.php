@@ -1,9 +1,4 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
 namespace Vnecoms\VendorsProduct\Controller\Vendors\Product;
 
 use Magento\Framework\Registry;
@@ -14,6 +9,13 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 
 class MassDelete extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::product_action_delete';
+    
     /**
      * Massactions filter
      *

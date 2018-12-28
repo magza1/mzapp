@@ -35,7 +35,8 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
             'grand_total',
             'base_grand_total',
             'vendor_id',
-            'created_at'
+            'created_at',
+            'entity_id'
         ];
         foreach ($fields as $field) {
             $this->addFilterToMap(

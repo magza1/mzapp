@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Shipment\AbstractShipment;
 
 use Magento\Framework\Registry;
@@ -11,7 +7,13 @@ use Magento\Framework\Stdlib\DateTime\Filter\Date;
 
 abstract class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
-
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_shipments';
+    
     /**
      * Constructor
      *
@@ -25,13 +27,6 @@ abstract class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
         parent::__construct($context);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorsSales::sales_shipment');
-    }
 
     /**
      * Init layout, menu and breadcrumb
@@ -41,7 +36,7 @@ abstract class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
     protected function _initAction()
     {
         parent::_initAction();
-        $this->_setActiveMenu('Vnecoms_VendorsSales::sales_shipment')
+        $this->_setActiveMenu('Vnecoms_VendorsSales::sales_shipments')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Invoices'), __('Shipments'));
     }

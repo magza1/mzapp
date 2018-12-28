@@ -31,8 +31,9 @@ class Data extends AbstractHelper
     const XML_PATH_SHOW_VENDOR_OPERATION_TIME = 'vendors/profile/show_operation_time';
     const XML_PATH_ADDRESS_TEMPLATE = 'vendors/profile/address_template';
     const XML_PATH_DESCRIPTION_MAX_LENGTH = 'vendors/profile/description_size';
-    const PROFILE_FORM = 'profile_form';
-    const REGISTRATION_FORM = 'registration_form';
+    const PROFILE_FORM          = 'profile_form';
+    const ADMIN_PROFILE_FORM    = 'admin_profile_form';
+    const REGISTRATION_FORM     = 'registration_form';
     
     
     /**
@@ -487,5 +488,15 @@ class Data extends AbstractHelper
         $collection->addAttributeToFilter('status',['neq' => \Vnecoms\Vendors\Model\Vendor::STATUS_APPROVED]);
         return $collection->getAllIds();
     }
+    
+    /**
+     * Is used custom vendor url
+     * 
+     * @return boolean
+     */
+    public function isUsedCustomVendorUrl(){
+        return $this->scopeConfig->getValue(\Vnecoms\Vendors\App\Area\FrontNameResolver::XML_PATH_USE_CUSTOM_VENDOR_URL);
+    }
+    
 }
 

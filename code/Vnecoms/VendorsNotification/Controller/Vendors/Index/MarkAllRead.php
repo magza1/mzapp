@@ -1,13 +1,16 @@
 <?php
-/**
- *
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsNotification\Controller\Vendors\Index;
 
 class MarkAllRead extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::notifications';
+    
     /**
      * @var \Magento\Framework\Controller\Result\JsonFactory
      */

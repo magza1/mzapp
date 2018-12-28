@@ -1,10 +1,8 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsConfig\Model\Config\Structure\Element;
 
+use Magento\Framework\App\ObjectManager;
 class Section extends \Magento\Config\Model\Config\Structure\Element\Section
 {
     /**
@@ -14,6 +12,17 @@ class Section extends \Magento\Config\Model\Config\Structure\Element\Section
      */
     public function isAllowed()
     {
-        return true;
+        if(!isset($this->_data['resource'])) return false;
+        
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $eventManager = ObjectManager::getInstance()->get('Magento\Framework\Event\Manager');
+        $eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $this->_data['resource'],
+                'permission' => $permission
+            ]
+        );
+        return $permission->isAllowed();
     }
 }

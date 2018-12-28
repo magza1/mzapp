@@ -33,7 +33,10 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
             'status',
             'grand_total',
             'base_grand_total',
-            'vendor_id'
+            'vendor_id',
+            'entity_id',
+            'created_at',
+            'state'
         ];
         foreach ($fields as $field) {
             $this->addFilterToMap(
@@ -71,7 +74,8 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
                 'order_currency_code',
                 'base_currency_code',
                 'global_currency_code',
-                'created_at'
+                'created_at',
+                'order_created_at'
             ]
         );
         $this->join(

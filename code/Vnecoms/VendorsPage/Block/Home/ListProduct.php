@@ -47,15 +47,16 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
         $this->productVisibility = $productVisibility;
         $this->catalogConfig = $context->getCatalogConfig();
         $this->_coreRegistry = $context->getRegistry();
-        parent::__construct($context, $postDataHelper, $layerResolver, $categoryRepository, $urlHelper,$data);
+        parent::__construct($context, $postDataHelper, $layerResolver, $categoryRepository, $urlHelper, $data);
     }
     
     /**
      * Get current vendor
-     * 
+     *
      * @return \Vnecoms\Vendors\Model\Vendor
      */
-    public function getVendor(){
+    public function getVendor()
+    {
         return $this->_coreRegistry->registry('vendor');
     }
     
@@ -69,33 +70,26 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
         if ($this->_productCollection === null) {
             $layer = $this->getLayer();
             $this->_productCollection = $layer->getProductCollection();
-        //    echo $layer->getProductCollection()->getSelect();
-//            $this->_productCollection = $this->_productCollectionFactory->create();
-//            $this->_productCollection->addAttributeToSelect($this->catalogConfig->getProductAttributes())
-//                ->addAttributeToFilter('vendor_id',$this->getVendor()->getId())
-//                ->addAttributeToFilter('approval',ProductApproval::STATUS_APPROVED)
-//
-//            ->addMinimalPrice()
-//            ->addFinalPrice()
-//            ->addTaxPercents()
-//            ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
+            
+            $this->_productCollection->getSelect()->distinct();
         }
         return $this->_productCollection;
     }
     
     /**
      * Get total number of vendor's product.
-     * 
+     *
      * @return int
      */
-    public function getTotalNumberOfProducts(){
-        if(!$this->getData('total_num_products')){
+    public function getTotalNumberOfProducts()
+    {
+        if (!$this->getData('total_num_products')) {
             $collection = $this->_productCollectionFactory->create();
-            $collection->addAttributeToFilter('vendor_id',$this->getVendor()->getId())
-                ->addAttributeToFilter('approval',ProductApproval::STATUS_APPROVED)
+            $collection->addAttributeToFilter('vendor_id', $this->getVendor()->getId())
+                ->addAttributeToFilter('approval', ProductApproval::STATUS_APPROVED)
                 ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
 
-            $this->setData('total_num_products',sizeof($collection));
+            $this->setData('total_num_products', sizeof($collection));
         }
         
         return $this->getData('total_num_products');
@@ -103,17 +97,18 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
     
     /**
      * Add items link to the menu
-     * 
+     *
      * @see \Magento\Framework\View\Element\AbstractBlock::_prepareLayout()
      */
-    protected function _prepareLayout(){
+    protected function _prepareLayout()
+    {
         parent::_prepareLayout();
         $menuBlock = $this->getLayout()->getBlock('vendor.menu.top');
-        if($menuBlock){
+        if ($menuBlock) {
             $totalProduct = $this->getTotalNumberOfProducts();
             $menuBlock->addLink(
-                __("Items (%1)",$totalProduct),
-                __("Items (%1)",$totalProduct),
+                __("Items (%1)", $totalProduct),
+                __("Items (%1)", $totalProduct),
                 '#vendor-products',
                 10
             );

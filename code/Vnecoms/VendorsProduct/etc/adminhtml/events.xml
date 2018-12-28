@@ -12,5 +12,9 @@
     <event name="catalog_product_attribute_update_before">
         <observer name="vnecoms_vendorsproduct_product_attribute_update_before" instance="Vnecoms\VendorsProduct\Observer\UpdateVendorObserver" />
     </event>
-    
+
+    <event name="vendor_delete_after">
+        <observer name="vnecoms_vendors_pricecomparison_vendor_delete_after" instance="Vnecoms\VendorsProduct\Observer\VendorDeleteAfter" />
+    </event>
+
 </config>

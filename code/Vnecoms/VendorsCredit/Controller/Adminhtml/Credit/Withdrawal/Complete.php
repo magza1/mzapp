@@ -26,7 +26,7 @@ class Complete extends Action
      */
     public function execute()
     {
-        $id = $this->getRequest()->getParam('id', false);
+        $id = $this->getRequest()->getParam('withdrawal_id', false);
         $withdrawal = $this->_objectManager->create('Vnecoms\VendorsCredit\Model\Withdrawal');
         $withdrawal->load($id);
         try {
@@ -35,7 +35,8 @@ class Complete extends Action
                 $back = $this->getRequest()->getParam('back', '');
                 return $this->_redirect('*/*/'.$back);
             }
-            
+            $codeTransfer = $this->getRequest()->getParam('code_of_transfer', false);
+            $withdrawal->setCodeOfTransfer($codeTransfer);
             $withdrawal->markAsComplete();
             
             /*Send complete withdrawal request notification email*/

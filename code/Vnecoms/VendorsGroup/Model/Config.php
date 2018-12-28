@@ -2,7 +2,8 @@
 namespace Vnecoms\VendorsGroup\Model;
 
 class Config extends \Magento\Framework\Model\AbstractModel
-{    
+{
+
     const ENTITY = 'group_config';
     
     /**
@@ -28,5 +29,4 @@ class Config extends \Magento\Framework\Model\AbstractModel
     {
         $this->_init('Vnecoms\VendorsGroup\Model\ResourceModel\Config');
     }
-
 }

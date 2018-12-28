@@ -47,7 +47,7 @@ class Actions extends Column
     public function prepareDataSource(array $dataSource)
     {
         if (isset($dataSource['data']['items'])) {
-            $indexField = $this->getData('config/indexField') ?: 'message_id';
+            $indexField = $this->getData('config/indexField') ?: 'warning_id';
             $viewUrlPath = $this->getData('config/viewUrlPath') ?: '#';
             $urlEntityParamName = $this->getData('config/urlEntityParamName') ?: 'id';
             foreach ($dataSource['data']['items'] as &$item) {

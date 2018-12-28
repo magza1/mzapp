@@ -1,0 +1,27 @@
+<?php
+    $porto_helper = $this->helper('Smartwave\Porto\Helper\Data');
+    echo $porto_helper->getConfig('porto_settings/product/custom_social');
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+	$_product = $objectManager->get('Magento\Framework\Registry')->registry('current_product');
+?>
+<div class="product-quick-view">
+	<a class="weltpixel-quickview weltpixel_quickview_button_v2" data-quickview-url="<?php echo $block->getUrl("weltpixel_quickview/catalog_product/view",array('id' =>  $_product->getId() )) ?>" href="javascript:void(0);">
+	<span><?php echo __("Nerede Satılır ?") ?></span></a>
+
+	<script>
+	    requirejs(['jquery', 'weltpixel_quickview' ],
+	        function   ($, quickview) {
+	            $(document).ready(function() {
+	                $('.weltpixel-quickview').bind('click', function() {
+	                    var prodUrl = $(this).attr('data-quickview-url');
+	                    if (prodUrl.length) {
+	                        quickview.displayContent(prodUrl);
+	                    }
+	                });
+	            });
+	        });
+
+	    window.weltpixel_quickview = {"baseUrl":"http:\/\/v3.isnoktam.net\/","closeSeconds":"5","showMiniCart":"1","showShoppingCheckoutButtons":"1"};
+	</script>
+
+</div>

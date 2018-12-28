@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsProduct\Controller\Vendors\Product\Gallery;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -12,6 +8,13 @@ use Magento\Framework\Stdlib\DateTime\Filter\Date;
 
 class Upload extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::catalog_product';
+    
     /**
      * @var \Magento\Framework\Controller\Result\RawFactory
      */

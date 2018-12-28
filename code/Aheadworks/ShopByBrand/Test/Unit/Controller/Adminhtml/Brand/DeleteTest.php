@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller\Adminhtml\Brand;
@@ -14,11 +14,12 @@ use Magento\Backend\Model\View\Result\Redirect as ResultRedirect;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\Delete
  */
-class DeleteTest extends \PHPUnit_Framework_TestCase
+class DeleteTest extends TestCase
 {
     /**
      * @var Delete
@@ -48,10 +49,16 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
-        $this->requestMock = $this->getMockForAbstractClass(RequestInterface::class);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
-        $this->messageManagerMock = $this->getMockForAbstractClass(ManagerInterface::class);
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->requestMock = $this->getMockBuilder(RequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->resultRedirectFactoryMock = $this->createPartialMock(RedirectFactory::class, ['create']);
+        $this->messageManagerMock = $this->getMockBuilder(ManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -73,7 +80,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     {
         $brandId = 1;
 
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
 
         $this->resultRedirectFactoryMock->expects($this->once())
             ->method('create')
@@ -100,7 +107,7 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
     {
         $brandId = 1;
 
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
         $exception = new \Exception('Exception message.');
 
         $this->resultRedirectFactoryMock->expects($this->once())

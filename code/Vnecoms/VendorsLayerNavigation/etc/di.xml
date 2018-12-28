@@ -1,23 +1,13 @@
 <?xml version="1.0"?>
-<!--
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
--->
+
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-
-    <!--<type name="Vnecoms\VendorsPage\Model\Layer\VendorHomePage">-->
-        <!--<arguments>-->
-            <!--<argument name="context" xsi:type="object">Vnecoms\VendorsPage\Model\Layer\VendorPage\Context</argument>-->
-        <!--</arguments>-->
-    <!--</type>-->
-
-    <!--<virtualType name="vendorPageFilterList" type="Magento\Catalog\Model\Layer\FilterList">-->
-        <!--<arguments>-->
-            <!--<argument name="filterableAttributes" xsi:type="object">Magento\Catalog\Model\Layer\Category\FilterableAttributeList</argument>-->
-        <!--</arguments>-->
-    <!--</virtualType>-->
+    <type name="Magento\Catalog\Model\Layer\Resolver">
+        <arguments>
+            <argument name="layersPool" xsi:type="array">
+                <item name="vendor_page" xsi:type="string">Vnecoms\VendorsLayerNavigation\Model\Layer\VendorHomePage</item>
+            </argument>
+        </arguments>
+    </type>
 
     <!--layer vendor-->
     <type name="Vnecoms\VendorsLayerNavigation\Model\Layer\VendorHomePage">
@@ -25,7 +15,13 @@
             <argument name="context" xsi:type="object">Vnecoms\VendorsLayerNavigation\Model\Layer\VendorHomePage\Context</argument>
         </arguments>
     </type>
-
+<!-- uncomment this code if use smile elastic search extension.
+	<type name="Vnecoms\VendorsLayerNavigation\Model\Layer\VendorHomePage\ItemCollectionProvider">
+        <arguments>
+            <argument name="collectionFactory" xsi:type="object">Magento\CatalogSearch\Model\ResourceModel\Fulltext\CollectionFactory</argument>
+        </arguments>
+    </type>
+-->    
     <!--context for Vnecoms\VendorsLayerNavigation\Model\Layer\VendorHomePage-->
     <virtualType name="Vnecoms\VendorsLayerNavigation\Model\Layer\VendorHomePage\Context" type="Magento\Catalog\Model\Layer\Context">
         <arguments>
@@ -86,12 +82,6 @@
         </arguments>
     </virtualType>
 
-    <!--<virtualType name="Vnecoms\VendorsLayerNavigation\Model\Layer\Filter\Item" type="Magento\Catalog\Model\Layer\Filter\Item">-->
-        <!--<arguments>-->
-            <!--<argument name="catalogLayer" xsi:type="object">Vnecoms\VendorsLayerNavigation\Model\Layer\VendorHomePage</argument>-->
-        <!--</arguments>-->
-    <!--</virtualType>-->
-
     <!--Dynamic Filter-->
     <type name="Vnecoms\VendorsLayerNavigation\Model\Layer\Filter\Dynamic\AlgorithmFactory">
         <arguments>
@@ -137,7 +127,4 @@
         </arguments>
     </type>
 
-    <!--<type name="Magento\Catalog\Model\Layer\Search\CollectionFilter">-->
-        <!--<plugin name="searchQuery" type="Magento\CatalogSearch\Model\Layer\Search\Plugin\CollectionFilter" />-->
-    <!--</type>-->
 </config>

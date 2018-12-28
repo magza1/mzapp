@@ -106,6 +106,6 @@ class FrontNameResolver implements \Magento\Framework\App\Area\FrontNameResolver
         if (!$portVar) {
             $portVar = isset($this->standardPorts[$schemeVar]) ? $this->standardPorts[$schemeVar] : null;
         }
-        return isset($port) ? $hostVar . ':' . $portVar : $hostVar;
+        return isset($portVar) ? $hostVar . ':' . $portVar : $hostVar;
     }
 }

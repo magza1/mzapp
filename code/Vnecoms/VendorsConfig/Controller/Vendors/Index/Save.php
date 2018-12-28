@@ -9,6 +9,13 @@ use \Magento\Framework\Exception\LocalizedException;
 class Save extends \Vnecoms\VendorsConfig\Controller\Vendors\AbstractConfig
 {
     /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsConfig::configuration';
+    
+    /**
      * Backend Config Model Factory
      *
      * @var \Vnecoms\VendorsConfig\Helper\Data

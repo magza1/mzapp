@@ -14,10 +14,6 @@
                 sortOrder="10"/>
     </type>
     <type name="Magento\Catalog\Block\Product\View\Gallery">
-        <plugin name="weltpixel-quickview-block-product-view-gallery"
-                type="WeltPixel\Quickview\Plugin\BlockProductViewGallery" sortOrder="5"/>
-    </type>
-    <type name="Magento\Catalog\Block\Product\View\Gallery">
         <plugin name="weltpixel-quickview-block-product-view-gallery-magnifier"
                 type="WeltPixel\Quickview\Plugin\BlockProductViewGalleryMagnifier" sortOrder="15"/>
     </type>
@@ -32,5 +28,9 @@
     <type name="Magento\Checkout\Controller\Cart\Add">
         <plugin name="weltpixel-quickview-cart-add"
                 type="WeltPixel\Quickview\Plugin\CartAdd" sortOrder="5"/>
+    </type>
+    <type name="Magento\Framework\View\Page\Config\Structure">
+        <plugin name="weltpixel-quickview-page-config-structure"
+                type="WeltPixel\Quickview\Plugin\PageConfigStructure" sortOrder="10"/>
     </type>
 </config>

@@ -1,0 +1,28 @@
+<?php
+/**
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
+*/
+
+// @codingStandardsIgnoreFile
+
+$blockGrid = $block->getBlockGrid();
+$gridJsObjectName = $blockGrid->getJsObjectName();
+?>
+<?= $block->getGridHtml() ?>
+<?php if ($block->canShow()): ?>
+    <input type="hidden" name="brand_additional_products" id="in_category_products" data-form-part="aw_sbb_brand_form" value="" />
+    <script type="text/x-magento-init">
+        {
+        "*": {
+            "Magento_Catalog/catalog/category/assign-products": {
+                "selectedProducts": <?= /* @escapeNotVerified */ $block->getProductsJson() ?>,
+                "gridJsObjectName": <?= /* @escapeNotVerified */ '"' . $gridJsObjectName . '"' ?: '{}' ?>
+            }
+        }
+    }
+    </script>
+    <script>
+        require('mage/apply/main').apply();
+    </script>
+<?php endif;?>

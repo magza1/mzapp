@@ -24,7 +24,7 @@ class Shipping extends \Magento\Framework\View\Element\Template
     protected $_configHelper;
     
     /**
-     * 
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Vnecoms\VendorsPage\Helper\Data $pageHelper
@@ -44,30 +44,34 @@ class Shipping extends \Magento\Framework\View\Element\Template
         $this->_coreRegistry = $registry;
         $this->_configHelper = $configHelper;
         
-        parent::__construct($context,$data);
+        parent::__construct($context, $data);
     }
     
     /**
      * Get Vendor object
-     * 
+     *
      * @return \Vnecoms\Vendors\Model\Vendor
      */
-    public function getVendor(){
+    public function getVendor()
+    {
         return $this->_coreRegistry->registry('vendor');
     }
 
     /**
      * Get vendor description
-     * 
+     *
      * @return string
      */
-    public function getVendorShipping(){
+    public function getVendorShipping()
+    {
         return $this->_pageHelper->getVendorShipping($this->getVendor()->getId());
     }
     
-    public function _toHtml(){
-        if(/* !$this->getVendorShipping() ||  */!$this->_pageHelper->canShowSellerShippingPolicy())
+    public function _toHtml()
+    {
+        if (/* !$this->getVendorShipping() ||  */!$this->_pageHelper->canShowSellerShippingPolicy()) {
             return '';
+        }
         return parent::_toHtml();
     }
 }

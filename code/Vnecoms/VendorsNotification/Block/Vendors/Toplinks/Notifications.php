@@ -1,9 +1,4 @@
 <?php
-/**
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-
 // @codingStandardsIgnoreFile
 
 namespace Vnecoms\VendorsNotification\Block\Vendors\Toplinks;
@@ -117,5 +112,24 @@ class Notifications extends \Vnecoms\Vendors\Block\Vendors\AbstractBlock
      */
     public function getViewAllUrl(){
         return $this->getUrl('notification/index/index');
+    }
+    
+    /**
+     * CHeck if the account has permission to view notifications
+     * 
+     * @see \Magento\Framework\View\Element\Template::_toHtml()
+     */
+    protected function _toHtml(){
+        
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => 'Vnecoms_Vendors::notifications',
+                'permission' => $permission
+            ]
+        );
+        
+        return $permission->isAllowed()?parent::_toHtml():'';
     }
 }

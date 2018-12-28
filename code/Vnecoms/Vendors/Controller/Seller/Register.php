@@ -79,18 +79,24 @@ class Register extends Action
      */
     public function execute($coreRoute = null)
     {
+
         if (!$this->_vendorHelper->moduleEnabled()) {
             return $this->_forward('no-route');
         }
-        
-        if ($this->_vendorSession->getVendor()->getId()) {
-            return $this->_redirect('vendors/dashboard');
+
+	if (!$this->_vendorHelper->isEnableVendorRegister()) {
+            return $this->_forward('no-route');
         }
-        
+
+        if ($this->_vendorSession->isLoggedIn() && $this->_vendorSession->getVendor()->getId()) {
+            $redirectUrl = $this->_vendorHelper->getUrl('dashboard');
+            return $this->_redirect($redirectUrl);
+        }
+
         /** @var \Magento\Framework\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $this->_coreRegistry->register('form_data', $this->_vendorSession->getFormData(true));
-        
+
         $resultPage->getConfig()->getTitle()->set(__('Register a Seller Account'));
         $resultPage->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);
         return $resultPage;

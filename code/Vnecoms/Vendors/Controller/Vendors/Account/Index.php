@@ -8,7 +8,13 @@ namespace Vnecoms\Vendors\Controller\Vendors\Account;
 
 class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
-
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::account';
+    
     /**
      * @return void
      */

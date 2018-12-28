@@ -54,11 +54,13 @@ class VendorHomePage extends \Magento\Catalog\Model\Layer
         $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
         $this->prepareProductCollection($collection);
         $vendor = $this->registry->registry('vendor');
-        if(!$vendor) return $collection;
+        if (!$vendor) {
+            return $collection;
+        }
         
-        $collection->addAttributeToFilter('vendor_id',$vendor->getId());
-        $collection->addAttributeToFilter('approval',array('in' => \Magento\Framework\App\ObjectManager::getInstance()
-        ->create('Vnecoms\VendorsProduct\Helper\Data')->getAllowedApprovalStatus()));
+        $collection->addAttributeToFilter('vendor_id', $vendor->getId());
+        $collection->addAttributeToFilter('approval', ['in' => \Magento\Framework\App\ObjectManager::getInstance()
+        ->create('Vnecoms\VendorsProduct\Helper\Data')->getAllowedApprovalStatus()]);
         return $collection;
     }
     

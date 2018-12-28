@@ -30,23 +30,39 @@ class PageType implements OptionSourceInterface
 
     public function getOptionArray()
     {
-        return [
-            self::HOME_PAGE => __(self::HOME_PAGE_LABEL),
-            self::PRODUCT_PAGE => __(self::PRODUCT_PAGE_LABEL),
-            self::CATEGORY_PAGE => __(self::CATEGORY_PAGE_LABEL),
-            self::SHOPPINGCART_PAGE => __(self::SHOPPINGCART_PAGE_LABEL),
-            self::CHECKOUT_PAGE => __(self::CHECKOUT_PAGE_LABEL)
-        ];
+        return $this->getTranslatedOptionArray();
     }
 
     public function toOptionArray()
     {
+        $optionsArray = [];
+        $options = $this->getTranslatedOptionArray();
+
+        foreach ($options as $key => $value) {
+            $optionsArray[] = ['value' => $key, 'label' => $value];
+        }
+        return $optionsArray;
+    }
+
+    public function getTranslatedOptionArray()
+    {
+        $translatedOptions = [];
+        $untranslatedOptions = $this->getUntranslatedOptionArray();
+
+        foreach ($untranslatedOptions as $key => $value) {
+            $translatedOptions[$key] = __($value);
+        }
+        return $translatedOptions;
+    }
+
+    public function getUntranslatedOptionArray()
+    {
         return [
-            ['value' => self::HOME_PAGE,  'label' => __(self::HOME_PAGE_LABEL)],
-            ['value' => self::PRODUCT_PAGE,  'label' => __(self::PRODUCT_PAGE_LABEL)],
-            ['value' => self::CATEGORY_PAGE,  'label' => __(self::CATEGORY_PAGE_LABEL)],
-            ['value' => self::SHOPPINGCART_PAGE,  'label' => __(self::SHOPPINGCART_PAGE_LABEL)],
-            ['value' => self::CHECKOUT_PAGE,  'label' => __(self::CHECKOUT_PAGE_LABEL)],
+            self::HOME_PAGE => self::HOME_PAGE_LABEL,
+            self::PRODUCT_PAGE => self::PRODUCT_PAGE_LABEL,
+            self::CATEGORY_PAGE => self::CATEGORY_PAGE_LABEL,
+            self::SHOPPINGCART_PAGE => self::SHOPPINGCART_PAGE_LABEL,
+            self::CHECKOUT_PAGE => self::CHECKOUT_PAGE_LABEL
         ];
     }
 }

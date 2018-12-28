@@ -1,14 +1,16 @@
 <?php
-/**
- *
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsCredit\Controller\Vendors\Transactions;
 
 class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
-
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsCredit::sales_transactions';
+    
     /**
      * @return void
      */
@@ -16,6 +18,7 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
     {
         $this->getRequest()->setParam('customer_id', $this->_session->getCustomerId());
         $this->_initAction();
+        $this->_setActiveMenu('Vnecoms_VendorsCredit::sales_transactions');
         $title = $this->_view->getPage()->getConfig()->getTitle();
         $title->prepend(__("Sales"));
         $title->prepend(__("Transactions"));

@@ -8,7 +8,7 @@
 
 namespace Vnecoms\VendorsCredit\Model\ResourceModel;
 
-use Vnecoms\VendorsCredit\Model\Withdrawal;
+use Vnecoms\VendorsCredit\Model\Withdrawal as WithdrawalCredit;
 /**
  * Cms page mysql resource
  */
@@ -43,7 +43,7 @@ class Escrow extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         )->where(
             'status = :status'
         );
-        $bind = ['vendor_id' => $vendorId,'status'=>Withdrawal::STATUS_PENDING];
+        $bind = ['vendor_id' => $vendorId,'status'=>WithdrawalCredit::STATUS_PENDING];
 
         $total = $connection->fetchOne($select, $bind);
 

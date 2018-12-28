@@ -121,5 +121,4 @@ class Pattern implements OptionSourceInterface
             ['value' => 'mon-sat',  'label'  => __('From Monday to Saturday')],
         ];
     }
-
 }

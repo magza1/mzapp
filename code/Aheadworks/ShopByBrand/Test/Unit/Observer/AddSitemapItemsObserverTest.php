@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Observer;
@@ -13,11 +13,12 @@ use Magento\Framework\DataObject;
 use Magento\Framework\Event;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Observer\AddSitemapItemsObserver
  */
-class AddSitemapItemsObserverTest extends \PHPUnit_Framework_TestCase
+class AddSitemapItemsObserverTest extends TestCase
 {
     /**
      * @var AddSitemapItemsObserver
@@ -32,7 +33,7 @@ class AddSitemapItemsObserverTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->itemsProviderMock = $this->getMock(ItemsProvider::class, ['getBrandItems'], [], '', false);
+        $this->itemsProviderMock = $this->createPartialMock(ItemsProvider::class, ['getBrandItems']);
         $this->observer = $objectManager->getObject(
             AddSitemapItemsObserver::class,
             ['itemsProvider' => $this->itemsProviderMock]
@@ -44,10 +45,10 @@ class AddSitemapItemsObserverTest extends \PHPUnit_Framework_TestCase
         $storeId = 1;
 
         /** @var Observer|\PHPUnit_Framework_MockObject_MockObject $observerMock */
-        $observerMock = $this->getMock(Observer::class, ['getEvent'], [], '', false);
-        $eventMock = $this->getMock(Event::class, ['__call'], [], '', false);
-        $sitemapMock = $this->getMock(Sitemap::class, ['appendSitemapItem', '__call'], [], '', false);
-        $itemsMock = $this->getMock(DataObject::class, [], [], '', false);
+        $observerMock = $this->createPartialMock(Observer::class, ['getEvent']);
+        $eventMock = $this->createPartialMock(Event::class, ['__call']);
+        $sitemapMock = $this->createPartialMock(Sitemap::class, ['appendSitemapItem', '__call']);
+        $itemsMock = $this->createMock(DataObject::class);
 
         $observerMock->expects($this->once())
             ->method('getEvent')

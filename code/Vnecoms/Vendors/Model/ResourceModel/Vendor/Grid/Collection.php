@@ -24,8 +24,29 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
         $mainTable = 'ves_vendor_entity';
         $resourceModel = 'Vnecoms\Vendors\Model\ResourceModel\Vendor';
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $mainTable, $resourceModel);
+        $this->_eventManager->dispatch('vnecoms_vendors_ui_accountdataprovider_collection_prepare', ['collection' => $this]);
     }
-    
+
+    protected function _construct()
+    {
+        parent::_construct();
+
+        $this->addFilterToMap(
+            "vendor_id",
+            'main_table.vendor_id'
+        );
+
+        $this->addFilterToMap(
+            "group_id",
+            'customer.group_id'
+        );
+
+        $this->addFilterToMap(
+            "entity_id",
+            'main_table.entity_id'
+        );
+    }
+
     /**
      * Init collection select
      *
@@ -34,8 +55,17 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
     protected function _initSelect()
     {
         parent::_initSelect();
-//         $this->join(['order_grid'=>$this->getTable('sales_order_grid')], 'main_table.order_id=order_grid.entity_id',array('increment_id','store_id','store_name','base_currency_code','order_currency_code','shipping_name','billing_name','billing_address','shipping_address','shipping_and_handling','total_refunded','customer_name'));
-        //$this->getSelect()->join($this->getTable('sales_order_grid'), 'main_table.order_id=sales_order_grid.entity_id',array('store_id','store_name','base_currency_code','order_currency_code','shipping_name','billing_name','billing_address','shipping_address','shipping_and_handling','total_refunded'));
+        $this->getSelect()->join(
+            ['vendor_user'=>$this->getTable('ves_vendor_user')],
+            'vendor_user.vendor_id = main_table.entity_id AND is_super_user = 1',
+            ['is_super_user'=>'is_super_user','vendor_user_id'=>'vendor_id']
+        );
+
+        $this->getSelect()->join(
+            ['customer'=>$this->getTable('customer_entity')],
+            'customer.entity_id=vendor_user.customer_id',
+            ['firstname'=>'firstname','lastname'=>'lastname','middlename'=>'middlename','email'=>'email', 'web_id' => 'website_id', 'store_id' => 'store_id']
+        );
         return $this;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand;
@@ -10,11 +10,12 @@ use Aheadworks\ShopByBrand\Api\Data\BrandInterface;
 use Aheadworks\ShopByBrand\Model\Brand\CompositeValidator;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\Validator\ValidatorInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\CompositeValidator
  */
-class CompositeValidatorTest extends \PHPUnit_Framework_TestCase
+class CompositeValidatorTest extends TestCase
 {
     /**
      * @var ObjectManager
@@ -49,7 +50,6 @@ class CompositeValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expectedResult, $compositeValidator->isValid($brandMock));
         $this->assertEquals($expectedMessages, $compositeValidator->getMessages());
-
     }
 
     /**
@@ -62,7 +62,9 @@ class CompositeValidatorTest extends \PHPUnit_Framework_TestCase
      */
     private function createValidatorMock($brandMock, $isValidResult = true, $messages = [])
     {
-        $validatorMock = $this->getMockForAbstractClass(ValidatorInterface::class);
+        $validatorMock = $this->getMockBuilder(ValidatorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $validatorMock->expects($this->once())
             ->method('isValid')
             ->with($brandMock)
@@ -78,7 +80,9 @@ class CompositeValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function isValidDataProvider()
     {
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         return [
             [
                 $brandMock,

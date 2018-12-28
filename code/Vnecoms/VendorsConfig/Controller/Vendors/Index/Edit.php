@@ -1,13 +1,16 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsConfig\Controller\Vendors\Index;
 
 class Edit extends AbstractScopeConfig
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsConfig::configuration';
+    
     /**
      * @var \Magento\Framework\View\Result\PageFactory
      */
@@ -50,9 +53,9 @@ class Edit extends AbstractScopeConfig
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        //$resultPage->setActiveMenu('Vnecoms_VendorsConfig::config');
-        $resultPage->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo([$current]);
+        $this->setActiveMenu('Vnecoms_VendorsConfig::configuration');
         $section = $this->_configStructure->getElement($this->getRequest()->getParam('section'));
+        if(!$section->isAllowed()) return $this->resultRedirectFactory->create()->setPath('config');
         $resultPage->getConfig()->getTitle()->set(__('Configuration'))
             ->prepend($section->getLabel());
         

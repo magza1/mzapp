@@ -21,7 +21,7 @@ class MassDelete extends \Magento\Customer\Controller\AbstractAccount
         $ids = $this->getRequest()->getParam('selected');
         $message = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Message');
         
-        foreach($ids as $id){
+        foreach ($ids as $id) {
             $message->load($id)->trash();
         }
         

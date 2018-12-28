@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Invoice;
 
 use Magento\Framework\View\Result\PageFactory;
@@ -12,7 +8,13 @@ use Magento\Framework\Registry;
 
 class View extends \Vnecoms\VendorsSales\Controller\Vendors\Invoice\AbstractInvoice\View
 {
-
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_invoices';
+    
     /**
      * @var PageFactory
      */
@@ -49,6 +51,7 @@ class View extends \Vnecoms\VendorsSales\Controller\Vendors\Invoice\AbstractInvo
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
+        $this->setActiveMenu('Vnecoms_VendorsSales::sales_invoices');
 //         $resultPage->setActiveMenu('Vnecoms_VendorsSales::sales_orders');
         $resultPage->getConfig()->getTitle()->prepend(__('Invoices'));
         $resultPage->getConfig()->getTitle()->prepend(sprintf("#%s", $invoice->getIncrementId()));

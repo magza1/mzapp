@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand;
@@ -14,11 +14,12 @@ use Aheadworks\ShopByBrand\Model\Brand\FileInfo;
 use Aheadworks\ShopByBrand\Model\Url;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\DataProvider
  */
-class DataProviderTest extends \PHPUnit_Framework_TestCase
+class DataProviderTest extends TestCase
 {
     /**
      * @var DataProvider
@@ -53,23 +54,19 @@ class DataProviderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->collectionMock = $this->getMock(
+        $this->collectionMock = $this->createPartialMock(
             Collection::class,
-            ['getItems', 'getNewEmptyItem'],
-            [],
-            '',
-            false
+            ['getItems', 'getNewEmptyItem']
         );
-        $this->collectionFactoryMock = $this->getMock(CollectionFactory::class, ['create'], [], '', false);
-        $this->dataPersistorMock = $this->getMockForAbstractClass(DataPersistorInterface::class);
-        $this->fileInfoMock = $this->getMock(
+        $this->collectionFactoryMock = $this->createPartialMock(CollectionFactory::class, ['create']);
+        $this->dataPersistorMock = $this->getMockBuilder(DataPersistorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->fileInfoMock = $this->createPartialMock(
             FileInfo::class,
-            ['isExist', 'getStat', 'getMimeType'],
-            [],
-            '',
-            false
+            ['isExist', 'getStat', 'getMimeType']
         );
-        $this->urlMock = $this->getMock(Url::class, ['getLogoUrl'], [], '', false);
+        $this->urlMock = $this->createPartialMock(Url::class, ['getLogoUrl']);
 
         $this->collectionFactoryMock->expects($this->once())
             ->method('create')
@@ -106,7 +103,7 @@ class DataProviderTest extends \PHPUnit_Framework_TestCase
             'attribute_id' => 2
         ];
 
-        $brandMock = $this->getMock(Brand::class, ['getBrandId', 'getData'], [], '', false);
+        $brandMock = $this->createPartialMock(Brand::class, ['getBrandId', 'getData']);
 
         $this->collectionMock->expects($this->once())
             ->method('getItems')
@@ -134,12 +131,9 @@ class DataProviderTest extends \PHPUnit_Framework_TestCase
             'attribute_id' => 2
         ];
 
-        $brandMock = $this->getMock(
+        $brandMock = $this->createPartialMock(
             Brand::class,
-            ['getBrandId', 'getData', 'setData'],
-            [],
-            '',
-            false
+            ['getBrandId', 'getData', 'setData']
         );
 
         $this->collectionMock->expects($this->once())

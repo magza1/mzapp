@@ -27,5 +27,4 @@ class Collection extends AbstractCollection
     {
         $this->_init('Vnecoms\VendorsGroup\Model\Config', 'Vnecoms\VendorsGroup\Model\ResourceModel\Config');
     }
-
 }

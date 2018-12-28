@@ -10466,7 +10466,7 @@ href=""%1"">here</a>.",module,Magento_NewRelicReporting
 "Delete","Sil",module,Magento_Search
 "Are you sure you want to delete synonym group with id: %1?","Kimlik grubunu kimliği olan%1 ile silmek istediğinizden emin misiniz?",module,Magento_Search
 "View/Edit","Gör/Düzenle",module,Magento_Search
-"Search entire store here...","Aranan kelimeyi buraya yazınız...",module,Magento_Search
+"Search entire store here...","Ne Aramıştınız ?",module,Magento_Search
 "There are no search terms available.","Uygun arama koşulları bulunamadı.",module,Magento_Search
 "Search Engine","Arama motorları",module,Magento_Search
 "CSV","CSV",module,Magento_Search

@@ -35,7 +35,9 @@ class Cancel extends Action
                 $back = $this->getRequest()->getParam('back', '');
                 return $this->_redirect('*/*/'.$back);
             }
-            
+            $reasonCancel = $this->getRequest()->getParam('reason_cancel', false);
+            $withdrawal->setReasonCancel($reasonCancel);
+
             $withdrawal->cancel();
             
             $vendor = $this->_objectManager->create('Vnecoms\Vendors\Model\Vendor');

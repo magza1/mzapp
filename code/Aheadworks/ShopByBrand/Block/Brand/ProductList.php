@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Block\Brand;
@@ -154,7 +154,9 @@ class ProductList extends \Magento\Framework\View\Element\Template implements Id
                 $collection = $this->productCollectionFactory->create();
                 $collection
                     ->addBrandFilter($brand)
+                    ->addAdditionalProducts($collection, $brand->getBrandId())
                     ->addFieldToFilter('entity_id', ['neq' => $this->getProductId()])
+                    ->addFieldToFilter('entity_id', ['in' => $collection->getBrandProductsIds($brand)])
                     ->setPageSize($this->getItemsLimit())
                     ->addMinimalPrice()
                     ->addFinalPrice()
@@ -208,6 +210,9 @@ class ProductList extends \Magento\Framework\View\Element\Template implements Id
                 break;
             case SortBy::RANDOM:
                 $collection->addRandomSorting();
+                break;
+            case SortBy::POSITION:
+                $collection->addPositionSorting();
                 break;
         }
     }
@@ -348,7 +353,6 @@ class ProductList extends \Magento\Framework\View\Element\Template implements Id
             );
         }
         return $html;
-
     }
 
     /**

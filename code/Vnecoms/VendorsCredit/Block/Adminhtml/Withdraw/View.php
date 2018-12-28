@@ -15,6 +15,12 @@ use \Vnecoms\VendorsCredit\Model\Withdrawal;
  */
 class View extends \Magento\Backend\Block\Widget\Form\Container
 {
+
+    /**
+     * @var string
+     */
+    protected $_template = 'Vnecoms_VendorsCredit::widget/form/container.phtml';
+
     /**
      * Core registry
      *
@@ -60,23 +66,23 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         $this->buttonList->remove('save');
     
         if ($this->canCancel($this->getWithdrawal())) {
+
             $this->addButton(
                 'complete',
                 [
                     'label' => __('Mark as Completed'),
                     'class' => 'save primary',
-                    'onclick' => 'setLocation(\'' . $this->getCompleteUrl() . '\')',
-                ],
-                1
+                    'data_attribute' => [
+                        'mage-init' => ['button' => ['event' => 'save', 'target' => '#edit_form']],
+                    ]
+                ]
             );
             
             $this->buttonList->add(
                 'cancel_request',
                 [
                     'label' => __("Cancel Withdrawal Request"),
-                    'onclick' => 'deleteConfirm(\'' . __(
-                        'Are you sure you want to do this?'
-                    ) . '\', \'' . $this->getCancelUrl() . '\')',
+                    //'onclick' => 'showModalBox()',
                     'class' => 'cancel cancel-request'
                 ]
             );

@@ -1,19 +1,18 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Creditmemo;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\View\Result\PageFactory;
-use Magento\Framework\Controller\Result\RawFactory;
-use Vnecoms\Vendors\App\Action\Context;
 use Magento\Framework\Registry;
 
 class UpdateQty extends \Vnecoms\VendorsSales\Controller\Vendors\Creditmemo\AbstractCreditmemo\View
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_creditmemo';
+    
     /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader
      */
@@ -58,13 +57,6 @@ class UpdateQty extends \Vnecoms\VendorsSales\Controller\Vendors\Creditmemo\Abst
         parent::__construct($context, $resultForwardFactory);
     }
 
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Magento_Sales::sales_creditmemo');
-    }
 
     /**
      * Update items qty action

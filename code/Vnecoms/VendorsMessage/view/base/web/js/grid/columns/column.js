@@ -10,19 +10,20 @@ define([
     'use strict';
 
     return Column.extend({
-    	defaults: {
+        defaults: {
             bodyTmpl: 'ui/grid/cells/html',
-    	},
-    	/**
+        },
+        /**
          * Ment to preprocess data associated with a current columns' field.
          *
          * @param {Object} record - Data to be preprocessed.
          * @returns {String}
          */
-    	getLabel: function (record) {
-        	if(record['status'] == 1) return "<strong>"+record[this.index]+"</strong>";
-        	
-        	return record[this.index];
+        getLabel: function (record) {
+            if (record['status'] == 1) {
+return "<strong>"+record[this.index]+"</strong>"; }
+            
+            return record[this.index];
         }
     });
 });

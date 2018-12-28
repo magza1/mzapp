@@ -1,14 +1,16 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
-namespace Vnecoms\VendorsSales\Controller\Vendors\Order;
 
-use Magento\Backend\App\Action;
+namespace Vnecoms\VendorsSales\Controller\Vendors\Order;
 
 class View extends \Vnecoms\VendorsSales\Controller\Vendors\Order
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_view';
+    
     /**
      * View order detail
      *
@@ -21,6 +23,7 @@ class View extends \Vnecoms\VendorsSales\Controller\Vendors\Order
         if ($order) {
             try {
                 $this->_initAction();
+                $this->setActiveMenu('Vnecoms_VendorsSales::sales_orders');
                 $title = $this->_view->getPage()->getConfig()->getTitle();
                 $title->prepend(__("Sales"));
                 $title->prepend(__("Orders"));
@@ -35,13 +38,5 @@ class View extends \Vnecoms\VendorsSales\Controller\Vendors\Order
         }
         $resultRedirect->setPath('sales/*/');
         return $resultRedirect;
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return true;
     }
 }

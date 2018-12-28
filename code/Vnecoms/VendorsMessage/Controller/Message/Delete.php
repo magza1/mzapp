@@ -38,7 +38,7 @@ class Delete extends \Magento\Customer\Controller\AbstractAccount
         $id = $this->getRequest()->getParam('id');
         $message = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Message');
         $message->load($id);
-        if(!$id || !$message->getId() || $message->getOwnerId() != $this->_customerSession->getCustomerId()){
+        if (!$id || !$message->getId() || $message->getOwnerId() != $this->_customerSession->getCustomerId()) {
             $this->messageManager->addError(__("The message is not available."));
             return $this->_redirect('customer/message');
         }

@@ -29,14 +29,17 @@ class ProcessFieldConfig implements ObserverInterface
         ];
 
         $config = \Magento\Framework\App\ObjectManager::getInstance()->get(
-            'Magento\Framework\App\Config\ScopeConfigInterface');
+            'Magento\Framework\App\Config\ScopeConfigInterface'
+        );
 
         foreach ($fieldset->getElements() as $field) {
-            foreach ($arrays as $key => $value){
-                if($field->getHtmlId() == $value){
+            foreach ($arrays as $key => $value) {
+                if ($field->getHtmlId() == $value) {
                     $storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE;
-                    $configVal = $config->getValue("vendors/vendorspage/".$key,$storeScope);
-                    if(!$configVal) $field->setIsRemoved(true);
+                    $configVal = $config->getValue("vendors/vendorspage/".$key, $storeScope);
+                    if (!$configVal) {
+                        $field->setIsRemoved(true);
+                    }
                 }
             }
         }

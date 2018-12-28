@@ -1,18 +1,19 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\PostDataProcessor;
 
 use Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\BrandId;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\BrandId
  */
-class BrandIdTest extends \PHPUnit_Framework_TestCase
+class BrandIdTest extends TestCase
 {
     /**
      * @var BrandId

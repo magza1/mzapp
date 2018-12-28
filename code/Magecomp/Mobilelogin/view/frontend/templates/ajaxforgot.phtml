@@ -1,0 +1,158 @@
+<?php
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$helper = $om->get('Magecomp\Mobilelogin\Helper\Data');
+?>
+<div id="myModal" class="modal ajax-forgot-form">
+  <!-- Modal content -->
+    <div class="<?php if($helper->getLayoutType()){echo 'ultimate';}else{ echo 'mobile-modal-content';} ?>">
+        <?php include ($block->getTemplateFile('Magecomp_Mobilelogin::image.phtml')) ?>
+      <div class="<?php if($helper->getLayoutType()) echo 'right' ?>">
+    <div class="closediv"><span class="close"></span></div>
+
+      <div class="checkforgototperror" style="display:none">
+          <span class="error1"><?php echo __("Incorect OTP, Please Verify Again.");?></span>
+      </div>
+
+      <div class="ajax-forgot-content">
+    	<div id="ajaxlogin-forgot-window" class="login-window account-login">
+            <div class="forgotmobileget">
+
+                     <div class="page_title">
+                        <span><?php
+                        
+                         echo __('Forgot Password') ?></span>
+                    </div>
+
+                <div class="blankerror error1" style="display:none">
+                    <span><?php echo __("Required fields cannot be empty");?></span>
+                </div>
+                <div class="forgotmobileerror error1" style="display:none">
+                    <span><?php echo __("Mobile Number Doesn't Exist");?></span>
+                </div>
+
+                    <div class="otp-content input-box" >
+                     	<label for="forgotmassage" class="reset-msg" ><?php echo __('I want to Reset Password using') ?></label>
+                        <div class="custom-select" >
+						    <select name="reset-type" class="reset-type" id="reset_type">
+                          	    <option class="option" value="Mobile"><?php echo __('Mobile') ?> <i class="fa fa-caret-down" aria-hidden="true"></i>
+                          	    </option>
+                         	    <option  class="option" value="Email"><?php echo __('Email') ?></option>
+                            </select>
+                        </div>
+
+                        <input type="text" value="" id="forgotmob" class="mobnumber" placeholder="<?php echo __('Enter Mobile Number*') ?>" maxlength="12"/>
+                        <input style="display :none" type="text" name="email" value="" id="mobile-forgot-email" class="input-text required-entry " title="<?php echo __('Email Address') ?>" placeholder="<?php echo __('Email Address*') ?>" />
+                        <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/ajaxforgot"); ?>" class="forgot-otp-url" />
+                     </div>
+                    <div class="notice" id="forgot_notice">Mobile No. With Country Code i.e 919898989898</div>
+                    <div class="submitbtnajax send-otp-button forgot-otp-button">
+                        <input type="button" class="forgotsendotp mobbtn" value="Send Otp" />
+                    </div>
+                    <div class="progress-indicator forgot-mobile-progress-indicator">
+                             <span class="please-wait" id="forgot-sms-please-wait" style="display:none;">
+                                 <img src="<?php echo
+                                 $block->getViewFileUrl('Magecomp_Mobilelogin::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                            </span>
+                    </div>
+                    <div class="otp-content" id="otp-cont" style="display: none;">
+                            <input type="password" value="" id="forgototp" placeholder="OTP" maxlength="<?php echo $helper->getOtpStringlenght() ?>"/>
+                            <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/ajaxcheckregotp"); ?>" class="checkotpurl" />
+                	</div>
+
+
+                    <div class="model-bottom">
+                        <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/forgotpasswordpost"); ?>" class="resetbyemail" />
+                        <div class="submitbtnajax reset-passwd" id="passresetbyotp" style="display: none;">
+                            <input type="button" class="forgotverifyotp reset-password mobbtn" value="Reset Password" />
+                        </div>
+                        <div class="submitbtnajax reset-passwd passresetbyemail" id="passresetbyemail" style="display:none">
+                            <input type="button" class="mobbtn" id="resetbyemail" value="Send Email" />
+                        </div>
+                        <div class="progress-indicator">
+                             <span class="please-wait" id="forgot-sms-verify-please-wait" style="display:none;">
+                                <img src="<?php echo
+                                $block->getViewFileUrl('Magecomp_Mobilelogin::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                            </span>
+                        </div>
+                    </div>
+                   
+             </div>
+             <div class="forgototpverify" style="display:none">
+             	 <div class="checkforgototperror" style="display:none">
+                	<span class="error1"><?php echo __("Incorect OTP, Please Verify Again.");?></span>
+                </div>	
+                <div class="blankerror error1" style="display:none">
+                     	<span><?php echo __("Required fields cannot be empty");?></span>
+                 </div>
+                 <div class="page-title">
+                    <span><?php echo __('OTP Verification') ?></span>
+                </div>
+				<div class="otp-content">
+                 <div class="input-box">
+                	<input type="text" value="" id="forgototp1" placeholder="<?php echo __('One Time Secure Password') ?>"/>
+                    </div>
+                    <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/ajaxforgototpverify"); ?>" class="forgotcheckotpurl" />
+                     
+                </div>
+                 <div class="model-bottom"> 
+                    <div class="submitbtnajax">
+                        <input type="button" class="forgotverifyotp mobbtn" value="Verify" />
+                    </div>
+                    <div class="progress-indicator">
+                             <span class="please-wait" id="forgot-sms-verify-please-wait" style="display:none;">
+                                <img src="<?php echo 
+							$block->getViewFileUrl('Magecomp_Mobilelogin::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                            </span>
+                    </div>
+                </div>
+               
+            </div>
+             <div class="setnewpass" style="display:none">
+             	<div class="passmatcherror error1" style="display:none">
+                	<span><?php echo __("Password doesn't Match.");?></span>
+                </div>
+                <div class="resetpassvalidation error1" style="display:none">
+                	<span><?php echo __("Password should be more then 6 character.");?></span>
+                </div>
+				<div class="blankerror error1" style="display:none">
+                     	<span><?php echo __("Required fields cannot be empty");?></span>
+                 </div>
+             	 <div class="page_title">
+                    <span><?php echo __('Reset Password') ?></span>
+                </div>
+				<div class="otp-content">
+                	<div class="newpass reginput odd ">
+                            <div class="input-box">
+                                <input type="password" name="newpass" value="" id="newpassotp" class="input-text required-entry " title="<?php echo __('New password') ?>" placeholder="<?php echo __('Enter New password') ?>"/>
+                            </div>
+                      </div>
+                      <div class="confirmpass reginput odd ">
+                            <div class="input-box">
+                                <input type="password" name="newpassconrmotp" value="" id="newpassconrmotp" class="input-text required-entry " title="<?php echo __('Confrim Password') ?>" placeholder="<?php echo __('Confrim Password') ?>" />
+                            </div>
+                        </div>
+                    <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/ajaxupdatepassotp"); ?>" class="updatepassotp" />
+                </div>
+                 <div class="model-bottom">
+                    <div class="submitbtnajax">
+                        <input type="button" class="updatepassbtn mobbtn" value="<?php echo __('Continue') ?>" />
+                    </div>
+                    <div class="progress-indicator">
+                                 <span class="please-wait" id="set-new-pass-please-wait" style="display:none;">
+                                    <img src="<?php echo 
+							$block->getViewFileUrl('Magecomp_Mobilelogin::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                                </span>
+                     </div>
+                </div>
+             </div>
+    	</div>
+    </div>
+      </div>
+  </div>
+</div>
+
+
+<script>
+
+</script>
+

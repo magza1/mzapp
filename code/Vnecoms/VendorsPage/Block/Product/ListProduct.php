@@ -46,15 +46,16 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
         $this->productVisibility = $productVisibility;
         $this->catalogConfig = $context->getCatalogConfig();
         $this->_coreRegistry = $context->getRegistry();
-        parent::__construct($context, $postDataHelper, $layerResolver, $categoryRepository, $urlHelper,$data);
+        parent::__construct($context, $postDataHelper, $layerResolver, $categoryRepository, $urlHelper, $data);
     }
     
     /**
      * Get current vendor
-     * 
+     *
      * @return \Vnecoms\Vendors\Model\Vendor
      */
-    public function getVendor(){
+    public function getVendor()
+    {
         return $this->_coreRegistry->registry('vendor');
     }
     
@@ -67,7 +68,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\ListProduct
     {
         if ($this->_productCollection === null) {
             $this->_productCollection = $this->_productCollectionFactory->create();
-            $this->_productCollection->addAttributeToFilter('vendor_id',$this->getVendor()->getId());
+            $this->_productCollection->addAttributeToFilter('vendor_id', $this->getVendor()->getId());
             $this->_productCollection ->addAttributeToSelect($this->catalogConfig->getProductAttributes())
             ->addMinimalPrice()
             ->addFinalPrice()

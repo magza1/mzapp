@@ -17,8 +17,8 @@ class Index extends \Magento\Framework\App\Action\Action
     protected $_coreRegistry = null;
 
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param \Magento\Framework\App\Action\Context $context
      */
     public function __construct(
@@ -36,7 +36,7 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        if(!$this->_coreRegistry->registry('vendor')){
+        if (!$this->_coreRegistry->registry('vendor')) {
             return $this->_forward('no-route');
         }
         

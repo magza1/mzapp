@@ -64,7 +64,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
         }
 
         if ($this->_isAllowedAction(
-            'Magento_Sales::cancel'
+            'Vnecoms_VendorsSales::sales_order_action_cancel'
         ) && $this->getInvoice()->canCancel() && !$this->_isPaymentReview()
         ) {
             $this->buttonList->add(
@@ -77,7 +77,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
             );
         }
 
-        if ($this->_isAllowedAction('Magento_Sales::emails')) {
+        if ($this->_isAllowedAction('Vnecoms_VendorsSales::sales_send_emails')) {
             $this->addButton(
                 'send_notification',
                 [
@@ -92,7 +92,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
 
         $orderPayment = $this->getInvoice()->getOrder()->getPayment();
 
-        if ($this->_isAllowedAction('Magento_Sales::creditmemo') && $this->getInvoice()->getOrder()->canCreditmemo()) {
+        if ($this->_isAllowedAction('Vnecoms_VendorsSales::sales_order_action_creditmemo') && $this->getInvoice()->getOrder()->canCreditmemo()) {
             if ($orderPayment->canRefundPartialPerInvoice() &&
                 $this->getInvoice()->canRefund() &&
                 $orderPayment->getAmountPaid() > $orderPayment->getAmountRefunded() ||
@@ -110,7 +110,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
         }
 
         if ($this->_isAllowedAction(
-            'Magento_Sales::capture'
+            'Vnecoms_VendorsSales::sales_order_action_capture'
         ) && $this->getInvoice()->canCapture() && !$this->_isPaymentReview()
         ) {
             $this->buttonList->add(
@@ -311,6 +311,14 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
      */
     protected function _isAllowedAction($resourceId)
     {
-        return $this->_authorization->isAllowed($resourceId);
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $resourceId,
+                'permission' => $permission
+            ]
+        );
+        return $permission->isAllowed();
     }
 }

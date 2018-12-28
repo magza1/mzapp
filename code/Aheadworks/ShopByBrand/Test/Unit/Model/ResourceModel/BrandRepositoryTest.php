@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\ResourceModel;
@@ -27,12 +27,13 @@ use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\ResourceModel\BrandRepository
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
+class BrandRepositoryTest extends TestCase
 {
     /**
      * @var BrandRepository
@@ -87,33 +88,28 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->entityManagerMock = $this->getMock(
+        $this->entityManagerMock = $this->createPartialMock(
             EntityManager::class,
-            ['save', 'load', 'delete'],
-            [],
-            '',
-            false
+            ['save', 'load', 'delete']
         );
-        $this->brandFactoryMock = $this->getMock(BrandInterfaceFactory::class, ['create'], [], '', false);
-        $this->brandResourceMock = $this->getMock(
+        $this->brandFactoryMock = $this->createPartialMock(BrandInterfaceFactory::class, ['create']);
+        $this->brandResourceMock = $this->createPartialMock(
             BrandResource::class,
-            ['getBrandIdByProductIdAndAttributeCode'],
-            [],
-            '',
-            false
+            ['getBrandIdByProductIdAndAttributeCode']
         );
-        $this->configMock = $this->getMock(Config::class, ['getBrandProductAttributeCode'], [], '', false);
-        $this->searchResultsFactoryMock = $this->getMock(
+        $this->configMock = $this->createPartialMock(Config::class, ['getBrandProductAttributeCode']);
+        $this->searchResultsFactoryMock = $this->createPartialMock(
             BrandSearchResultsInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
+            ['create']
         );
-        $this->collectionFactoryMock = $this->getMock(CollectionFactory::class, ['create'], [], '', false);
-        $this->dataObjectHelperMock = $this->getMock(DataObjectHelper::class, ['populateWithArray'], [], '', false);
-        $this->extensionAttributesJoinProcessorMock = $this->getMockForAbstractClass(JoinProcessorInterface::class);
-        $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
+        $this->collectionFactoryMock = $this->createPartialMock(CollectionFactory::class, ['create']);
+        $this->dataObjectHelperMock = $this->createPartialMock(DataObjectHelper::class, ['populateWithArray']);
+        $this->extensionAttributesJoinProcessorMock = $this->getMockBuilder(JoinProcessorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->storeManagerMock = $this->getMockBuilder(StoreManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $this->repository = $objectManager->getObject(
             BrandRepository::class,
             [
@@ -135,8 +131,12 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->entityManagerMock->expects($this->once())
             ->method('save')
@@ -169,7 +169,9 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $exceptionMessage = 'Exception message';
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->entityManagerMock->expects($this->once())
             ->method('save')
@@ -184,8 +186,12 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->brandFactoryMock->expects($this->once())
             ->method('create')
@@ -216,8 +222,12 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->brandFactoryMock->expects($this->once())
             ->method('create')
@@ -245,8 +255,12 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $attributeCode = 'manufacturer';
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->configMock->expects($this->once())
             ->method('getBrandProductAttributeCode')
@@ -283,7 +297,9 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $productId = 1;
         $attributeCode = 'manufacturer';
 
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->configMock->expects($this->once())
             ->method('getBrandProductAttributeCode')
@@ -313,11 +329,14 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $pageSize = 5;
         $storeId = 1;
         $itemData = ['brand_id' => 2];
-
         /** @var SearchCriteriaInterface|\PHPUnit_Framework_MockObject_MockObject $searchCriteriaMock */
-        $searchCriteriaMock = $this->getMockForAbstractClass(SearchCriteriaInterface::class);
-        $searchResultsMock = $this->getMockForAbstractClass(BrandSearchResultsInterface::class);
-        $collectionMock = $this->getMock(
+        $searchCriteriaMock = $this->getMockBuilder(SearchCriteriaInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $searchResultsMock = $this->getMockBuilder(BrandSearchResultsInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $collectionMock = $this->createPartialMock(
             Collection::class,
             [
                 'addFieldToFilter',
@@ -327,23 +346,21 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
                 'setPageSize',
                 'setStoreId',
                 'getIterator'
-            ],
-            [],
-            '',
-            false
+            ]
         );
-        $filterGroupMock = $this->getMock(FilterGroup::class, ['getFilters'], [], '', false);
-        $filterMock = $this->getMock(
+        $filterGroupMock = $this->createPartialMock(FilterGroup::class, ['getFilters']);
+        $filterMock = $this->createPartialMock(
             Filter::class,
-            ['getField', 'getConditionType', 'getValue'],
-            [],
-            '',
-            false
+            ['getField', 'getConditionType', 'getValue']
         );
-        $sortOrderMock = $this->getMock(SortOrder::class, ['getField', 'getDirection'], [], '', false);
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
-        $brandModelMock = $this->getMock(Brand::class, ['getData'], [], '', false);
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $sortOrderMock = $this->createPartialMock(SortOrder::class, ['getField', 'getDirection']);
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $brandModelMock = $this->createPartialMock(Brand::class, ['getData']);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->searchResultsFactoryMock->expects($this->once())
             ->method('create')
@@ -446,7 +463,9 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $brandMock->expects($this->exactly(2))
             ->method('getBrandId')
@@ -473,7 +492,9 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $brandMock->expects($this->exactly(2))
             ->method('getBrandId')
@@ -493,7 +514,9 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->brandFactoryMock->expects($this->once())
             ->method('create')
@@ -520,7 +543,9 @@ class BrandRepositoryTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->brandFactoryMock->expects($this->once())
             ->method('create')

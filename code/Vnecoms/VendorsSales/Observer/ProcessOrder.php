@@ -43,12 +43,20 @@ class ProcessOrder implements ObserverInterface
      */
     protected $_vendorHelper;
 
+
+    /**
+     * @var \Vnecoms\Vendors\Model\VendorFactory
+     */
+    protected $_vendorFactory;
+
+
     public function __construct(
         \Vnecoms\VendorsSales\Model\OrderFactory $vendorOrderFactory,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Vnecoms\VendorsSales\Model\Order\Email\Sender\OrderSender $orderSender,
         \Vnecoms\Vendors\Helper\Data $vendorHelper,
         \Magento\Framework\Module\Manager $moduleManage,
+        \Vnecoms\Vendors\Model\VendorFactory $vendorFactory,
         Data $vendorConfig
     ) {
         $this->_vendorOrderFactory = $vendorOrderFactory;
@@ -57,6 +65,7 @@ class ProcessOrder implements ObserverInterface
         $this->_vendorHelper = $vendorHelper;
         $this->_orderSender = $orderSender;
         $this->_moduleManage = $moduleManage;
+        $this->_vendorFactory = $vendorFactory;
     }
     
     /**
@@ -67,13 +76,14 @@ class ProcessOrder implements ObserverInterface
      */
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
+
         /* Do nothing if the extension is not enabled.*/
         if (!$this->_vendorHelper->moduleEnabled()) {
             return;
         }
         
         $order = $observer->getOrder();
-        if (!$order->getId()) {
+        if (!$order) {
             return;
         }
 
@@ -89,8 +99,8 @@ class ProcessOrder implements ObserverInterface
         /*Group order item by  vendor*/
         foreach ($order->getAllItems() as $item) {
             $vendorId = $item->getVendorId();
-            
-            if ($vendorId) {
+            $vendor = $this->_vendorFactory->create()->load($vendorId);
+            if ($vendorId && $vendor->getId()) {
                 if (!isset($vendorOrderItems[$vendorId])) {
                     $vendorOrderItems[$vendorId]=[];
                 }

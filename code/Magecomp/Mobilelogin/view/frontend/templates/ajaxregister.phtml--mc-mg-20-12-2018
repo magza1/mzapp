@@ -1,0 +1,116 @@
+<?php
+$om = \Magento\Framework\App\ObjectManager::getInstance();
+$helper = $om->get('Magecomp\Mobilelogin\Helper\Data');
+?>
+
+
+<div id="myModal" class="modal ajax-register-form">
+    <!-- Modal content -->
+    <div class="popup">
+    <div class="<?php if($helper->getLayoutType()){echo 'ultimate';}else{ echo 'mobile-modal-content';} ?>">
+    <?php include ($block->getTemplateFile('Magecomp_Mobilelogin::image.phtml')) ?>
+        <div class="<?php if($helper->getLayoutType()) echo 'right' ?>">
+        <div class="closediv"><span class="close"></span></div>
+                <div class="registraionform">
+                    <!-- Error Display -->
+                    <div class="checkotperror error1">
+                        <span><?php echo __("Incorrect OTP, Please Verify Again.");?></span>
+                    </div>
+                    <div class="mobileotpsenderror error1">
+                        <span><?php echo __("Please Enter Valid Mobile.");?></span>
+                    </div>
+                    <div class="mobileExist error1">
+                        <span><?php echo __("Mobile Number Already Exist.");?></span>
+                    </div>
+                    <div class="blankerror error1" style="display:none">
+                        <span><?php echo __("Required fields cannot be empty");?></span>
+                    </div>
+                    <div class="mobileNotValid error1" style="display:none">
+                        <span><?php echo __("Please Enter Valid Mobile Number");?></span>
+                    </div>
+                    <form data-mage-init='{"validation": {}}' action="<?php echo $block->getUrl('mobilelogin/index/ajaxcreatepost', array('_secure'=>true)) ?>" method="post" id="ajaxlogin-create-form">
+                        <div class="fieldset">
+                            <input type="hidden" name="success_url" value="<?php echo $this->getSuccessUrl() ?>" />
+                            <input type="hidden" name="error_url" value="<?php echo $this->getErrorUrl() ?>" />
+                            <input type="hidden" name="mobilenumber" id="createmobile" />
+                            <input type="hidden" name="createotp" id="createotp" />
+
+                            <div class="regcontollererror error1">
+                                <span></span>
+                            </div>
+                            <div class="page_title">
+                                <span><?php echo __('Register') ?></span>
+                            </div>
+                            <div class="content fieldset">
+                                <div class="reg-form">
+                                    <div class="firstname reginput odd field">
+                                        <div class="input-box">
+                                            <input type="text" name="firstname" value="" id="firstname" class="input-text required-entry" title="<?php echo __('First Name') ?>" placeholder="<?php echo __('First Name*') ?>"/>
+                                        </div>
+                                    </div>
+                                    <div class="lastname reginput even field">
+                                        <div class="input-box">
+                                            <input type="text" name="lastname" class="input-text required-entry mage-error" id="lastname" title="<?php echo __('Last Name') ?>" placeholder="<?php echo __('Last Name*') ?>"/>
+                                        </div>
+                                    </div>
+                                    <div class="email reginput odd field reg-email">
+                                        <div class="input-box">
+                                            <input type="text" name="email" value="" id="mobile-reg-email" class="input-text required-entry" data-validate="{required:true, 'validate-email':true}" title="<?php echo __('Email Address') ?>" placeholder="<?php echo __('Email Address*') ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="password reginput odd field">
+                                        <div class="input-box">
+                                            <input type="password" name="password" value="" id="mobile-reg-password" class="input-text required-entry valid" data-password-min-length="8" data-password-min-character-sets="3" data-validate="{required:true, 'validate-customer-password':true}" title="<?php echo __('Password') ?>" placeholder="<?php echo __('Password*') ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="confirmpassword reginput even fields">
+                                        <div class="input-box">
+                                            <input type="password" name="password_confirmation" value="" id="confirmpassword" class="input-text required-entry mage-error"  data-validate="{required:true, equalTo:'#mobile-reg-password'}" autocomplete="off" aria-required="true" aria-invalid="true" aria-describedby="password-confirmation-error" title="<?php echo __('Password') ?>" placeholder="<?php echo __('Confirm Password*') ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="mobilenumber reginput field reg-mobile">
+                                        <input type="text" value="" id="mobileget" class="mobnumber input-text required-entry" placeholder="Mobile Number*" maxlength="12"/>
+                                        <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/sentotpbyreg"); ?>" class="setdotpurl" />
+                                    </div>
+                                    <div class="notice">Mobile No. With Country Code i.e 919898989898</div>
+                                        <div class="submitbtnajax send-otp-button">
+                                            <input type="button" class="sendotp mobbtn" value="<?php echo __('Send Otp') ?>" />
+                                        </div>
+                                    <div class="progress-indicator" style="float: right">
+                                        <span class="please-wait reg-please-wait" id="reg-sms-please-wait" style="display:none;">
+                                            <img src="<?php echo $block->getViewFileUrl('Magecomp_Mobilelogin::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                                        </span>
+                                    </div>
+                                    <div class="otp-content reginput field" id="regi_otp_cont" style="display: none">
+                                        <div class="input-box">
+                                            <input type="password" value="" id="otp" class="input-text required-entry mage-error" maxlength="<?php echo $helper->getOtpStringlenght() ?>" placeholder="OTP*" />
+                                        </div>
+                                        <input type="hidden" value="<?php echo $block->getUrl("mobilelogin/index/ajaxcheckregotp"); ?>" class="checkotpurl" />
+                                    </div>
+                                    <div class="register ">
+                                        Do you have an Account? <a class="createlinking" id="createlinking" href="#"><?php echo __("Login");?></a>
+                                    </div>
+                                </div>
+                                <div class="model-bottom">
+
+                                    <div class="reg-submit submitbtnajax">
+                                        <input type="button" class="verifyotp mobbtn" value="<?php echo __("Verify & Register");?>" disabled />
+                                    </div>
+                                    <div class="progress-indicator">
+                             <span class="please-wait" id="reg-submit-please-wait" style="display:none;">
+                               <img src="<?php echo
+                               $block->getViewFileUrl('Magecomp_Mobilelogin::images/ajax-loader.gif');?>" class="v-middle" alt=""/>
+                            </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+

@@ -12,16 +12,29 @@ use Magento\Framework\App\Helper\AbstractHelper;
  */
 class Data extends AbstractHelper
 {
-    const XML_PATH_CAN_ADD_NEW_PRODUCT = 'catalog/can_add_product';
-    const XML_PATH_PRODUCT_LIMITATION = 'catalog/product_limit';
-    const XML_PATH_SALES_CAN_CANCEL = 'sales/can_cancel';
-    const XML_PATH_SALES_CAN_CREATE_INVOICE = 'sales/can_create_invoice';
-    const XML_PATH_SALES_CAN_CREATE_SHIPMENT = 'sales/can_create_shipment';
-    const XML_PATH_SALES_CAN_CREATE_CREDITMEMO = 'sales/can_create_creditmemo';
-    const XML_PATH_SALES_CAN_SUBMIT_ORDER_COMMENTS = 'sales/can_submit_order_comments';
-    const XML_PATH_SALES_HIDE_CUSTOMER_EMAIL = 'sales/hide_customer_email';
-    const XML_PATH_SALES_HIDE_PAYMENT_INFO = 'sales/hide_payment_info';
-    
+    const XML_PATH_CAN_ADD_NEW_PRODUCT              = 'catalog/can_add_product';
+    const XML_PATH_PRODUCT_LIMITATION               = 'catalog/product_limit';
+    const XML_PATH_SALES_CAN_CANCEL                 = 'sales/can_cancel';
+    const XML_PATH_SALES_CAN_CREATE_INVOICE         = 'sales/can_create_invoice';
+    const XML_PATH_SALES_CAN_CREATE_SHIPMENT        = 'sales/can_create_shipment';
+    const XML_PATH_SALES_CAN_CREATE_CREDITMEMO      = 'sales/can_create_creditmemo';
+    const XML_PATH_SALES_CAN_SUBMIT_ORDER_COMMENTS  = 'sales/can_submit_order_comments';
+    const XML_PATH_SALES_HIDE_CUSTOMER_EMAIL        = 'sales/hide_customer_email';
+    const XML_PATH_SALES_HIDE_PAYMENT_INFO          = 'sales/hide_payment_info';
+    const XML_PATH_DOMAIN_CAN_USE_SUBDOMAIN         = 'domain/can_use_subdomain';
+    const XML_PATH_DOMAIN_CAN_EDIT_SUBDOMAIN        = 'domain/can_edit_subdomain';
+    const XML_PATH_DOMAIN_CAN_USE_DOMAIN            = 'domain/can_use_domain';
+    const XML_PATH_MESSAGE_CAN_USE_MESSAGE          = 'message/can_use_message';
+    const XML_PATH_CMS_CAN_USE_CMS                  = 'vendorscms/can_use_cms';
+    const XML_PATH_REPORT_CAN_USE_REPORT            = 'vendors_report/can_use_report';
+    const XML_PATH_IMPORT_EXPORT_CAN_USE_IMPORT_EXPORT                = 'product_import_export/can_use_import_export';
+    const XML_PATH_STORE_LOCATOR_CAN_USE_STORE_LOCATOR                = 'store_locator/can_use_store_locator';
+    const XML_PATH_VENDOR_SMS_CAN_USE_VENDOR_SMS                      = 'vendors_sms/can_use_sms';
+    const XML_PATH_VENDOR_CATEGORY_CAN_USE_VENDOR_CATEGORY            = 'vendors_category/can_use_category';
+    const XML_PATH_SELECT_AND_SELL_CAN_USE_SELECT_AND_SELL            = 'select_and_sell/can_use_select_and_sell';
+    const XML_PATH_VENDOR_VACATION_CAN_USE_VENDOR_VACATION            = 'vendors_vacation/can_use_vacation';
+    const XML_PATH_VENDOR_SHIPPING_METHOD_CAN_USE_VENDOR_SHIPPING_METHOD            = 'vendors_shipping_method/can_use_shipping_method';
+
     /**
      * @var \Vnecoms\VendorsGroup\Model\Config\Reader
      */
@@ -39,7 +52,7 @@ class Data extends AbstractHelper
     
     /**
      * Constructor
-     * 
+     *
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Vnecoms\VendorsGroup\Model\Config\Reader $configReader
      * @param \Vnecoms\VendorsGroup\Model\ResourceModel\ConfigFactory $configResourceFactory
@@ -56,48 +69,162 @@ class Data extends AbstractHelper
     
     /**
      * Get Group Config
-     * 
+     *
      * @return multitype:
      */
-    public function getGroupConfig(){
+    public function getGroupConfig()
+    {
         $config = $this->_configReader->read();
         return $config;
     }
     
     /**
      * Get config by resource id and group ID
-     * 
+     *
      * @param string $resourceId
      * @param string $groupId
      */
-    public function getConfig($resourceId, $groupId){
-        if(!$this->_configResource){
+    public function getConfig($resourceId, $groupId)
+    {
+        if (!$this->_configResource) {
             $this->_configResource = $this->_configResourceFactory->create();
         }
         $result = $this->_configResource->getConfig($resourceId, $groupId);
-        if($result === false){
+        if ($result === false) {
             $result = $this->scopeConfig->getValue('vendor_advanced_group/'.$resourceId);
         }
         return $result;
     }
     
     /**
-     * Can add new product
-     * 
+     *
+     *
      * @param int $groupId
      * @return boolean
      */
-    public function canAddNewProduct($groupId){
+    public function canAddNewProduct($groupId)
+    {
         return $this->getConfig(self::XML_PATH_CAN_ADD_NEW_PRODUCT, $groupId);
     }
-    
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseVendorSMS($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_VENDOR_SMS_CAN_USE_VENDOR_SMS, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseCategory($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_VENDOR_CATEGORY_CAN_USE_VENDOR_CATEGORY, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseShippingMethod($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_VENDOR_SHIPPING_METHOD_CAN_USE_VENDOR_SHIPPING_METHOD, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseVacation($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_VENDOR_VACATION_CAN_USE_VENDOR_VACATION, $groupId);
+    }
+
+    /**
+     * Can add new product
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseStoreLocator($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_STORE_LOCATOR_CAN_USE_STORE_LOCATOR, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseProductImportExport($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_IMPORT_EXPORT_CAN_USE_IMPORT_EXPORT, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseReport($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_REPORT_CAN_USE_REPORT, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseCMS($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_CMS_CAN_USE_CMS, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseMessage($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_MESSAGE_CAN_USE_MESSAGE, $groupId);
+    }
+
+    /**
+     *
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseSelectAndSell($groupId)
+    {
+        return $this->getConfig(self::XML_PATH_SELECT_AND_SELL_CAN_USE_SELECT_AND_SELL, $groupId);
+    }
+
     /**
      * Get product limit
      *
      * @param int $groupId
      * @return boolean
      */
-    public function getProductLimit($groupId){
+    public function getProductLimit($groupId)
+    {
         return $this->getConfig(self::XML_PATH_PRODUCT_LIMITATION, $groupId);
     }
     
@@ -108,7 +235,8 @@ class Data extends AbstractHelper
      * @param int $groupId
      * @return boolean
      */
-    public function canCancelOrder($groupId){
+    public function canCancelOrder($groupId)
+    {
         return $this->getConfig(self::XML_PATH_SALES_CAN_CANCEL, $groupId);
     }
     
@@ -118,7 +246,8 @@ class Data extends AbstractHelper
      * @param int $groupId
      * @return boolean
      */
-    public function canCreateInvoice($groupId){
+    public function canCreateInvoice($groupId)
+    {
         return $this->getConfig(self::XML_PATH_SALES_CAN_CREATE_INVOICE, $groupId);
     }
     
@@ -128,7 +257,8 @@ class Data extends AbstractHelper
      * @param int $groupId
      * @return boolean
      */
-    public function canCreateShipment($groupId){
+    public function canCreateShipment($groupId)
+    {
         return $this->getConfig(self::XML_PATH_SALES_CAN_CREATE_SHIPMENT, $groupId);
     }
     
@@ -138,7 +268,8 @@ class Data extends AbstractHelper
      * @param int $groupId
      * @return boolean
      */
-    public function canCreateCreditMemo($groupId){
+    public function canCreateCreditMemo($groupId)
+    {
         return $this->getConfig(self::XML_PATH_SALES_CAN_CREATE_CREDITMEMO, $groupId);
     }
     
@@ -148,7 +279,8 @@ class Data extends AbstractHelper
      * @param int $groupId
      * @return boolean
      */
-    public function canSubmitOrderComment($groupId){
+    public function canSubmitOrderComment($groupId)
+    {
         return $this->getConfig(self::XML_PATH_SALES_CAN_SUBMIT_ORDER_COMMENTS, $groupId);
     }
     
@@ -158,7 +290,8 @@ class Data extends AbstractHelper
      * @param int $groupId
      * @return boolean
      */
-    public function hideCustomerEmail($groupId){
+    public function hideCustomerEmail($groupId)
+    {
         return $this->getConfig(self::XML_PATH_SALES_HIDE_CUSTOMER_EMAIL, $groupId);
     }
     
@@ -168,7 +301,38 @@ class Data extends AbstractHelper
      * @param int $groupId
      * @return boolean
      */
-    public function hidePaymentInfo($groupId){
+    public function hidePaymentInfo($groupId)
+    {
         return $this->getConfig(self::XML_PATH_SALES_HIDE_PAYMENT_INFO, $groupId);
+    }
+    
+    /**
+     * Can Use subdomain
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseSubdomain($groupId){
+        return (bool)$this->getConfig(self::XML_PATH_DOMAIN_CAN_USE_SUBDOMAIN, $groupId);
+    }
+    
+    /**
+     * Can edit subdomain
+     * 
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canEditSubdomain($groupId){
+        return (bool)$this->getConfig(self::XML_PATH_DOMAIN_CAN_EDIT_SUBDOMAIN, $groupId);
+    }
+    
+    /**
+     * Can use domain
+     *
+     * @param int $groupId
+     * @return boolean
+     */
+    public function canUseDomain($groupId){
+        return (bool)$this->getConfig(self::XML_PATH_DOMAIN_CAN_USE_DOMAIN, $groupId);
     }
 }

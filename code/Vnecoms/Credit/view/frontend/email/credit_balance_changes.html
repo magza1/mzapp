@@ -17,7 +17,7 @@
 	<strong>Time</strong>: {{var transaction.created_at_formated}}<br />
     <strong>Amount</strong>: {{var transaction.amount_formated}}<br/>
     <strong>Balance</strong>: {{var transaction.balance_formated}}<br/>
-    <strong>Detail</strong>: {{var transaction.description}}<br/>
+    <strong>Detail</strong>: {{var transaction.description|raw}}<br/>
 </p>
 
 {{template config_path="design/email/footer_template"}}

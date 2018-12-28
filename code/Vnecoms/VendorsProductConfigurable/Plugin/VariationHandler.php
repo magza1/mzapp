@@ -6,7 +6,7 @@
 namespace Vnecoms\VendorsProductConfigurable\Plugin;
 
 use Magento\Framework\Exception\LocalizedException;
-
+use Vnecoms\VendorsProduct\Model\Source\Approval;
 /**
  * Class PriceBackend
  *
@@ -31,6 +31,7 @@ class VariationHandler extends \Magento\ConfigurableProduct\Model\Product\Variat
     ) {
         $object_manager = \Magento\Framework\App\ObjectManager::getInstance();
         $store = $object_manager->get('\Magento\Store\Model\StoreManagerInterface');
+        $helper = $object_manager->create('\Vnecoms\VendorsProduct\Helper\Data');
 
         $generatedProductIds = [];
         $productsData = $this->duplicateImagesForVariations($productsData);
@@ -48,8 +49,25 @@ class VariationHandler extends \Magento\ConfigurableProduct\Model\Product\Variat
                 $parentProduct,
                 array_merge($simpleProductData, $configurableAttribute)
             );
+
+            $request = $object_manager->create('\Magento\Framework\App\Request\Http');
+
+            $savedraft = $request->getParam('savedraft', false);
+
+            if(!$helper->isNewProductsApproval()){
+                $approval = Approval::STATUS_APPROVED;
+            }else{
+                if($savedraft){
+                    $approvalParent = Approval::STATUS_NOT_SUBMITED;
+                }else{
+                    $approvalParent = Approval::STATUS_PENDING;
+                }
+
+                $approval = $parentProduct->getApproval() ? $parentProduct->getApproval() : $approvalParent;
+            }
+
             $newSimpleProduct->setVendorId($parentProduct->getVendorId());
-            $newSimpleProduct->setApproval($parentProduct->getApproval());
+            $newSimpleProduct->setApproval($approval);
             $newSimpleProduct->setWebsiteIds([$store->getWebsite()->getId() => $store->getWebsite()->getId()]);
             $newSimpleProduct->save();
         
@@ -58,3 +76,5 @@ class VariationHandler extends \Magento\ConfigurableProduct\Model\Product\Variat
         return $generatedProductIds;
     }
 }
+
+

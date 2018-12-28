@@ -22,8 +22,8 @@ class Index extends \Magento\Framework\App\Action\Action
     protected $_vendorHelper;
     
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param \Magento\Framework\App\Action\Context $context
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Index extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        if(!$this->_coreRegistry->registry('vendor')){
+        if (!$this->_coreRegistry->registry('vendor')) {
             return $this->_forward('no-route');
         }
         
@@ -55,7 +55,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $storeName = $this->_vendorHelper->getVendorStoreName($vendor->getId());
         $description = $this->_vendorHelper->getVendorStoreShortDescription($vendor->getId());
         $pageConfig->getTitle()
-            ->set(__("%1's items",$storeName));
+            ->set(__("%1's items", $storeName));
         $pageConfig->setDescription($description);
         
         $this->_view->renderLayout();

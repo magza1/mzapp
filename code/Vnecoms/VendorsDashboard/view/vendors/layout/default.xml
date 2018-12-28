@@ -6,7 +6,8 @@
  */
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="vendor-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
-    <body>
-    	
-    </body>
+    <head>
+        <css src="Vnecoms_VendorsDashboard::css/wysiwyg-responsive.css" />
+    </head>
+    <body />
 </page>

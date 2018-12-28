@@ -6,63 +6,9 @@
 
 namespace Vnecoms\VendorsLayerNavigation\Model\Layer;
 
-use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Catalog\Model\Layer\ContextInterface;
-use Magento\Catalog\Model\Layer\StateFactory;
-//use Vnecoms\VendorsCategory\Api\CategoryRepositoryInterface as VendorCategoryRepositoryInterface;
-
 class VendorHomePage extends \Magento\Catalog\Model\Layer
 {
     protected $vendorCategoryRepository;
-
-    /**
-     * VendorHomePage constructor.
-     * @param ContextInterface $context
-     * @param StateFactory $layerStateFactory
-     * @param \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory $attributeCollectionFactory
-     * @param \Magento\Catalog\Model\ResourceModel\Product $catalogProduct
-     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Framework\Registry $registry
-     * @param CategoryRepositoryInterface $categoryRepository
-//     * @param VendorCategoryRepositoryInterface $vendorCategoryRepository
-     * @param array $data
-     */
-    public function __construct(
-        ContextInterface $context,
-        StateFactory $layerStateFactory,
-        \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Catalog\Model\ResourceModel\Product $catalogProduct,
-        \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Registry $registry,
-        CategoryRepositoryInterface $categoryRepository,
-//        VendorCategoryRepositoryInterface $vendorCategoryRepository,
-        array $data = []
-    ) {
-        parent::__construct(
-            $context,
-            $layerStateFactory,
-            $attributeCollectionFactory,
-            $catalogProduct,
-            $storeManager,
-            $registry,
-            $categoryRepository,
-            $data
-        );
-//        $this->vendorCategoryRepository = $vendorCategoryRepository;
-    }
-
-    /**
-     * Retrieve current layer product collection.
-     *
-     * @return \Magento\Catalog\Model\ResourceModel\Product\Collection
-     */
-//    public function getProductCollection()
-//    {
-//        $collection = $this->collectionProvider->getCollection($this->getCurrentCategory());
-//        $this->prepareProductCollection($collection);
-//
-//        return $collection;
-//    }
 
     /**
      * Get layer state key.
@@ -114,7 +60,7 @@ class VendorHomePage extends \Magento\Catalog\Model\Layer
         if (is_numeric($category)) {
             try {
                 $category = $this->getVendorCategoryRepository()->get($category);
-            } catch (NoSuchEntityException $e) {
+            } catch (\Exception $e) {
                 throw new \Magento\Framework\Exception\LocalizedException(__('Please correct the category.'), $e);
             }
         } elseif ($category instanceof \Magento\Catalog\Model\Category) {

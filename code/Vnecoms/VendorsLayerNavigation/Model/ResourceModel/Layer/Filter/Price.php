@@ -36,26 +36,27 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             ->get('Magento\Framework\App\Config\ScopeConfigInterface')
             ->getValue('catalog/frontend/flat_catalog_product');
 
-      //  var_dump($wherePart);
+        //  var_dump($wherePart);
         //remove vendor part of where part
         foreach($wherePart as $id => $where) {
-            if ($where == "AND (e.vendor_id = '".$vendorId."')") {
+
+            if(preg_match("/\`vendor_id\`/is",$where)){
                 unset($wherePart[$id]);
             }
 
-            if ($where == "(e.vendor_id = '".$vendorId."')")
-                unset($wherePart[$id]);
-
-            if ($where == "AND (`e`.`vendor_id` = '".$vendorId."')") {
+            if(preg_match("/vendor_id/is",$where)){
                 unset($wherePart[$id]);
             }
+            if ($flatMode) {
+                if(preg_match("/approval/is",$where)){
+                    unset($wherePart[$id]);
+                }
 
-            if($flatMode) {
-               // var_dump('(approval IN ('.$this->getAllowState(true).'))');
-                if($where == '(approval IN ('.$this->getAllowState(true).'))') unset($wherePart[$id]);
-                if($where == '(e.approval IN('.$this->getAllowState(true).')') unset($wherePart[$id]);
-                if($where == "AND (e.approval IN(".$this->getAllowState(true)."))") unset($wherePart[$id]);
+                if(preg_match("/\`approval\`/is",$where)){
+                    unset($wherePart[$id]);
+                }
             }
+
         }
 
         if($flatMode)
@@ -64,27 +65,12 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             $wherePart[key($wherePart)] = trim($firstWhere, 'AND ');
         }
 
-       // var_dump($wherePart);die();
+
         $select->reset(\Magento\Framework\DB\Select::WHERE);
         $fromPart = $select->getPart(\Magento\Framework\DB\Select::FROM);
 
-        //add new vendor conditition to new from part
-//        $fromPart['vendor_id_idx'] = [
-//            'joinType' => 'inner join',
-//            'schema' => 'inner join',
-//            'tableName' => 'catalog_product_index_eav',
-//            'joinCondition' => "vendor_id_idx.entity_id = e.entity_id AND vendor_id_idx.attribute_id = '139' AND vendor_id_idx.store_id = 1 AND vendor_id_idx.value = '81'",
-//        ];
-
         $select->setPart(\Magento\Framework\DB\Select::WHERE, $wherePart);
-        if(!isset($fromPart['product_entity'])) {
-            /*$select->join(
-                ['vendor_id_idx'=>$this->getTable('catalog_product_index_eav')],
-                "vendor_id_idx.entity_id = e.entity_id AND vendor_id_idx.attribute_id = '".$this->getIdOfAttributeCode('vendor_id')."'"
-                ." AND vendor_id_idx.value = '".$vendorId."' AND vendor_id_idx.store_id = '".$storeId."'",
-                []
-            );*/
-
+        if(!isset($fromPart['product_entity']) && $vendorId) {
             $select->join(
                 ['product_entity'=>$this->getTable('catalog_product_entity')],
                 "product_entity.entity_id = e.entity_id AND product_entity.vendor_id = '".$vendorId."'",
@@ -104,8 +90,6 @@ class Price extends \Magento\Catalog\Model\ResourceModel\Layer\Filter\Price
             }
         }
 
-       // echo "<pre>";var_dump($select->getPart(\Magento\Framework\DB\Select::FROM));die();
-       // echo $select;die();
         return $select;
     }
 

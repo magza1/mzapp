@@ -4,6 +4,7 @@ namespace Vnecoms\VendorsGroup\Block\Adminhtml\Group\Edit\Tab;
 use Magento\Backend\Block\Widget\Form;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
+
 class Option extends Generic implements TabInterface
 {
     
@@ -24,7 +25,7 @@ class Option extends Generic implements TabInterface
     
    /**
     * Constructor
-    * 
+    *
     * @param \Magento\Backend\Block\Template\Context $context
     * @param \Magento\Framework\Registry $registry
     * @param \Magento\Framework\Data\FormFactory $formFactory
@@ -92,12 +93,13 @@ class Option extends Generic implements TabInterface
     
     /**
      * Sort array by sort order
-     * 
+     *
      * @param unknown $a
      * @param unknown $b
      * @return number
      */
-    public function sortArray($a, $b) {
+    public function sortArray($a, $b)
+    {
         $aOrder = isset($a['sortOrder'])?$a['sortOrder']:0;
         $bOrder = isset($b['sortOrder'])?$b['sortOrder']:0;
         return ($aOrder < $bOrder) ? -1 : 1;
@@ -114,16 +116,16 @@ class Option extends Generic implements TabInterface
         $om = \Magento\Framework\App\ObjectManager::getInstance();
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $form->setHtmlIdPrefix('advancedgroup_');     
+        $form->setHtmlIdPrefix('advancedgroup_');
         
         usort($groupConfig, [$this, 'sortArray']);
         
-        foreach($groupConfig as $group){
+        foreach ($groupConfig as $group) {
             $groupId = $group['id'];
             $fieldset = $form->addFieldset($groupId.'_fieldset', ['legend' => __($group['label'])]);
             $fields = $group['fields'];
             usort($fields, [$this, 'sortArray']);
-            foreach($fields as $field){
+            foreach ($fields as $field) {
                 $fieldId = $field['id'];
                 $field = $fieldset->addField(
                     'vendorsgroup_'.$groupId.'_'.$fieldId,
@@ -134,8 +136,8 @@ class Option extends Generic implements TabInterface
                         'title' => __($field['label']),
                         'required'  => isset($field['required']) && $field['required'],
                         'class' => isset($field['frontend_class']) && $field['frontend_class']?$field['frontend_class']:'',
-                        'values'	=> isset($field['source_model']) && $field['source_model']?$om->create($field['source_model'])->toOptionArray():null,
-                        'note'	  	=> isset($field['comment']) && $field['comment']?$field['comment']:'',
+                        'values'    => isset($field['source_model']) && $field['source_model']?$om->create($field['source_model'])->toOptionArray():null,
+                        'note'      => isset($field['comment']) && $field['comment']?$field['comment']:'',
                     ]
                 );
                 
@@ -147,7 +149,7 @@ class Option extends Generic implements TabInterface
         }
      
         
-		
+        
         $this->setForm($form);
 
         return parent::_prepareForm();

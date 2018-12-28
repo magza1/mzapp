@@ -5,8 +5,7 @@ namespace Vnecoms\VendorsPage\Block;
  * Class View
  * @package Magento\Catalog\Block\Category
  */
-class Product extends \Magento\Framework\View\Element\Template 
-    implements \Magento\Framework\DataObject\IdentityInterface
+class Product extends \Magento\Framework\View\Element\Template implements \Magento\Framework\DataObject\IdentityInterface
 {
     /**
      * Core registry
@@ -47,9 +46,9 @@ class Product extends \Magento\Framework\View\Element\Template
         parent::_prepareLayout();
         $vendor = $this->_coreRegistry->registry('vendor');
         
-        if($this->_coreRegistry->registry('is_home_page')){
+        if ($this->_coreRegistry->registry('is_home_page')) {
             $title = $this->_pageHelper->getMetaTitle($vendor->getId());
-            $title = $title?$title:__("%1's home page",ucfirst($vendor->getVendorId()));
+            $title = $title?$title:__("%1's home page", ucfirst($vendor->getVendorId()));
             $this->pageConfig->getTitle()->set($title);
             
             $description = $this->_pageHelper->getMetaDescription($vendor->getId());
@@ -105,7 +104,8 @@ class Product extends \Magento\Framework\View\Element\Template
         return false;
     }
     
-    public function getIdentities(){
+    public function getIdentities()
+    {
         return ['vnecoms_credit_product_list'];
     }
 }

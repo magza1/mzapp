@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Invoice;
 
 use Vnecoms\Vendors\App\AbstractAction;
@@ -13,6 +9,13 @@ use Vnecoms\VendorsSales\Model\Service\InvoiceService;
 
 class NewAction extends AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_invoice';
+    
     /**
      * @var Registry
      */
@@ -44,15 +47,7 @@ class NewAction extends AbstractAction
         parent::__construct($context);
         $this->invoiceService = $invoiceService;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
-    {
-        return true;
-    }
-
+	
     /**
      * Redirect to order view page
      *
@@ -114,6 +109,7 @@ class NewAction extends AbstractAction
 
             /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
             $resultPage = $this->resultPageFactory->create();
+            $this->setActiveMenu('Vnecoms_VendorsSales::sales_invoices');
             $resultPage->getConfig()->getTitle()->prepend(__('Invoices'));
             $resultPage->getConfig()->getTitle()->prepend(__('New Invoice'));
             return $resultPage;

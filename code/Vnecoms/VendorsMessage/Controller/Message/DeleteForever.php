@@ -38,15 +38,14 @@ class DeleteForever extends \Magento\Customer\Controller\AbstractAccount
         $ids = $this->getRequest()->getParam('selected');
         $message = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Message');
         $count = 0;
-        foreach($ids as $id){
+        foreach ($ids as $id) {
             $message->load($id);
-            if(!$message->getId() || $message->getOwnerId() != $this->_customerSession->getCustomerId()){
+            if (!$message->getId() || $message->getOwnerId() != $this->_customerSession->getCustomerId()) {
                 $this->messageManager->addError(__("The message #%1 is not available.", $id));
-            }else{
+            } else {
                 $message->delete();
                 $count ++;
             }
-            
         }
         
         $this->messageManager->addSuccess(__("%1 message(s) has been deleted.", $count));

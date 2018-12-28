@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller\Brand;
@@ -25,12 +25,13 @@ use Magento\Framework\View\Result\Page;
 use Magento\Store\Api\Data\WebsiteInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Brand\View
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ViewTest extends \PHPUnit_Framework_TestCase
+class ViewTest extends TestCase
 {
     /**
      * @var View
@@ -90,16 +91,26 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
-        $this->layerResolverMock = $this->getMock(LayerResolver::class, ['create'], [], '', false);
-        $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
-        $this->configMock = $this->getMock(Config::class, ['getBrandProductAttributeCode'], [], '', false);
-        $this->brandPageConfigMock = $this->getMock(PageConfig::class, ['apply'], [], '', false);
-        $this->requestMock = $this->getMockForAbstractClass(RequestInterface::class);
-        $this->resultFactoryMock = $this->getMock(ResultFactory::class, ['create'], [], '', false);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
-        $this->redirectMock = $this->getMockForAbstractClass(RedirectInterface::class);
-        $this->messageManagerMock = $this->getMockForAbstractClass(ManagerInterface::class);
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->layerResolverMock = $this->createPartialMock(LayerResolver::class, ['create']);
+        $this->storeManagerMock = $this->getMockBuilder(StoreManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->configMock = $this->createPartialMock(Config::class, ['getBrandProductAttributeCode']);
+        $this->brandPageConfigMock = $this->createPartialMock(PageConfig::class, ['apply']);
+        $this->requestMock = $this->getMockBuilder(RequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->resultFactoryMock = $this->createPartialMock(ResultFactory::class, ['create']);
+        $this->resultRedirectFactoryMock = $this->createPartialMock(RedirectFactory::class, ['create']);
+        $this->redirectMock = $this->getMockBuilder(RedirectInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->messageManagerMock = $this->getMockBuilder(ManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -129,9 +140,13 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $websiteId = 2;
         $attributeCode = 'manufacturer';
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $websiteMock = $this->getMockForAbstractClass(WebsiteInterface::class);
-        $resultPageMock = $this->getMock(Page::class, [], [], '', false);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $websiteMock = $this->getMockBuilder(WebsiteInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $resultPageMock = $this->createMock(Page::class);
 
         $this->requestMock->expects($this->once())
             ->method('getParam')
@@ -178,14 +193,15 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $brandAttributeCode = 'manufacturer';
         $configAttributeCode = 'brand';
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $websiteMock = $this->getMockForAbstractClass(WebsiteInterface::class);
-        $resultForwardMock = $this->getMock(
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $websiteMock = $this->getMockBuilder(WebsiteInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $resultForwardMock = $this->createPartialMock(
             Forward::class,
-            ['setModule', 'setController', 'forward'],
-            [],
-            '',
-            false
+            ['setModule', 'setController', 'forward']
         );
 
         $this->requestMock->expects($this->once())
@@ -235,14 +251,15 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $brandWebsiteId = 3;
         $attributeCode = 'manufacturer';
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $websiteMock = $this->getMockForAbstractClass(WebsiteInterface::class);
-        $resultForwardMock = $this->getMock(
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $websiteMock = $this->getMockBuilder(WebsiteInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $resultForwardMock = $this->createPartialMock(
             Forward::class,
-            ['setModule', 'setController', 'forward'],
-            [],
-            '',
-            false
+            ['setModule', 'setController', 'forward']
         );
 
         $this->requestMock->expects($this->once())
@@ -294,7 +311,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $exceptionMessage = 'Exception message';
         $refererUrl = 'http://localhost/';
 
-        $resultRedirectMock = $this->getMock(Redirect::class, ['setUrl'], [], '', false);
+        $resultRedirectMock = $this->createPartialMock(Redirect::class, ['setUrl']);
 
         $this->requestMock->expects($this->once())
             ->method('getParam')

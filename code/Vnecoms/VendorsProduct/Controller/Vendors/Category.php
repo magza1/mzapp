@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsProduct\Controller\Vendors;
 
 /**
@@ -10,6 +7,13 @@ namespace Vnecoms\VendorsProduct\Controller\Vendors;
  */
 abstract class Category extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::catalog';
+    
     /**
      * Initialize requested category and put it into registry.
      * Root category can be returned, if inappropriate store/category is specified
@@ -52,15 +56,5 @@ abstract class Category extends \Vnecoms\Vendors\Controller\Vendors\Action
         $this->_objectManager->get('Magento\Cms\Model\Wysiwyg\Config')
             ->setStoreId($this->getRequest()->getParam('store'));
         return $category;
-    }
-
-    /**
-     * Check if admin has permissions to visit related pages
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Magento_Catalog::categories');
     }
 }

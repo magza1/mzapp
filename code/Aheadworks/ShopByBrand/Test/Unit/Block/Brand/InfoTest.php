@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Block\Brand;
@@ -18,11 +18,12 @@ use Magento\Framework\View\Element\Template\Context;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Widget\Model\Template\Filter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Block\Brand\Info
  */
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends TestCase
 {
     /**
      * @var Info
@@ -57,11 +58,17 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
-        $this->urlMock = $this->getMock(Url::class, ['getBrandUrl', 'getLogoUrl'], [], '', false);
-        $this->filterProviderMock = $this->getMock(FilterProvider::class, ['getFilter'], [], '', false);
-        $this->requestMock = $this->getMock(RequestInterface::class);
-        $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->urlMock = $this->createPartialMock(Url::class, ['getBrandUrl', 'getLogoUrl']);
+        $this->filterProviderMock = $this->createPartialMock(FilterProvider::class, ['getFilter']);
+        $this->requestMock = $this->getMockBuilder(RequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->storeManagerMock = $this->getMockBuilder(StoreManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -84,7 +91,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $brandId = 1;
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->requestMock->expects($this->once())
             ->method('getParam')
@@ -104,7 +113,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
         $brandUrl = 'http://localhost/brand/some_brand.html';
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->requestMock->expects($this->once())
             ->method('getParam')
@@ -129,7 +140,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $imageType = 'small_image';
         $logoUrl = 'http://localhost/media/aw_sbb/small_image/logo.jpg';
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $class = new \ReflectionClass($this->block);
         $dataProperty = $class->getProperty('_data');
@@ -162,9 +175,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $brandDescription = '<p>Brand description {{widget type="WidgetClassName"}}</p>';
         $brandDescriptionHtml = '<p>Brand description widget html</p>';
 
-        $filterMock = $this->getMock(Filter::class, ['setStoreId', 'filter'], [], '', false);
-        $storeMock = $this->getMockForAbstractClass(StoreInterface::class);
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $filterMock = $this->createPartialMock(Filter::class, ['setStoreId', 'filter']);
+        $storeMock = $this->getMockBuilder(StoreInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->filterProviderMock->expects($this->once())
             ->method('getFilter')
@@ -208,7 +225,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $brandId = 1;
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $class = new \ReflectionClass($this->block);
         $dataProperty = $class->getProperty('_data');

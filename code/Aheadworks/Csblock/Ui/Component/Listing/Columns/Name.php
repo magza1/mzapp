@@ -15,8 +15,10 @@ class Name extends \Magento\Ui\Component\Listing\Columns\Column
 
     public function __construct(
         \Magento\Framework\Filter\FilterManager $filterManager,
-        ContextInterface $context, UiComponentFactory $uiComponentFactory,
-        array $components = [], array $data = []
+        ContextInterface $context,
+        UiComponentFactory $uiComponentFactory,
+        array $components = [],
+        array $data = []
     ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
         $this->_filterManager = $filterManager;

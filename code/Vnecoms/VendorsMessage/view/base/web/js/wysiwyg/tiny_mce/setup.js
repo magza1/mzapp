@@ -11,7 +11,7 @@ define([
     'prototype',
     'mage/adminhtml/events',
     'mage/adminhtml/browser'
-], function(jQuery, _, tinyMCE, html5Schema) {
+], function (jQuery, _, tinyMCE, html5Schema) {
 
     tinyMceWysiwygSetup = Class.create();
 
@@ -19,7 +19,7 @@ define([
         mediaBrowserOpener: null,
         mediaBrowserTargetElementId: null,
 
-        initialize: function(htmlId, config) {
+        initialize: function (htmlId, config) {
             if (config.baseStaticUrl && config.baseStaticDefaultUrl) {
                 tinyMCE.baseURL = tinyMCE.baseURL.replace(config.baseStaticUrl, config.baseStaticDefaultUrl);
             }
@@ -42,13 +42,13 @@ define([
             tinyMceEditors.set(this.id, this);
         },
 
-        setup: function(mode) {
+        setup: function (mode) {
             if (this.config.widget_plugin_src) {
                 tinyMCE.PluginManager.load('magentowidget', this.config.widget_plugin_src);
             }
 
             if (this.config.plugins) {
-                this.config.plugins.each(function(plugin) {
+                this.config.plugins.each(function (plugin) {
                     tinyMCE.PluginManager.load(plugin.name, plugin.src);
                 });
             }
@@ -56,7 +56,7 @@ define([
             tinyMCE.init(this.getSettings(mode));
         },
 
-        getSettings: function(mode) {
+        getSettings: function (mode) {
             var plugins = '';/*'inlinepopups,safari,pagebreak,style,layer,table,advhr,advimage,emotions,iespell,media,searchreplace,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras',*/
                 self = this;
 
@@ -68,7 +68,7 @@ define([
             var magentoPlugins = '';
 
             if (this.config.plugins) {
-                this.config.plugins.each(function(plugin) {
+                this.config.plugins.each(function (plugin) {
                     magentoPlugins = plugin.name + ',' + magentoPlugins;
                     magentoPluginsOptions.set(plugin.name, plugin.options);
                 });
@@ -100,37 +100,37 @@ define([
                 magentowidget_url: this.config.widget_window_url,
                 magentoPluginsOptions: magentoPluginsOptions,
                 doctype: '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
-                setup: function(ed){
+                setup: function (ed) {
                     ed.onInit.add(self.onEditorInit.bind(self));
 
-                    ed.onSubmit.add(function(ed, e) {
+                    ed.onSubmit.add(function (ed, e) {
                         varienGlobalEvents.fireEvent('tinymceSubmit', e);
                     });
 
-                    ed.onPaste.add(function(ed, e, o) {
+                    ed.onPaste.add(function (ed, e, o) {
                         varienGlobalEvents.fireEvent('tinymcePaste', o);
                     });
 
-                    ed.onBeforeSetContent.add(function(ed, o) {
+                    ed.onBeforeSetContent.add(function (ed, o) {
                         varienGlobalEvents.fireEvent('tinymceBeforeSetContent', o);
                     });
 
-                    ed.onSetContent.add(function(ed, o) {
+                    ed.onSetContent.add(function (ed, o) {
                         varienGlobalEvents.fireEvent('tinymceSetContent', o);
                     });
 
-                    ed.onSaveContent.add(function(ed, o) {
+                    ed.onSaveContent.add(function (ed, o) {
                         varienGlobalEvents.fireEvent('tinymceSaveContent', o);
                     });
 
-                    var onChange = function(ed, l) {
+                    var onChange = function (ed, l) {
                         varienGlobalEvents.fireEvent('tinymceChange', l);
                     };
 
                     ed.onChange.add(onChange);
                     ed.onKeyUp.add(onChange);
 
-                    ed.onExecCommand.add(function(ed, cmd, ui, val) {
+                    ed.onExecCommand.add(function (ed, cmd, ui, val) {
                         varienGlobalEvents.fireEvent('tinymceExecCommand', cmd);
                     });
                 }
@@ -142,7 +142,7 @@ define([
             }
 
             if (this.config.files_browser_window_url) {
-                settings.file_browser_callback = function(fieldName, url, objectType, w) {
+                settings.file_browser_callback = function (fieldName, url, objectType, w) {
                     varienGlobalEvents.fireEvent("open_browser_callback", {
                         win: w,
                         type: objectType,
@@ -190,7 +190,7 @@ define([
             });
         },
 
-        openFileBrowser: function(o) {
+        openFileBrowser: function (o) {
             var typeTitle,
                 storeId = this.config.store_id !== null ? this.config.store_id : 0,
                 frameDialog = jQuery(o.win.frameElement).parents('[role="dialog"]'),
@@ -212,60 +212,60 @@ define([
             jQuery('#mceModalBlocker').hide();
 
             MediabrowserUtility.openDialog(wUrl, false, false, typeTitle, {
-                closed: function() {
+                closed: function () {
                     frameDialog.show();
                     jQuery('#mceModalBlocker').show();
                 }
             });
         },
 
-        translate: function(string) {
+        translate: function (string) {
             return jQuery.mage.__ ? jQuery.mage.__(string) : string;
         },
 
-        getMediaBrowserOpener: function() {
+        getMediaBrowserOpener: function () {
             return this.mediaBrowserOpener;
         },
 
-        getMediaBrowserTargetElementId: function() {
+        getMediaBrowserTargetElementId: function () {
             return this.mediaBrowserTargetElementId;
         },
 
-        getToggleButton: function() {
+        getToggleButton: function () {
             return $('toggle' + this.id);
         },
 
-        getPluginButtons: function() {
+        getPluginButtons: function () {
             return $$('#buttons' + this.id + ' > button.plugin');
         },
 
-        turnOn: function(mode) {
+        turnOn: function (mode) {
             this.closePopups();
 
             this.setup(mode);
 
             tinyMCE.execCommand('mceAddControl', false, this.id);
 
-            this.getPluginButtons().each(function(e) {
+            this.getPluginButtons().each(function (e) {
                 e.hide();
             });
 
             return this;
         },
 
-        turnOff: function() {
+        turnOff: function () {
             this.closePopups();
 
             tinyMCE.execCommand('mceRemoveControl', false, this.id);
 
-            this.getPluginButtons().each(function(e) {
+            this.getPluginButtons().each(function (e) {
                 e.show();
             });
 
             return this;
         },
 
-        closePopups: function() {
+        closePopups: function () {
             if (typeof closeEditorPopup == 'function') {
                 // close all popups to avoid problems with updating parent content area
                 closeEditorPopup('widget_window' + this.id);
@@ -273,7 +273,7 @@ define([
             }
         },
 
-        toggle: function() {
+        toggle: function () {
             if (!tinyMCE.get(this.id)) {
                 this.turnOn();
                 return true;
@@ -287,13 +287,13 @@ define([
             this.applySchema(editor);
         },
 
-        onFormValidation: function() {
+        onFormValidation: function () {
             if (tinyMCE.get(this.id)) {
                 $(this.id).value = tinyMCE.get(this.id).getContent();
             }
         },
 
-        onChangeContent: function() {
+        onChangeContent: function () {
             // Add "changed" to tab class if it exists
             this.updateTextArea();
 
@@ -306,16 +306,16 @@ define([
         },
 
         // retrieve directives URL with substituted directive value
-        makeDirectiveUrl: function(directive) {
+        makeDirectiveUrl: function (directive) {
             return this.config.directives_url.replace('directive', 'directive/___directive/' + directive);
         },
 
-        encodeDirectives: function(content) {
+        encodeDirectives: function (content) {
             // collect all HTML tags with attributes that contain directives
-            return content.gsub(/<([a-z0-9\-\_]+.+?)([a-z0-9\-\_]+=".*?\{\{.+?\}\}.*?".+?)>/i, function(match) {
+            return content.gsub(/<([a-z0-9\-\_]+.+?)([a-z0-9\-\_]+=".*?\{\{.+?\}\}.*?".+?)>/i, function (match) {
                 var attributesString = match[2];
                 // process tag attributes string
-                attributesString = attributesString.gsub(/([a-z0-9\-\_]+)="(.*?)(\{\{.+?\}\})(.*?)"/i, function(m) {
+                attributesString = attributesString.gsub(/([a-z0-9\-\_]+)="(.*?)(\{\{.+?\}\})(.*?)"/i, function (m) {
                     return m[1] + '="' + m[2] + this.makeDirectiveUrl(Base64.mageEncode(m[3])) + m[4] + '"';
                 }.bind(this));
 
@@ -324,8 +324,8 @@ define([
             }.bind(this));
         },
 
-        encodeWidgets: function(content) {
-            return content.gsub(/\{\{widget(.*?)\}\}/i, function(match) {
+        encodeWidgets: function (content) {
+            return content.gsub(/\{\{widget(.*?)\}\}/i, function (match) {
                 var attributes = this.parseAttributesString(match[1]);
                 if (attributes.type) {
                     attributes.type = attributes.type.replace(/\\\\/g, "\\");
@@ -341,17 +341,17 @@ define([
             }.bind(this));
         },
 
-        decodeDirectives: function(content) {
+        decodeDirectives: function (content) {
             // escape special chars in directives url to use it in regular expression
             var url = this.makeDirectiveUrl('%directive%').replace(/([$^.?*!+:=()\[\]{}|\\])/g, '\\$1');
             var reg = new RegExp(url.replace('%directive%', '([a-zA-Z0-9,_-]+)'));
-            return content.gsub(reg, function(match) {
+            return content.gsub(reg, function (match) {
                 return Base64.mageDecode(match[1]);
             }.bind(this));
         },
 
-        decodeWidgets: function(content) {
-            return content.gsub(/<img([^>]+id=\"[^>]+)>/i, function(match) {
+        decodeWidgets: function (content) {
+            return content.gsub(/<img([^>]+id=\"[^>]+)>/i, function (match) {
                 var attributes = this.parseAttributesString(match[1]);
                 if (attributes.id) {
                     var widgetCode = Base64.idDecode(attributes.id);
@@ -364,9 +364,9 @@ define([
             }.bind(this));
         },
 
-        parseAttributesString: function(attributes) {
+        parseAttributesString: function (attributes) {
             var result = {};
-            attributes.gsub(/(\w+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/, function(match) {
+            attributes.gsub(/(\w+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/, function (match) {
                 result[match[1]] = match[2];
             });
             return result;
@@ -412,11 +412,11 @@ define([
             return result;
         },
 
-        beforeSetContent: function(o){
+        beforeSetContent: function (o) {
             o.content = this.encodeContent(o.content);
         },
 
-        saveContent: function(o) {
+        saveContent: function (o) {
             o.content = this.decodeContent(o.content);
         }
     };

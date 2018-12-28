@@ -7,7 +7,7 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
 	<preference for="Vnecoms\Vendors\Model\UrlInterface" type="Vnecoms\Vendors\Model\Url" />
-    <preference for="Magento\Backend\App\Request\PathInfoProcessor" type="Vnecoms\Vendors\App\Request\PathInfoProcessor" />
+    <preference for="Magento\Framework\App\Request\PathInfoProcessorInterface" type="Vnecoms\Vendors\App\Request\PathInfoProcessor" />
 	<preference for="Vnecoms\Vendors\App\ConfigInterface" type="Vnecoms\Vendors\App\Config" />
     <preference for="Magento\Framework\Module\ModuleListInterface" type="Magento\Framework\Module\ModuleList" />
     
@@ -89,4 +89,6 @@
             </argument>
         </arguments>
     </type>
+
+     <preference for="Magento\Framework\Stdlib\DateTime\Filter\DateTime" type="Vnecoms\Vendors\Plugin\DateTime\Filter\DateTime" />
 </config>

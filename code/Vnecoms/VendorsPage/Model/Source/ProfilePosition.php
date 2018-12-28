@@ -5,7 +5,6 @@
  */
 namespace Vnecoms\VendorsPage\Model\Source;
 
-
 class ProfilePosition extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
 {
     const POSITION_TOP = 'top';
@@ -32,7 +31,6 @@ class ProfilePosition extends \Magento\Eav\Model\Entity\Attribute\Source\Abstrac
                 ['label' => __("Left"), 'value' => self::POSITION_LEFT],
                 /* ['label' => __("Left"), 'value' => self::POSITION_RIGHT] */
             ];
-           
         }
         return $this->_options;
     }

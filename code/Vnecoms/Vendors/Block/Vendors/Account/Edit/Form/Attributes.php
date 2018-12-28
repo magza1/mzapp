@@ -65,7 +65,7 @@ class Attributes extends Generic
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix('vendor_');
         
-        $fieldset = $form->addFieldset('fieldset_'+$fset->getId(), []);
+        $fieldset = $form->addFieldset('fieldset_'.$fset->getId(), []);
         $fieldset->addType('file', 'Vnecoms\Vendors\Block\Vendors\Widget\Form\Element\File');
         $fieldset->addType('image', 'Vnecoms\Vendors\Block\Vendors\Widget\Form\Element\Image');
         $fieldset->addType('boolean', 'Vnecoms\Vendors\Block\Vendors\Widget\Form\Element\Boolean');
@@ -79,6 +79,7 @@ class Attributes extends Generic
                 $attribute->getAttributeCode(),
                 $this->_excludeAttributes
             ) && ('media_image' != $inputType || $attribute->getAttributeCode() == 'image')
+                && ! $attribute->getHideFromVendorPanel()
                 && $attribute->getIsUsedInProfileForm()
             ) {
                 $fieldType = $inputType;

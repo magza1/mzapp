@@ -24,6 +24,4 @@ class Multiselect extends \Magento\Ui\Component\Filters\Type\Select
             }
         }
     }
-
-
 }

@@ -57,7 +57,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
             [
                 'label' => __('General'),
                 'content' => $this->getLayout()
-                        ->createBlock('Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab\General')
+                        ->createBlock(\Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab\General::class)
                         ->initForm()
                         ->toHtml(),
                 'active'  => true
@@ -70,7 +70,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 'label' => __('Content'),
                 'content' =>
                     $this->getLayout()
-                        ->createBlock('Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab\Content')
+                        ->createBlock(\Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab\Content::class)
                         ->initForm()
                         ->toHtml(),
             ]
@@ -82,7 +82,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 'label' => __('Schedule'),
                 'content' =>
                     $this->getLayout()
-                        ->createBlock('Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab\Schedule')
+                        ->createBlock(\Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab\Schedule::class)
                         ->initForm()
                         ->toHtml(),
             ]

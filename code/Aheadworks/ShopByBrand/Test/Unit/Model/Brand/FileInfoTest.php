@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand;
@@ -13,11 +13,12 @@ use Magento\Framework\File\Mime;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\WriteInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\FileInfo
  */
-class FileInfoTest extends \PHPUnit_Framework_TestCase
+class FileInfoTest extends TestCase
 {
     /**
      * Constants used in the unit tests
@@ -49,16 +50,15 @@ class FileInfoTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $filesystemMock = $this->getMock(Filesystem::class, ['getDirectoryWrite'], [], '', false);
-        $this->imageUploaderMock = $this->getMock(
+        $filesystemMock = $this->createPartialMock(Filesystem::class, ['getDirectoryWrite']);
+        $this->imageUploaderMock = $this->createPartialMock(
             ImageUploader::class,
-            ['getFilePath', 'getBasePath'],
-            [],
-            '',
-            false
+            ['getFilePath', 'getBasePath']
         );
-        $this->mediaDirectoryMock = $this->getMockForAbstractClass(WriteInterface::class);
-        $this->mimeMock = $this->getMock(Mime::class, ['getMimeType'], [], '', false);
+        $this->mediaDirectoryMock = $this->getMockBuilder(WriteInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->mimeMock = $this->createPartialMock(Mime::class, ['getMimeType']);
 
         $filesystemMock->expects($this->once())
             ->method('getDirectoryWrite')

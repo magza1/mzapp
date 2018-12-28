@@ -98,7 +98,7 @@ class Conditions extends Generic implements TabInterface
      */
     protected function _prepareForm()
     {
-        $rule = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
+        $rule = $this->_objectManager->create('Vnecoms\VendorsCommission\Model\TmpRule');
         $commissionRule = $this->_coreRegistry->registry('commission_rule');
         $rule->setConditionsSerialized($commissionRule->getData('condition_serialized'));
         

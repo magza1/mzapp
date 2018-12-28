@@ -10,21 +10,23 @@ define([
     'use strict';
 
     return Column.extend({
-    	defaults: {
+        defaults: {
             bodyTmpl: 'ui/grid/cells/html',
-    	},
-    	/**
+        },
+        /**
          * Ment to preprocess data associated with a current columns' field.
          *
          * @param {Object} record - Data to be preprocessed.
          * @returns {String}
          */
-    	getLabel: function (record) {
-    		var name = record[this.index];
-    		if(parseInt(record['msg_count']) > 1) name +=' <span class="msg_count">('+record['msg_count']+')</span>'
-        	if(record['status'] == 1) return "<strong>"+name+"</strong>";
-        	
-        	return name;
+        getLabel: function (record) {
+            var name = record[this.index];
+            if (parseInt(record['msg_count']) > 1) {
+name +=' <span class="msg_count">('+record['msg_count']+')</span>'
+            if (record['status'] == 1) {
+return "<strong>"+name+"</strong>"; } }
+            
+            return name;
         }
     });
 });

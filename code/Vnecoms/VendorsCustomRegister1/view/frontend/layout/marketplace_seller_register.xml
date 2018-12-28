@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+	<head>
+        <css src="Vnecoms_VendorsCustomRegister1::css/register.css"/>
+    </head>
+    <body>
+    	<referenceBlock name="vendor_create_form" remove="true"/>
+    	
+		<referenceBlock name="vendor.create">
+			<action method="setTemplate">
+                <argument name="template" xsi:type="string">Vnecoms_VendorsCustomRegister1::account/create.phtml</argument>
+            </action>
+            <block class="Vnecoms\VendorsCustomRegister1\Block\Account\Create\Vendor" name="new_vendor_create_form" template="Vnecoms_VendorsCustomRegister1::account/create/vendor-form.phtml"/>
+		</referenceBlock>
+    </body>
+</page>

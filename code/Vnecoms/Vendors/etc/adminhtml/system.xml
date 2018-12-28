@@ -27,6 +27,11 @@
                     <label>Seller Panel Type</label>
                     <source_model>Vnecoms\Vendors\Model\Source\PanelType</source_model>
                 </field>
+                <field id="skin" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Skin</label>
+                    <source_model>Vnecoms\Vendors\Model\Source\Skin</source_model>
+                    <comment><![CDATA[<span class="panel-skin skin-blue">Blue</span><span class="panel-skin skin-black">Black</span>]]></comment>
+                </field>
 				<field id="head_favicon" translate="label" type="image" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="0">
 	            	<label>Favicon Icon</label>
 	            	<comment>Allowed file types: ICO, PNG, GIF, JPG, JPEG, APNG, SVG. Not all browsers support all these formats!</comment>
@@ -178,19 +183,18 @@
 			
             <group id="url" translate="label" type="text" sortOrder="500" showInDefault="1" showInWebsite="1" showInStore="0">
                 <label>Vendor Panel Base URL</label>
-                <!-- <field id="use_custom" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+                <field id="use_custom" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Use Custom Vendor URL</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <backend_model>Vnecoms\Vendors\Model\Config\Backend\Admin\Usecustom</backend_model>
                 </field>
                 <field id="custom" translate="label comment" type="text" sortOrder="2" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Custom Vendor URL</label>
-                    <backend_model>Vnecoms\Vendors\Model\Config\Backend\Admin\Custom</backend_model>
+                    <validate>required-entry</validate>
                     <depends>
                         <field id="use_custom">1</field>
                     </depends>
                     <comment>Make sure that base URL ends with '/' (slash), e.g. http://seller.yourdomain.com/</comment>
-                </field> -->
+                </field>
                 <field id="use_custom_path" translate="label" type="select" sortOrder="3" showInDefault="1" showInWebsite="0" showInStore="0">
                     <label>Use Custom Vendor Path</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

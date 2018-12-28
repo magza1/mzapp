@@ -37,7 +37,7 @@ class DataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
     
     /**
      * Construct
-     *
+     * @param \Vnecoms\Vendors\Model\Session $session
      * @param string $name
      * @param string $primaryFieldName
      * @param string $requestFieldName

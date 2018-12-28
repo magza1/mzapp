@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\Image;
@@ -17,11 +17,12 @@ use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\Image\Management
  */
-class ManagementTest extends \PHPUnit_Framework_TestCase
+class ManagementTest extends TestCase
 {
     /**
      * Constants used in the unit tests
@@ -59,11 +60,15 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->imageProcessorFactoryMock = $this->getMock(ImageFactory::class, ['create'], [], '', false);
-        $filesystemMock = $this->getMock(Filesystem::class, ['getDirectoryWrite'], [], '', false);
-        $this->mediaDirectoryMock = $this->getMockForAbstractClass(WriteInterface::class);
-        $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
-        $this->assetRepoMock = $this->getMock(AssetRepository::class, ['getUrl'], [], '', false);
+        $this->imageProcessorFactoryMock = $this->createPartialMock(ImageFactory::class, ['create']);
+        $filesystemMock = $this->createPartialMock(Filesystem::class, ['getDirectoryWrite']);
+        $this->mediaDirectoryMock = $this->getMockBuilder(WriteInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->storeManagerMock = $this->getMockBuilder(StoreManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->assetRepoMock = $this->createPartialMock(AssetRepository::class, ['getUrl']);
 
         $filesystemMock->expects($this->once())
             ->method('getDirectoryWrite')
@@ -109,7 +114,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         $filePath = self::IMAGE_PATH . '/' . $fileName;
         $absoluteFilePath = 'http://localhost/pub/media/aw_sbb/brand/logo.png';
 
-        $imageProcessorMock = $this->getMock(
+        $imageProcessorMock = $this->createPartialMock(
             Image::class,
             [
                 'keepAspectRatio',
@@ -120,10 +125,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
                 'quality',
                 'resize',
                 'save'
-            ],
-            [],
-            '',
-            false
+            ]
         );
 
         $this->mediaDirectoryMock->expects($this->once())
@@ -173,7 +175,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
         $filePath = self::IMAGE_PATH . '/' . $fileName;
         $baseUrl = 'http://localhost/';
 
-        $storeMock = $this->getMock(Store::class, ['getBaseUrl'], [], '', false);
+        $storeMock = $this->createPartialMock(Store::class, ['getBaseUrl']);
 
         $this->storeManagerMock->expects($this->once())
             ->method('getStore')

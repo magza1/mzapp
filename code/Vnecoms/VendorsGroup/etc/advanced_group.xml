@@ -54,5 +54,21 @@
 			<comment>The payment information of customer will be hidden from order.</comment>
 		</field>
 	</group>
+	
+	<group id="domain" translate="label tooltip" type="text" sortOrder="50">
+		<label>Domain</label>
+		<field id="can_use_subdomain" translate="label" type="select" sortOrder="10">
+			<label>Can Use Subdomain</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+		<field id="can_edit_subdomain" translate="label" type="select" sortOrder="20">
+			<label>Can Edit Subdomain</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+		<field id="can_use_domain" translate="label" type="select" sortOrder="30">
+			<label>Can Use Vendor's Domain</label>
+			<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+		</field>
+	</group>
 </advanced_group>
 </config>

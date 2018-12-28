@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+		<referenceContainer name='root'>
+			<block
+				class='Magecomp\Mobilelogin\Block\Init'
+				name='Magecomp_Mobilelogin_Block_Init'
+				ifconfig='mobilelogin/moduleoption/enable'
+			/>
+		</referenceContainer>
+
+		<referenceBlock name="authorization-link-login">
+			<action method="setTemplate" ifconfig='mobilelogin/moduleoption/enable'>
+				<argument name="template" xsi:type="string">Magecomp_Mobilelogin::authorization.phtml</argument>
+			</action>
+		</referenceBlock>
+
+		<referenceBlock name="header.links">
+			<action method="unsetChild" ifconfig='mobilelogin/moduleoption/enable'>
+				<argument name="alias" xsi:type="string">register-link</argument>
+			</action>
+		</referenceBlock>
+	  <referenceBlock name="header.links">
+		  	<block class="Magento\Customer\Block\Account\RegisterLink" name="register-link-ajax"  after="-" ifconfig='mobilelogin/moduleoption/enable'>
+				  <arguments>
+                      <argument name="label" xsi:type="string" translate="true">Register</argument>
+                      <argument name="class" xsi:type="string">registerlink</argument>
+                  </arguments>
+			</block>
+        </referenceBlock>
+
+	    <referenceContainer name="before.body.end">
+				<block class="Magecomp\Mobilelogin\Block\Mobilelogin" name="mobilelogin" template="Magecomp_Mobilelogin::mobilelogin.phtml" />
+		</referenceContainer>
+    </body>
+</page>

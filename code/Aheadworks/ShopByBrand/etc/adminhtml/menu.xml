@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 -->
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
     <menu>
-        <add id="Aheadworks_ShopByBrand::sbb" title="Shop by Brand by aheadWorks" translate="title" module="Aheadworks_ShopByBrand" parent="Magento_Catalog::catalog" sortOrder="30" resource="Aheadworks_ShopByBrand::sbb"/>
+        <add id="Aheadworks_ShopByBrand::sbb" title="Shop by Brand by Aheadworks" translate="title" module="Aheadworks_ShopByBrand" parent="Magento_Catalog::catalog" sortOrder="30" resource="Aheadworks_ShopByBrand::sbb"/>
         <add id="Aheadworks_ShopByBrand::brands" title="Brand Pages" translate="title" module="Aheadworks_ShopByBrand" sortOrder="10" parent="Aheadworks_ShopByBrand::sbb" action="aw_sbb/brand/index" resource="Aheadworks_ShopByBrand::brands"/>
     </menu>
 </config>

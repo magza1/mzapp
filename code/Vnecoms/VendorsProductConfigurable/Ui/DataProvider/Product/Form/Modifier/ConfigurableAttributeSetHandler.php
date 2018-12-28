@@ -17,19 +17,34 @@ use Magento\Framework\UrlInterface;
 class ConfigurableAttributeSetHandler extends AbstractModifier
 {
     const ATTRIBUTE_SET_HANDLER_MODAL = 'configurable_attribute_set_handler_modal';
-
+    const XML_PATH_NOT_ALLOWED_ATTRIBUTES = 'vendors/catalog/hide_configurable_attributes';
     /**
      * @var UrlInterface
      */
     private $urlBuilder;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $registry;
+    
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    protected $scopeConfig;
+    
+    /**
      * @param UrlInterface $urlBuilder
+     * @param \Magento\Framework\App\RequestInterface $request
      */
     public function __construct(
-        UrlInterface $urlBuilder
+        UrlInterface $urlBuilder,
+        \Magento\Framework\Registry $registry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
         $this->urlBuilder = $urlBuilder;
+        $this->registry = $registry;
+        $this->scopeConfig = $scopeConfig;
     }
 
     /**
@@ -41,10 +56,33 @@ class ConfigurableAttributeSetHandler extends AbstractModifier
     }
 
     /**
+     * Remove not used attributes
+     */
+    public function removeConfigurableAttributes($meta)
+    {
+        if($this->registry->registry('product')->getTypeId() != 'configurable') return $meta;
+        $notAllowedAttributes = explode(',',$this->scopeConfig->getValue(self::XML_PATH_NOT_ALLOWED_ATTRIBUTES));
+        foreach ($meta as $groupCode => $group) {
+            if (!isset($group['children'])) {
+                continue;
+            }
+            $attributeContainers = $group['children'];
+    
+            foreach ($notAllowedAttributes as $attributeCode) {
+                unset($meta[$groupCode]['children']['container_'.$attributeCode]);
+            }
+        }
+        
+        return $meta;
+    }
+    
+    /**
      * {@inheritdoc}
      */
     public function modifyMeta(array $meta)
     {
+        $meta = $this->removeConfigurableAttributes($meta);
+        
         $meta = array_merge_recursive(
             $meta,
             [

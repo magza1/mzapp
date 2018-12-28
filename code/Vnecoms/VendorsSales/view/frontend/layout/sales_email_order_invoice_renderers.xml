@@ -7,7 +7,7 @@
 -->
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd" label="Email Creditmemo Items List" design_abstraction="custom">
     <body>
-        <referenceBlock name="sales.email.order.invoice.renderers">
+        <referenceBlock name="ves.sales.email.order.invoice.renderers">
             <block class="Vnecoms\VendorsSales\Block\Order\Email\Items\DefaultItems" as="default" template="email/items/invoice/default.phtml"/>
         </referenceBlock>
     </body>

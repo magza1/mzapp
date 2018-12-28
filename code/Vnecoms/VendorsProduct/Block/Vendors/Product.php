@@ -1,7 +1,5 @@
 <?php
 /**
- * Catalog price rules
- *
  * @author      Vnecoms Team <core@vnecoms.com>
  */
 namespace Vnecoms\VendorsProduct\Block\Vendors;
@@ -67,16 +65,17 @@ class Product extends \Vnecoms\Vendors\Block\Vendors\Widget\Container
      */
     protected function _prepareLayout()
     {
-        $addButtonProps = [
-            'id' => 'add_new_product',
-            'label' => __('Add Product'),
-            'class' => 'btn-primary btn-sm',
-            'button_class' => 'fa fa-plus-circle',
-            'class_name' => 'Vnecoms\Vendors\Block\Vendors\Widget\Button\SplitButton',
-            'options' => $this->_getAddProductButtonOptions(),
-        ];
-        $this->buttonList->add('add_new', $addButtonProps, 0, 0, 'toolbar');
-    
+        if($this->_isAllowedAction('Vnecoms_Vendors::product_action_save')){
+            $addButtonProps = [
+                'id' => 'add_new_product',
+                'label' => __('Add Product'),
+                'class' => 'btn-primary btn-sm',
+                'button_class' => 'fa fa-plus-circle',
+                'class_name' => 'Vnecoms\Vendors\Block\Vendors\Widget\Button\SplitButton',
+                'options' => $this->_getAddProductButtonOptions(),
+            ];
+            $this->buttonList->add('add_new', $addButtonProps, 0, 0, 'toolbar');
+        }
         return parent::_prepareLayout();
     }
     
@@ -133,5 +132,24 @@ class Product extends \Vnecoms\Vendors\Block\Vendors\Widget\Container
     public function isSingleStoreMode()
     {
         return $this->_storeManager->isSingleStoreMode();
+    }
+    
+    /**
+     * Check permission for passed action
+     *
+     * @param string $resourceId
+     * @return bool
+     */
+    protected function _isAllowedAction($resourceId)
+    {
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $resourceId,
+                'permission' => $permission
+            ]
+        );
+        return $permission->isAllowed();
     }
 }

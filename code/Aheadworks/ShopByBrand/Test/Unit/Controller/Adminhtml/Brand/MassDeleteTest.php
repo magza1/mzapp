@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller\Adminhtml\Brand;
@@ -16,11 +16,12 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Ui\Component\MassAction\Filter;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\MassDelete
  */
-class MassDeleteTest extends \PHPUnit_Framework_TestCase
+class MassDeleteTest extends TestCase
 {
     /**
      * @var MassDelete
@@ -55,11 +56,15 @@ class MassDeleteTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->filterMock = $this->getMock(Filter::class, ['getCollection'], [], '', false);
-        $this->collectionFactoryMock = $this->getMock(CollectionFactory::class, ['create'], [], '', false);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
-        $this->resultFactoryMock = $this->getMock(ResultFactory::class, ['create'], [], '', false);
-        $this->messageManagerMock = $this->getMockForAbstractClass(ManagerInterface::class);
+        $this->filterMock = $this->createPartialMock(Filter::class, ['getCollection']);
+        $this->collectionFactoryMock = $this->createPartialMock(CollectionFactory::class, ['create']);
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->resultFactoryMock = $this->createPartialMock(ResultFactory::class, ['create']);
+        $this->messageManagerMock = $this->getMockBuilder(ManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -83,8 +88,8 @@ class MassDeleteTest extends \PHPUnit_Framework_TestCase
         $brandIds = [1, 3];
         $collectionSize = 2;
 
-        $collectionMock = $this->getMock(Collection::class, ['getSize', 'getAllIds'], [], '', false);
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
+        $collectionMock = $this->createPartialMock(Collection::class, ['getSize', 'getAllIds']);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
 
         $this->collectionFactoryMock->expects($this->once())
             ->method('create')
@@ -122,9 +127,9 @@ class MassDeleteTest extends \PHPUnit_Framework_TestCase
         $brandId = 1;
         $collectionSize = 5;
 
-        $collectionMock = $this->getMock(Collection::class, ['getSize', 'getAllIds'], [], '', false);
+        $collectionMock = $this->createPartialMock(Collection::class, ['getSize', 'getAllIds']);
         $exception = new \Exception('Exception message.');
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
 
         $this->collectionFactoryMock->expects($this->once())
             ->method('create')

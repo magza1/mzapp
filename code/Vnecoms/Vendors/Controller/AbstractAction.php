@@ -14,7 +14,7 @@ use Vnecoms\Vendors\Helper\Data as VendorHelper;
 abstract class AbstractAction extends AbstractAccount
 {
     /**
-     * @var Vnecoms\Vendors\Helper\Data
+     * @var \Vnecoms\Vendors\Helper\Data
      */
     protected $_vendorHelper;
     

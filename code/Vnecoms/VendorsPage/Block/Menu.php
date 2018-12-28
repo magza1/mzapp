@@ -25,7 +25,7 @@ class Menu extends \Magento\Framework\View\Element\Template
             }
         } else {
             $position = 0;
-            foreach ($this->_links as $k=>$v) {
+            foreach ($this->_links as $k => $v) {
                 $position = $k;
             }
             $position += 10;
@@ -41,7 +41,7 @@ class Menu extends \Magento\Framework\View\Element\Template
      * @param int|null $sortOrder
      * @return $this
      */
-    public function addLink($label, $title = null, $url = '',$position=0)
+    public function addLink($label, $title = null, $url = '', $position = 0)
     {
         if (empty($title)) {
             $title = $label;
@@ -65,5 +65,4 @@ class Menu extends \Magento\Framework\View\Element\Template
         $this->assign('links', $this->_links);
         return parent::_beforeToHtml();
     }
-    
 }

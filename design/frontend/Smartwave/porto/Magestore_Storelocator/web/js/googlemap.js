@@ -363,7 +363,7 @@ define([
                             self.infowindow.setContent($store[0]);
                             self.infowindow.setPosition(store.marker.getPosition());
                             self.infowindow.open(self.map, store.marker);
-                            self.map.setZoom(parseFloat(14));//hard-fix zoom level
+                            self.map.setZoom(parseFloat(15));//hard-fix zoom level
 
                             if(self.panorama.getVisible()) {
                                 self.streetView(store.marker);
@@ -379,7 +379,7 @@ define([
                     window.markerClusterer = self.markerClusterer;
                     self.$liststoreBox.liststore();
                     self.$liststoreBox.liststore('updateListStoresEvent');
-                    $('.number-store').html(data.num_store +' '+ $.mage.__(İşyeri Bulundu'));
+                    $('.number-store').html(data.num_store +' '+ $.mage.__('Mağaza Bulundu'));
 
                     var store = $('.show-tag-li')[0];
                     if (store) {

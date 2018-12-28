@@ -89,6 +89,14 @@ $_vendor = $block->getVendor();
             /*Send message*/
             jQuery("#new-msg-send-btn").click(function(){
             	if(dataForm.valid()){
+                	if(!jQuery('#msg_content').val()){
+                		alert({
+                			modalClass: 'alert ves-error',
+                            title: '<?php echo __("Error...");?>',
+                            content: '<?php echo __("Please enter your message body.");?>',
+                        });
+                        return;
+                	}
                 	jQuery('#vnecoms-msg-notification').removeClass('hide');
                 	jQuery("#new-message-container").addClass('hide');
             		jQuery.ajax({

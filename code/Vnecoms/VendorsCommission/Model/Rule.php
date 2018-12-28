@@ -24,7 +24,6 @@ class Rule extends \Magento\Framework\Model\AbstractModel
      * @var string
      */
     protected $_eventPrefix = 'vendors_commission';
-
     
     /**
      * Initialize resource model
@@ -35,4 +34,5 @@ class Rule extends \Magento\Framework\Model\AbstractModel
     {
         $this->_init('Vnecoms\VendorsCommission\Model\ResourceModel\Rule');
     }
+    
 }

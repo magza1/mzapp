@@ -8,7 +8,13 @@ namespace Vnecoms\Vendors\Controller\Vendors\Index;
 
 class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
-
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::account';
+    
     /**
      * @return void
      */
@@ -25,5 +31,15 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
         $vendor = $this->_session->getVendor();
         $this->_coreRegistry->register('current_vendor', $vendor);
         $this->_view->renderLayout();
+    }
+    
+    /**
+     * @return bool
+     */
+    protected function _isAllowed()
+    {
+        $key = $this->getRequest()->getModuleName()."_".$this->getRequest()->getActionName();
+        if ($key == 'vendors_index') return true;
+        return parent::_isAllowed();
     }
 }

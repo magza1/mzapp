@@ -71,18 +71,19 @@ class Inbox extends \Magento\Framework\View\Element\Template
     }
     
    /**
-     * Get Unread Message Collection
-     *
-     * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection
-     */
-    public function getMessageCollection(){
-        if(!$this->_messageCollection){
+    * Get Unread Message Collection
+    *
+    * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection
+    */
+    public function getMessageCollection()
+    {
+        if (!$this->_messageCollection) {
             $collection = $this->_messageFactory->create()->getCollection();
-            $collection->addFieldToFilter('owner_id',$this->_customerSession->getCustomerId())
-            ->addFieldToFilter('is_inbox',1)
-            ->addFieldToFilter('is_deleted',0)
-            ->setOrder('message_id','DESC');
-            $collection->getSelect()->joinLeft(['detail'=>$collection->getTable('ves_vendor_message_detail')], 'main_table.message_id = detail.message_id',['msg_count' => 'count(detail_id)']);
+            $collection->addFieldToFilter('owner_id', $this->_customerSession->getCustomerId())
+            ->addFieldToFilter('is_inbox', 1)
+            ->addFieldToFilter('is_deleted', 0)
+            ->setOrder('message_id', 'DESC');
+            $collection->getSelect()->joinLeft(['detail'=>$collection->getTable('ves_vendor_message_detail')], 'main_table.message_id = detail.message_id', ['msg_count' => 'count(detail_id)']);
             $collection->getSelect()->group('detail.message_id');
             $this->_messageCollection = $collection;
         }
@@ -95,49 +96,59 @@ class Inbox extends \Magento\Framework\View\Element\Template
      *
      * @param string $dateTime
      */
-    public function getMessageTime($dateTime){
+    public function getMessageTime($dateTime)
+    {
         $messageTimeStamp = strtotime($dateTime);
         $timeStamp = time();
     
         $differentTime = $timeStamp - $messageTimeStamp;
         $minutes = round($differentTime / 60);
-        if($minutes == 0) return __("Now");
-    
-        elseif($minutes < 60){
+        if ($minutes == 0) {
+            return __("Now");
+        } elseif ($minutes < 60) {
             return __("%1 minutes", $minutes);
         }
     
         $hours = round($minutes / 60);
         
-        if($hours < 24) return __("Today");
+        if ($hours < 24) {
+            return __("Today");
+        }
     
         $days = round($hours / 24);
-        if($days == 1) return __("Yesterday");
-        if($days < 7) return __("%1 days", $days);
+        if ($days == 1) {
+            return __("Yesterday");
+        }
+        if ($days < 7) {
+            return __("%1 days", $days);
+        }
     
-        if($days < 365) return $this->formatDate($dateTime, \IntlDateFormatter::SHORT);
+        if ($days < 365) {
+            return $this->formatDate($dateTime, \IntlDateFormatter::SHORT);
+        }
     
         return $this->formatDate($dateTime, \IntlDateFormatter::SHORT);
     }
     
     /**
      * Get delete messages URL
-     * 
+     *
      * @return string
      */
-    public function getDeleteMessagesURL(){
+    public function getDeleteMessagesURL()
+    {
         return $this->getUrl('customer/message/massDelete');
     }
     
     /**
      * Get View message URL
-     * 
+     *
      * @param \Vnecoms\VendorsMessage\Model\Message $message
      * @return string
      */
     public function getViewMessageUrl(
         \Vnecoms\VendorsMessage\Model\Message $message
     ) {
-      return $this->getUrl('customer/message/view',['id' => $message->getId()]);  
+        return $this->getUrl('customer/message/view', ['id' => $message->getId()]);
     }
 }

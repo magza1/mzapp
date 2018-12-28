@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Shipment\AbstractShipment;
 
 use Vnecoms\Vendors\App\Action\Context;
@@ -18,6 +14,13 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory;
 
 abstract class Pdfshipments extends \Vnecoms\VendorsSales\Controller\Vendors\Order\AbstractMassAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_shipments';
+    
     /**
      * @var FileFactory
      */
@@ -54,14 +57,6 @@ abstract class Pdfshipments extends \Vnecoms\VendorsSales\Controller\Vendors\Ord
         $this->pdfShipment = $shipment;
         $this->collectionFactory = $collectionFactory;
         parent::__construct($context, $filter);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorSales::shipment');
     }
 
     /**

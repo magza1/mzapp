@@ -27,5 +27,4 @@ class Collection extends AbstractCollection
     {
         $this->_init('Vnecoms\VendorsMessage\Model\Message', 'Vnecoms\VendorsMessage\Model\ResourceModel\Message');
     }
-
 }

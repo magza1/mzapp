@@ -1,12 +1,16 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Creditmemo;
 
 class View extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_creditmemo';
+    
     /**
      * @var \Vnecoms\VendorsSales\Controller\Vendors\Order\CreditmemoLoader
      */
@@ -50,14 +54,6 @@ class View extends \Vnecoms\Vendors\App\AbstractAction
     }
 
     /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorsSales::sales_creditmemo');
-    }
-
-    /**
      * Creditmemo information page
      *
      * @return \Magento\Backend\Model\View\Result\Page|\Magento\Backend\Model\View\Result\Forward
@@ -85,7 +81,7 @@ class View extends \Vnecoms\Vendors\App\AbstractAction
 
 
             $this->_view->loadLayout();
-            $this->_setActiveMenu('Vnecoms_VendorsSales::sales_orders');
+            $this->_setActiveMenu('Vnecoms_VendorsSales::sales_creditmemo');
             $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Creditmemo'));
             $this->_view->getPage()->getConfig()->getTitle()->prepend(__('View Creditmemo'));
 

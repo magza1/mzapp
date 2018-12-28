@@ -39,22 +39,24 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         foreach ($groups as $groupConfig) {
             $groupData = [];
             $attributes = $groupConfig->attributes;
-            foreach($attributes as $attrName=>$attr){
+            foreach ($attributes as $attrName => $attr) {
                 $groupData[$attrName] = $attr->nodeValue;
             }
             $label = '';
             $fields = [];
-            foreach($groupConfig->childNodes as $node){
+            foreach ($groupConfig->childNodes as $node) {
                 if ($node->nodeName == 'label') {
                     $label = $node->nodeValue;
-                }elseif ($node->nodeName == 'field') {
+                } elseif ($node->nodeName == 'field') {
                     $field = [];
                     $attrs = $node->attributes;
-                    foreach($attrs as $fieldName=>$fieldConfig){
+                    foreach ($attrs as $fieldName => $fieldConfig) {
                         $field[$fieldName] = $fieldConfig->nodeValue;
                     }
-                    foreach($node->childNodes as $n){
-                        if($n->nodeType == XML_ELEMENT_NODE) $field[$n->nodeName] = $n->nodeValue;
+                    foreach ($node->childNodes as $n) {
+                        if ($n->nodeType == XML_ELEMENT_NODE) {
+                            $field[$n->nodeName] = $n->nodeValue;
+                        }
                     }
                     $fields[] = $field;
                 }
