@@ -15,7 +15,7 @@ use Magento\Framework\Pricing\PriceCurrencyInterface;
 class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
-     * @var Magento\Framework\Pricing\PriceCurrencyInterface
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
      */
     protected $priceCurrency;
     

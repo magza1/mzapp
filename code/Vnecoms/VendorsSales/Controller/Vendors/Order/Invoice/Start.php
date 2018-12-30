@@ -1,12 +1,16 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Invoice;
 
 class Start extends \Vnecoms\VendorsSales\Controller\Vendors\Invoice\AbstractInvoice\View
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_invoice';
+    
     /**
      * View order detail
      *
@@ -14,6 +18,7 @@ class Start extends \Vnecoms\VendorsSales\Controller\Vendors\Invoice\AbstractInv
      */
     public function execute()
     {
+        
         /**
          * Clear old values for invoice qty's
          */
@@ -25,11 +30,4 @@ class Start extends \Vnecoms\VendorsSales\Controller\Vendors\Invoice\AbstractInv
         return $resultRedirect;
     }
 
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return true;
-    }
 }

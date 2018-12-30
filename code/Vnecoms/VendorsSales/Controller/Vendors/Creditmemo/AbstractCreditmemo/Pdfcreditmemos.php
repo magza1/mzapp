@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Creditmemo\AbstractCreditmemo;
 
 use Magento\Framework\App\ResponseInterface;
@@ -21,6 +18,13 @@ use Magento\Sales\Model\ResourceModel\Order\Creditmemo\CollectionFactory;
  */
 class Pdfcreditmemos extends \Vnecoms\VendorsSales\Controller\Vendors\Order\AbstractMassAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_creditmemo';
+    
     /**
      * @var FileFactory
      */
@@ -57,14 +61,6 @@ class Pdfcreditmemos extends \Vnecoms\VendorsSales\Controller\Vendors\Order\Abst
         $this->dateTime = $dateTime;
         $this->collectionFactory = $collectionFactory;
         parent::__construct($context, $filter);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorsSales::sales_creditmemo');
     }
 
     /**

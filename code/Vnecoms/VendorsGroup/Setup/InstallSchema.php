@@ -63,9 +63,8 @@ class InstallSchema implements InstallSchemaInterface
         )->setComment(
             'Advanced Group Rules'
         );
-        $installer->getConnection()->createTable($table);        
+        $installer->getConnection()->createTable($table);
         
         $installer->endSetup();
-
     }
 }

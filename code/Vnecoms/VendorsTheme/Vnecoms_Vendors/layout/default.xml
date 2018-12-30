@@ -20,7 +20,6 @@
     
     <body>
     	<attribute name="class" value="hold-transition"/>
-    	<attribute name="class" value="skin-blue"/>
     	<attribute name="class" value="sidebar-mini"/>
     	<referenceContainer name="page.wrapper" htmlClass="wrapper"/>
     	<referenceContainer name="header" htmlClass="main-header">

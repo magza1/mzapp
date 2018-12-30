@@ -53,7 +53,7 @@ class View extends \Magento\Customer\Controller\AbstractAccount
         $message = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Message');
         $message->load($messageId);
         
-        if(!$messageId || !$message->getId() || $message->getOwnerId() != $this->_customerSession->getCustomerId()){
+        if (!$messageId || !$message->getId() || $message->getOwnerId() != $this->_customerSession->getCustomerId()) {
             $this->messageManager->addError('The message is not available.');
             return $this->_redirect('customer/message');
         }

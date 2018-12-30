@@ -10,7 +10,8 @@ namespace Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab;
  * Class Content
  * @package Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab
  */
-class Content extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Content extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_contentRenderer;
 

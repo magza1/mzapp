@@ -122,7 +122,7 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template
     {
         return $this->_attribute->getAttributeCode();
     }
-    
+
     /**
      * Retrieve form data
      *
@@ -132,7 +132,9 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template
     {
         if ($parentBlock = $this->getLayout()->getBlock('customer_form_register')) {
             return $parentBlock->getFormData();
-        } elseif ($dataForm = $this->_coreRegistry->registry('form_data')) {
+        }elseif ($parentBlock = $this->getLayout()->getBlock('vendor.create')) {
+            return $parentBlock->getFormData();
+        }elseif ($dataForm = $this->_coreRegistry->registry('form_data')) {
             return ['vendor' => $dataForm];
         }
         return [];

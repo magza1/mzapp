@@ -10,7 +10,8 @@ namespace Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab;
  * Class Schedule
  * @package Aheadworks\Csblock\Block\Adminhtml\Csblock\Edit\Tab
  */
-class Schedule extends \Magento\Backend\Block\Widget\Form\Generic implements \Magento\Backend\Block\Widget\Tab\TabInterface
+class Schedule extends \Magento\Backend\Block\Widget\Form\Generic implements
+    \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * @return $this
@@ -64,7 +65,7 @@ class Schedule extends \Magento\Backend\Block\Widget\Form\Generic implements \Ma
         );
 
         $patternSource = \Magento\Framework\App\ObjectManager::getInstance()
-            ->create('Aheadworks\Csblock\Model\Source\Pattern');
+            ->create(\Aheadworks\Csblock\Model\Source\Pattern::class);
         $fieldset->addField(
             'pattern',
             'select',

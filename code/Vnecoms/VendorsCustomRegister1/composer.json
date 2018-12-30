@@ -1,0 +1,22 @@
+{
+    "name": "vnecoms/module-vendors-custom-register-1",
+    "description": "N/A",
+    "require": {
+        "vnecoms/module-vendors": "2.*",
+        "vnecoms/module-core": "2.*"
+    },
+    "type": "magento2-module",
+    "version": "2.0.2",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Vnecoms\\VendorsCustomRegister1\\": ""
+        }
+    }
+}

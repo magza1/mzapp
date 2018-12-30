@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Block\Product;
@@ -13,11 +13,12 @@ use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\View\Element\Context;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Block\Product\BrandInfo
  */
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends TestCase
 {
     /**
      * @var BrandInfo
@@ -37,8 +38,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
-        $this->requestMock = $this->getMock(RequestInterface::class);
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->requestMock = $this->createMock(RequestInterface::class);
         $context = $objectManager->getObject(
             Context::class,
             ['request' => $this->requestMock]
@@ -56,7 +59,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     {
         $productId = 1;
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->requestMock->expects($this->once())
             ->method('getParam')

@@ -106,7 +106,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
 //             );
 //         }
 
-        if ($this->_isAllowedAction('Vnecoms_VendorsSales::cancel') && $vendorOrder->canCancel()) {
+        if ($this->_isAllowedAction('Vnecoms_VendorsSales::sales_order_action_cancel') && $vendorOrder->canCancel()) {
             $this->buttonList->add(
                 'order_cancel',
                 [
@@ -130,7 +130,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
 //             );
 //         }
 
-        if ($this->_isAllowedAction('Vnecoms_VendorsSales::creditmemo') && $vendorOrder->canCreditmemo()) {
+        if ($this->_isAllowedAction('Vnecoms_VendorsSales::sales_order_action_creditmemo') && $vendorOrder->canCreditmemo()) {
             $message = __(
                 'This will create an offline refund. ' .
                 'To create an online refund, open an invoice and create credit memo for it. Do you want to continue?'
@@ -150,7 +150,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
         }
 
 
-        if ($this->_isAllowedAction('Vnecoms_VendorsSales::invoice') && $vendorOrder->canInvoice()) {
+        if ($this->_isAllowedAction('Vnecoms_VendorsSales::sales_order_action_invoice') && $vendorOrder->canInvoice()) {
             $_label = $order->getForcedShipmentWithInvoice() ? __('Invoice and Ship') : __('Invoice');
             $this->buttonList->add(
                 'order_invoice',
@@ -163,7 +163,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
         }
 
         if ($this->_isAllowedAction(
-            'Vnecoms_VendorsSales::ship'
+            'Vnecoms_VendorsSales::sales_order_action_ship'
         ) && $vendorOrder->canShip() && !$order->getForcedShipmentWithInvoice()
         ) {
             $this->buttonList->add(
@@ -351,7 +351,15 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
      */
     protected function _isAllowedAction($resourceId)
     {
-        return true;
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $resourceId,
+                'permission' => $permission
+            ]
+        );
+        return $permission->isAllowed();
     }
 
     /**

@@ -63,7 +63,7 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
             );
         }
 
-        if ($this->_isAllowedAction('Magento_Sales::emails')) {
+        if ($this->_isAllowedAction('Vnecoms_VendorsSales::sales_send_emails')) {
             $this->addButton(
                 'send_notification',
                 [
@@ -251,6 +251,14 @@ class View extends \Vnecoms\Vendors\Block\Vendors\Widget\Form\Container
      */
     public function _isAllowedAction($resourceId)
     {
-        return $this->_authorization->isAllowed($resourceId);
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $resourceId,
+                'permission' => $permission
+            ]
+        );
+        return $permission->isAllowed();
     }
 }

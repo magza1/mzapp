@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller\Adminhtml\Brand;
@@ -24,12 +24,13 @@ use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\View\Page\Config as PageConfig;
 use Magento\Framework\View\Result\PageFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\Edit
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class EditTest extends \PHPUnit_Framework_TestCase
+class EditTest extends TestCase
 {
     /**
      * @var Edit
@@ -84,21 +85,26 @@ class EditTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultPageFactoryMock = $this->getMock(PageFactory::class, ['create'], [], '', false);
-        $this->brandFactoryMock = $this->getMock(BrandInterfaceFactory::class, ['create'], [], '', false);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
-        $this->coreRegistryMock = $this->getMock(Registry::class, ['register'], [], '', false);
-        $this->dataObjectProcessorMock = $this->getMock(
+        $this->resultPageFactoryMock = $this->createPartialMock(PageFactory::class, ['create']);
+        $this->brandFactoryMock = $this->createPartialMock(BrandInterfaceFactory::class, ['create']);
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->coreRegistryMock = $this->createPartialMock(Registry::class, ['register']);
+        $this->dataObjectProcessorMock = $this->createPartialMock(
             DataObjectProcessor::class,
-            ['buildOutputDataArray'],
-            [],
-            '',
-            false
+            ['buildOutputDataArray']
         );
-        $this->dataPersistorMock = $this->getMockForAbstractClass(DataPersistorInterface::class);
-        $this->requestMock = $this->getMockForAbstractClass(RequestInterface::class);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
-        $this->messageManagerMock = $this->getMockForAbstractClass(ManagerInterface::class);
+        $this->dataPersistorMock = $this->getMockBuilder(DataPersistorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->requestMock = $this->getMockBuilder(RequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->resultRedirectFactoryMock = $this->createPartialMock(RedirectFactory::class, ['create']);
+        $this->messageManagerMock = $this->getMockBuilder(ManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -127,10 +133,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $contentData = [['contentField' => 'contentValue']];
         $brandData = ['content' => $contentData];
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $resultPageMock = $this->getMock(Page::class, ['setActiveMenu', 'getConfig'], [], '', false);
-        $pageConfigMock = $this->getMock(PageConfig::class, ['getTitle'], [], '', false);
-        $titleMock = $this->getMock(Title::class, ['prepend'], [], '', false);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $resultPageMock = $this->createPartialMock(Page::class, ['setActiveMenu', 'getConfig']);
+        $pageConfigMock = $this->createPartialMock(PageConfig::class, ['getTitle']);
+        $titleMock = $this->createPartialMock(Title::class, ['prepend']);
 
         $this->requestMock->expects($this->once())
             ->method('getParam')
@@ -174,10 +182,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $brandData = ['field' => null];
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $resultPageMock = $this->getMock(Page::class, ['setActiveMenu', 'getConfig'], [], '', false);
-        $pageConfigMock = $this->getMock(PageConfig::class, ['getTitle'], [], '', false);
-        $titleMock = $this->getMock(Title::class, ['prepend'], [], '', false);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $resultPageMock = $this->createPartialMock(Page::class, ['setActiveMenu', 'getConfig']);
+        $pageConfigMock = $this->createPartialMock(PageConfig::class, ['getTitle']);
+        $titleMock = $this->createPartialMock(Title::class, ['prepend']);
 
         $this->requestMock->expects($this->once())
             ->method('getParam')
@@ -217,9 +227,11 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $brandId = 1;
 
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $exception = NoSuchEntityException::singleField('brandId', $brandId);
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
 
         $this->requestMock->expects($this->once())
             ->method('getParam')

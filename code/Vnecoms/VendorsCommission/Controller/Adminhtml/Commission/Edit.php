@@ -61,7 +61,7 @@ class Edit extends Action
 
         $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Manage Commission Rules'));
         $this->_view->getPage()->getConfig()->getTitle()->prepend(
-            $model->getAppId() ? $model->getName() : __('New Commission Rule')
+            $model->getId() ? __("Edit Rule '%1'", $model->getName()) : __('New Commission Rule')
         );
         $this->_view->getLayout()->getBlock(
             'commission_rule_edit'

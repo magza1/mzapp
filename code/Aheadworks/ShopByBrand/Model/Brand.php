@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Model;
@@ -296,6 +296,22 @@ class Brand extends AbstractModel implements BrandInterface, IdentityInterface
     public function setDescription($description)
     {
         return $this->setData(self::DESCRIPTION, $description);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBrandAdditionalProducts()
+    {
+        return $this->getData(self::BRAND_PRODUCTS);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setBrandAdditionalProducts($products)
+    {
+        return $this->setData(self::BRAND_PRODUCTS, $products);
     }
 
     /**

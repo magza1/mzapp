@@ -27,10 +27,10 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         \Magento\Rule\Model\Condition\Context $context,
         \Aheadworks\Csblock\Model\Rule\Condition\Product\AttributesFactory $attributesFactory,
         array $data = []
-    ){
+    ) {
         parent::__construct($context, $data);
         $this->_attributeFactory = $attributesFactory;
-        $this->setType('Aheadworks\Csblock\Model\Rule\Condition\Combine');
+        $this->setType(\Aheadworks\Csblock\Model\Rule\Condition\Combine::class);
     }
 
     /**

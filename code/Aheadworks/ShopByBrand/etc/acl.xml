@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 -->
 
@@ -11,14 +11,14 @@
         <resources>
             <resource id="Magento_Backend::admin">
                 <resource id="Magento_Catalog::catalog">
-                    <resource id="Aheadworks_ShopByBrand::sbb" title="Shop by Brand by aheadWorks">
+                    <resource id="Aheadworks_ShopByBrand::sbb" title="Shop by Brand by Aheadworks">
                         <resource id="Aheadworks_ShopByBrand::brands" title="Brand Pages" translate="title" sortOrder="10"/>
                     </resource>
                 </resource>
                 <resource id="Magento_Backend::stores">
                     <resource id="Magento_Backend::stores_settings">
                         <resource id="Magento_Config::config">
-                            <resource id="Aheadworks_ShopByBrand::config_aw_sbb" title="Shop by Brand by aheadWorks" />
+                            <resource id="Aheadworks_ShopByBrand::config_aw_sbb" title="Shop by Brand by Aheadworks" />
                         </resource>
                     </resource>
                 </resource>

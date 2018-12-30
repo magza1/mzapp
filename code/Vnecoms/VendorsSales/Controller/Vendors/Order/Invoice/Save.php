@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Invoice;
 
 use Magento\Framework\Exception\LocalizedException;
@@ -11,7 +7,6 @@ use Magento\Framework\Registry;
 use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 use Magento\Sales\Model\Order\ShipmentFactory;
-use Magento\Sales\Model\Order\Invoice;
 use Vnecoms\VendorsSales\Model\Service\InvoiceService;
 
 /**
@@ -19,6 +14,13 @@ use Vnecoms\VendorsSales\Model\Service\InvoiceService;
  */
 class Save extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_invoice';
+    
     /**
      * @var InvoiceSender
      */
@@ -68,20 +70,12 @@ class Save extends \Vnecoms\Vendors\App\AbstractAction
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
-    {
-        return true;
-    }
-
-    /**
      * Prepare shipment
      *
      * @param \Magento\Sales\Model\Order\Invoice $invoice
      * @return \Magento\Sales\Model\Order\Shipment|false
      */
-    protected function _prepareShipment($invoice)
+    protected function _prepareShipment($invoice,$vendorOrder)
     {
         $invoiceData = $this->getRequest()->getParam('invoice');
 
@@ -90,7 +84,7 @@ class Save extends \Vnecoms\Vendors\App\AbstractAction
             isset($invoiceData['items']) ? $invoiceData['items'] : [],
             $this->getRequest()->getPost('tracking')
         );
-
+ 	$shipment->setVendorOrderId($vendorOrder->getId());
         if (!$shipment->getTotalQty()) {
             return false;
         }
@@ -186,7 +180,7 @@ class Save extends \Vnecoms\Vendors\App\AbstractAction
             );
             $shipment = false;
             if (!empty($data['do_shipment']) || (int)$invoice->getOrder()->getForcedShipmentWithInvoice()) {
-                $shipment = $this->_prepareShipment($invoice);
+                $shipment = $this->_prepareShipment($invoice,$vendorOrder);
                 if ($shipment) {
                     $transactionSave->addObject($shipment);
                 }

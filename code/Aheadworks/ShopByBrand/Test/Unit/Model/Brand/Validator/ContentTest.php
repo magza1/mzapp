@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\Validator;
@@ -10,11 +10,12 @@ use Aheadworks\ShopByBrand\Api\Data\BrandInterface;
 use Aheadworks\ShopByBrand\Api\Data\BrandContentInterface;
 use Aheadworks\ShopByBrand\Model\Brand\Validator\Content;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\Validator\Content
  */
-class ContentTest extends \PHPUnit_Framework_TestCase
+class ContentTest extends TestCase
 {
     /**
      * @var Content
@@ -46,7 +47,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     public function testIsValid($contentMocks, $expectedResult, $expectedMessages)
     {
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $brandMock->expects($this->any())
             ->method('getContent')
             ->willReturn($contentMocks);
@@ -65,7 +68,9 @@ class ContentTest extends \PHPUnit_Framework_TestCase
     private function createContentMock($methodModify = null, $valueModify = null)
     {
         /** @var BrandContentInterface|\PHPUnit_Framework_MockObject_MockObject $contentMock */
-        $contentMock = $this->getMockForAbstractClass(BrandContentInterface::class);
+        $contentMock = $this->getMockBuilder(BrandContentInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         foreach ($this->contentData as $method => $value) {
             if ($method != $methodModify) {
                 $contentMock->expects($this->any())

@@ -33,19 +33,21 @@ class GroupSaveAfter implements ObserverInterface
         /** @var \Vnecoms\Vendors\Model\Group*/
         $group = $observer->getObject();
         $configData = $group->getData('advanced_config');
-        if(!$configData || !is_array($configData)) return;
+        if (!$configData || !is_array($configData)) {
+            return;
+        }
         
-        foreach($configData as $sectionName => $sectionData){
-            foreach($sectionData as $fieldName => $value){
+        foreach ($configData as $sectionName => $sectionData) {
+            foreach ($sectionData as $fieldName => $value) {
                 $resourceId = $sectionName."/".$fieldName;
                 $config = $this->_configFactory->create();
                 /*Load Resource By Resources Id*/
                 $collection = $config->getCollection()
-                    ->addFieldToFilter('resource_id',$resourceId)
-                    ->addFieldToFilter('group_id',$group->getId());
+                    ->addFieldToFilter('resource_id', $resourceId)
+                    ->addFieldToFilter('group_id', $group->getId());
                 
-                if($collection->count()){
-                    $config	= $collection->getFirstItem();
+                if ($collection->count()) {
+                    $config     = $collection->getFirstItem();
                 }
                 
                 $config->setGroupId($group->getId());

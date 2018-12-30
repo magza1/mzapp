@@ -13,8 +13,8 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 class SelectAndSellNewPredispatch implements ObserverInterface
 {
         /**
-     * @var \Vnecoms\VendorsGroup\Helper\Data
-     */
+         * @var \Vnecoms\VendorsGroup\Helper\Data
+         */
     protected $_groupHelper;
     
     /**
@@ -39,7 +39,7 @@ class SelectAndSellNewPredispatch implements ObserverInterface
     
     /**
      * Constructor
-     * 
+     *
      * @param \Vnecoms\VendorsGroup\Helper\Data $groupHelper
      * @param \Vnecoms\Vendors\Model\Session $vendorSession
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
@@ -60,7 +60,7 @@ class SelectAndSellNewPredispatch implements ObserverInterface
     }
     
     /**
-     * 
+     *
      *
      * @param \Magento\Framework\Event\Observer $observer
      * @return self
@@ -69,14 +69,14 @@ class SelectAndSellNewPredispatch implements ObserverInterface
     {
         $groupId = $this->_vendorSession->getVendor()->getGroupId();
         $productLimit = $this->_groupHelper->getProductLimit($groupId);
-        if($productLimit){
+        if ($productLimit) {
             $collection = $this->_productCollectionFactory->create();
             $collection->addAttributeToFilter('vendor_id', $this->_vendorSession->getVendor()->getId());
-            if(($productCount = $collection->count()) >= $productLimit){
+            if (($productCount = $collection->count()) >= $productLimit) {
                 $controllerAction = $observer->getControllerAction();
                 $this->messageManager->addError(__("You have total %1 products which is reached your limitations. You can not add more products.", $productCount));
                 $this->_redirect->redirect($controllerAction->getResponse(), 'catalog/product');
-                $controllerAction->getActionFlag()->set('', \Magento\Framework\App\ActionInterface::FLAG_NO_DISPATCH,true);
+                $controllerAction->getActionFlag()->set('', \Magento\Framework\App\ActionInterface::FLAG_NO_DISPATCH, true);
                 return;
             }
         }

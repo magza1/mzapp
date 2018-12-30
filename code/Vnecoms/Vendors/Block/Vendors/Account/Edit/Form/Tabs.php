@@ -100,7 +100,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         foreach ($this->_fieldsetCollection as $fieldset) {
             $this->addTab(
-                'vendor_fieldset_'+$fieldset->getId(),
+                'vendor_fieldset_'.$fieldset->getId(),
                 [
                     'label' => $fieldset->getTitle(),
                     'content' => $this->getLayout()->createBlock(

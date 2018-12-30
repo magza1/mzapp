@@ -48,14 +48,15 @@ class Link extends \Magento\Framework\View\Element\Template
      *
      * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection
      */
-    public function getUnreadMessageCollection(){
-        if(!$this->_unreadMessageCollection){
+    public function getUnreadMessageCollection()
+    {
+        if (!$this->_unreadMessageCollection) {
             $this->_unreadMessageCollection = $this->_messageFactory->create()->getCollection();
-            $this->_unreadMessageCollection->addFieldToFilter('owner_id',$this->_customerSession->getCustomerId())
-                ->addFieldToFilter('status',\Vnecoms\VendorsMessage\Model\Message::STATUS_UNDREAD)
-                ->addFieldToFilter('is_inbox',1)
-                ->addFieldToFilter('is_deleted',0)
-                ->setOrder('message_id','DESC')
+            $this->_unreadMessageCollection->addFieldToFilter('owner_id', $this->_customerSession->getCustomerId())
+                ->addFieldToFilter('status', \Vnecoms\VendorsMessage\Model\Message::STATUS_UNDREAD)
+                ->addFieldToFilter('is_inbox', 1)
+                ->addFieldToFilter('is_deleted', 0)
+                ->setOrder('message_id', 'DESC')
                 ->setPageSize(5);
         }
     
@@ -68,7 +69,8 @@ class Link extends \Magento\Framework\View\Element\Template
      *
      * @return int
      */
-    public function getUnreadMessageCount(){
+    public function getUnreadMessageCount()
+    {
         return $this->getUnreadMessageCollection()->getSize();
     }
     
@@ -80,8 +82,11 @@ class Link extends \Magento\Framework\View\Element\Template
         return $this->getUrl('customer/message');
     }
 
-    public function toHtml(){
-        if(!$this->_customerSession->isLoggedIn()) return '';
+    public function toHtml()
+    {
+        if (!$this->_customerSession->isLoggedIn()) {
+            return '';
+        }
         return parent::toHtml();
     }
 }

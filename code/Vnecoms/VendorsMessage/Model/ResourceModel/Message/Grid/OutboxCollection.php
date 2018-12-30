@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface as Logger;
  */
 class OutboxCollection extends \Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult
 {
-public function __construct(
+    public function __construct(
         EntityFactory $entityFactory,
         Logger $logger,
         FetchStrategy $fetchStrategy,
@@ -38,7 +38,6 @@ public function __construct(
             'created_at',
             'msg_detail.created_at'
         );
-
     }
     
     /**
@@ -49,8 +48,8 @@ public function __construct(
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addFieldToFilter('is_deleted',0);
-        $this->addFieldToFilter('is_outbox',1);
+        $this->addFieldToFilter('is_deleted', 0);
+        $this->addFieldToFilter('is_outbox', 1);
         $this->getSelect()->joinLeft(
             ['msg_detail' => $this->getTable('ves_vendor_message_detail')],
             'main_table.message_id = msg_detail.message_id',

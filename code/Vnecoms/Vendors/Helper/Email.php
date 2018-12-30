@@ -76,9 +76,12 @@ class Email
         $storeId = \Magento\Store\Model\Store::DEFAULT_STORE_ID,
         $scope = ScopeConfigInterface::SCOPE_TYPE_DEFAULT
     ) {
+        $templateId = $this->scopeConfig->getValue($templateIdentifier, $scope);
+        if(!$templateId) return true;
+
         $this->inlineTranslation->suspend();
         $transportBuilder = $this->_transportBuilder
-        ->setTemplateIdentifier($this->scopeConfig->getValue($templateIdentifier, $scope))
+        ->setTemplateIdentifier($templateId)
         ->setTemplateOptions(
             [
                 'area' => $area,

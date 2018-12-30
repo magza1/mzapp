@@ -11,10 +11,10 @@
 /**
  * New Customer block template
  *
- * @var $block \Magento\Customer\Block\Form\Login\Info
+ * @var $block \Vnecoms\Vendors\Block\Account\Login\Info
  */
 ?>
-<?php if ($block->isAllowedRegister()): ?>
+<?php if ($this->helper('Vnecoms\Vendors\Helper\Data')->isEnableVendorRegister()): ?>
 <div class="block block-new-customer">
     <div class="block-title">
         <strong id="block-new-customer-heading" role="heading" aria-level="2"><?php /* @escapeNotVerified */ echo __('New Seller Account') ?></strong>

@@ -26,6 +26,21 @@ class Collection extends \Magento\Framework\View\Element\UiComponent\DataProvide
         parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $mainTable, $resourceModel);
     }
 
+    protected function _construct()
+    {
+        parent::_construct();
+        $fields = [
+            'entity_id',
+	    'order_id'
+        ];
+        foreach ($fields as $field) {
+            $this->addFilterToMap(
+                $field,
+                'main_table.'.$field
+            );
+        }
+    }
+
     /**
      * Init collection select
      *

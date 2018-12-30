@@ -120,7 +120,7 @@ class Save extends \Vnecoms\Vendors\Controller\Adminhtml\Attribute
                 $this->_entityTypeId
             );
 
-            $customerEntity = $model->getEntity();
+            $customerEntity = $model->getEntityType();
             $attributeSetId = $customerEntity->getDefaultAttributeSetId();
             /** @var $attributeSet AttributeSet */
             $attributeSet = $this->attributeSetFactory->create();

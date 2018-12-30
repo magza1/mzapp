@@ -31,7 +31,7 @@ class Banner extends \Magento\Framework\View\Element\Template
     protected $_vendorHelper;
     
     /**
-     * 
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Vnecoms\VendorsPage\Helper\Data $pageHelper
@@ -54,15 +54,16 @@ class Banner extends \Magento\Framework\View\Element\Template
         $this->_pageHelper = $pageHelper;
         $this->_vendorHelper = $vendorHelper;
         $this->_coreRegistry = $registry;
-        parent::__construct($context,$data);
+        parent::__construct($context, $data);
     }
     
     /**
      * Get Vendor object
-     * 
+     *
      * @return \Vnecoms\Vendors\Model\Vendor
      */
-    public function getVendor(){
+    public function getVendor()
+    {
         return $this->_coreRegistry->registry('vendor');
     }
     
@@ -71,7 +72,8 @@ class Banner extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getBannerSrc(){
+    public function getBannerSrc()
+    {
         $vendorId = $this->getVendor()->getId();
         $bannerFile = $this->_pageHelper->getVendorBanner($vendorId);
         $path = 'ves_vendors/banner/' . $bannerFile;
@@ -88,7 +90,7 @@ class Banner extends \Magento\Framework\View\Element\Template
         $logoUrl = $this->_storeManager->getStore()
             ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
         
-        if ($bannerFile !== null && $this->checkIsFile($path)) {
+        if ($defaultBannerFile !== null && $this->checkIsFile($path)) {
             return $logoUrl;
         }
         
@@ -115,7 +117,8 @@ class Banner extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getStoreName(){
+    public function getStoreName()
+    {
         return $this->_vendorHelper->getVendorStoreName($this->getVendor()->getId());
     }
     
@@ -123,8 +126,11 @@ class Banner extends \Magento\Framework\View\Element\Template
      * (non-PHPdoc)
      * @see \Magento\Framework\View\Element\Template::_toHtml()
      */
-    protected function _toHtml(){
-        if(!$this->getBannerSrc()) return '';
+    protected function _toHtml()
+    {
+        if (!$this->getBannerSrc()) {
+            return '';
+        }
         return parent::_toHtml();
     }
 }

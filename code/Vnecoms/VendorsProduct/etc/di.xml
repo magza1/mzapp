@@ -42,4 +42,31 @@
             </argument>
         </arguments>
     </type>
+
+    <preference for="Magento\Catalog\Model\ResourceModel\Layer\Filter\Price"
+                type="Vnecoms\VendorsProduct\Model\ResourceModel\Layer\Filter\Price"/>
+
+     <preference for="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider"
+                type="Vnecoms\VendorsProduct\Model\Adapter\Mysql\Aggregation\DataProvider"/>  
+                
+    <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider">
+        <plugin name="categoryIdAggregation" disabled="true" />
+    </type>            
+
+    <type name="Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider">
+         <arguments>
+            <argument name="range" xsi:type="object">Magento\Catalog\Model\Layer\Filter\Price\Range\Proxy</argument>
+        </arguments>
+        <plugin name="categoryIdAggregationCustom" type="Vnecoms\VendorsProduct\Model\Plugin\Aggregation\Category\DataProvider" sortOrder="2" />
+    </type> 
+
+
+     <type name="Vnecoms\VendorsProduct\Helper\Data">
+        <arguments>
+            <argument name="joinProductAttribute" xsi:type="array">
+                <item name="vendor_id" xsi:type="string">static</item>
+                <item name="approval" xsi:type="string">int</item>
+            </argument>
+        </arguments>
+    </type>
 </config>

@@ -39,16 +39,18 @@ class Link extends \Magento\Framework\View\Element\Template
      *
      * @return \Vnecoms\Vendors\Model\Vendor
      */
-    public function getVendor(){
+    public function getVendor()
+    {
         return $this->getParentBlock()->getVendor();
     }
     
     /**
      * Can show link
-     * 
+     *
      * @return boolean
      */
-    public function canShowLink(){
+    public function canShowLink()
+    {
         return !$this->_coreRegistry->registry('is_home_page');
     }
     
@@ -58,7 +60,7 @@ class Link extends \Magento\Framework\View\Element\Template
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        if($this->canShowLink()){
+        if ($this->canShowLink()) {
             $profileBlock = $this->getParentBlock();
             $profileBlock->setVendorUrl($this->_pageHelper->getUrl($this->getVendor()));
         }

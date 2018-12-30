@@ -1,13 +1,16 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsConfig\Controller\Vendors\Index;
 
 class Index extends AbstractScopeConfig
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsConfig::configuration';
+    
     /**
      * @var \Magento\Backend\Model\View\Result\ForwardFactory
      */

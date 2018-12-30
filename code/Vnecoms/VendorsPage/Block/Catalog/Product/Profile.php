@@ -5,7 +5,7 @@ namespace Vnecoms\VendorsPage\Block\Catalog\Product;
  * Class View
  * @package Magento\Catalog\Block\Category
  */
-class Profile extends \Magento\Framework\View\Element\Template 
+class Profile extends \Magento\Framework\View\Element\Template
 {
     /**
      * Core registry
@@ -43,7 +43,8 @@ class Profile extends \Magento\Framework\View\Element\Template
      *
      * @return \Vnecoms\Vendors\Model\Vendor
      */
-    public function getVendor(){
+    public function getVendor()
+    {
         return $this->getParentBlock()->getVendor();
     }
     

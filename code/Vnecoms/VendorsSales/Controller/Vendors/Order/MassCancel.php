@@ -1,20 +1,21 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order;
 
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
 use Magento\Ui\Component\MassAction\Filter;
 use Magento\Framework\Stdlib\DateTime\DateTime;
 use Vnecoms\Vendors\App\Action\Context;
-use Magento\Framework\Controller\ResultInterface;
 use Vnecoms\VendorsSales\Model\ResourceModel\Order\CollectionFactory;
 
 class MassCancel extends \Vnecoms\VendorsSales\Controller\Vendors\Order\AbstractMassAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_cancel';
+    
     /**
      * @var DateTime
      */

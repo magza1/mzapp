@@ -64,11 +64,13 @@ class Approve extends \Magento\Catalog\Controller\Adminhtml\Product
             $tmpProduct = $this->_objectManager->create('Magento\Catalog\Model\Product');
             $tmpProduct->load($id);
             $productData = unserialize($update->getProductData());
+						$tmpProduct->setStoreId($update->getStoreId());
             foreach ($productData as $attributeCode => $value) {
-                $tmpProduct->setData($attributeCode, $value);
+                $tmpProduct->setData($attributeCode, $value)
+									->getResource()
+									->saveAttribute($tmpProduct, $attributeCode);
             }
             $update->setStatus(\Vnecoms\VendorsProduct\Model\Product\Update::STATUS_APPROVED)->setId($update->getUpdateId())->save();
-            $tmpProduct->setStoreId($update->getStoreId())->save();
         }
         $product->setApproval(\Vnecoms\VendorsProduct\Model\Source\Approval::STATUS_APPROVED)->getResource()->saveAttribute($product, 'approval');
         

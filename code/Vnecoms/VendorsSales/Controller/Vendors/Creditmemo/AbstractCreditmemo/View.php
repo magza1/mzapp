@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Creditmemo\AbstractCreditmemo;
 
 use Vnecoms\Vendors\App\Action\Context;
@@ -10,6 +7,13 @@ use Magento\Framework\Registry;
 
 class View extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_creditmemo';
+    
     /*
     * @var Registry
     */
@@ -31,13 +35,6 @@ class View extends \Vnecoms\Vendors\App\AbstractAction
         $this->registry = $context->getCoreRegsitry();
         parent::__construct($context);
         $this->resultForwardFactory = $resultForwardFactory;
-    }
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorsSales::sales_creditmemo');
     }
 
     /**

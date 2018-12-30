@@ -2,7 +2,7 @@
     "name": "vnecoms/module-vendors-credit",
     "description": "N/A",
     "type": "magento2-module",
-    "version": "2.0.0",
+    "version": "2.0.1",
     "autoload": {
         "files": [
             "registration.php"

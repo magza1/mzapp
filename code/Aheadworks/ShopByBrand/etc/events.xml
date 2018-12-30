@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 -->
 
@@ -15,5 +15,8 @@
     </event>
     <event name="aw_sitemap_items_init">
         <observer name="aheadworks_shopbybrand_add_sitemap_items" instance="Aheadworks\ShopByBrand\Observer\AddSitemapItemsObserver" />
+    </event>
+    <event name="catalog_block_product_list_collection">
+        <observer name="aheadworks_shopbybrand_change_sort_products" instance="Aheadworks\ShopByBrand\Observer\CatalogBlockProductCollectionObserver" />
     </event>
 </config>

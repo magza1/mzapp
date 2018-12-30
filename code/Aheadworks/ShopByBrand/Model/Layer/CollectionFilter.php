@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Model\Layer;
@@ -13,6 +13,8 @@ use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Framework\App\RequestInterface;
+use Aheadworks\ShopByBrand\Model\ResourceModel\Product\Collection as BrandProductCollection;
+use Aheadworks\ShopByBrand\Api\Data\BrandInterface;
 
 /**
  * Class CollectionFilter
@@ -41,6 +43,11 @@ class CollectionFilter implements CollectionFilterInterface
     private $brandRepository;
 
     /**
+     * @var BrandProductCollection
+     */
+    private $productCollection;
+
+    /**
      * @param CatalogConfig $catalogConfig
      * @param Visibility $productVisibility
      * @param RequestInterface $request
@@ -50,12 +57,14 @@ class CollectionFilter implements CollectionFilterInterface
         CatalogConfig $catalogConfig,
         Visibility $productVisibility,
         RequestInterface $request,
-        BrandRepositoryInterface $brandRepository
+        BrandRepositoryInterface $brandRepository,
+        BrandProductCollection $productCollection
     ) {
         $this->catalogConfig = $catalogConfig;
         $this->productVisibility = $productVisibility;
         $this->request = $request;
         $this->brandRepository = $brandRepository;
+        $this->productCollection = $productCollection;
     }
 
     /**
@@ -72,22 +81,39 @@ class CollectionFilter implements CollectionFilterInterface
             ->addUrlRewrite()
             ->addStoreFilter()
             ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
-        $this->addBrandAttributeFilter($collection);
+        $this->addBrandProductsFilter($collection);
     }
 
     /**
-     * Add brand attribute filter to product collection
+     * Add brand filter to product collection
      *
      * @param Collection $collection
      * @return void
      */
-    private function addBrandAttributeFilter($collection)
+    private function addBrandProductsFilter($collection)
     {
         $brandId = $this->request->getParam('brand_id');
-        $brand = $this->brandRepository->get($brandId);
+        $productIds = $this->getBrandProductsIds($brandId);
+        $this->productCollection->addAdditionalProducts($collection, $brandId);
+
         $collection->addFieldToFilter(
-            $brand->getAttributeCode(),
-            $brand->getOptionId()
+            'entity_id',
+            ['in' => $productIds]
         );
+    }
+
+    /**
+     * @param int $brandId
+     * @return array
+     */
+    private function getBrandProductsIds($brandId)
+    {
+        $brand = $this->brandRepository->get($brandId);
+        $productIds = $this->productCollection->getBrandProductsIds($brand);
+
+        if ($productIds && count($productIds)) {
+            return $productIds;
+        }
+        return [0];
     }
 }

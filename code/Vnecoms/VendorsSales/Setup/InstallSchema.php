@@ -206,7 +206,7 @@ class InstallSchema implements InstallSchemaInterface
         )->addColumn(
             'shipping_method',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-            32,
+            120,
             [],
             'Shipping Method'
         )->addColumn(

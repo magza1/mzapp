@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Model\Brand;
@@ -67,8 +67,12 @@ class PageConfig
      */
     public function apply(Page $page, BrandInterface $brand)
     {
+        $pageTitle = $brand->getName();
+        if ($brand->getMetaTitle()) {
+            $pageTitle = $brand->getMetaTitle();
+        }
         $pageConfig = $page->getConfig();
-        $pageConfig->getTitle()->set(__($brand->getName()));
+        $pageConfig->getTitle()->set(__($pageTitle));
         $pageConfig->setMetadata('description', $brand->getMetaDescription());
         $pageConfig->addRemotePageAsset(
             $this->url->getBrandUrl($brand),

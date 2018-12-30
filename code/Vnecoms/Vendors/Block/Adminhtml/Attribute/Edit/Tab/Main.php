@@ -67,6 +67,18 @@ class Main extends AbstractMain
             'frontend_class'
         );
         $fieldset->addField(
+            'hide_from_vendor_panel',
+            'select',
+            [
+                'name' => 'hide_from_vendor_panel',
+                'label' => __('Hide This Field From Vendor Panel'),
+                'title' => __('Hide This Field From Vendor Panel'),
+                'values' => $yesno,
+                'note' => __('If you set this to Yes, this attribute will be hid from vendor profile in vendor panel.'),
+            ],
+            'frontend_class'
+        );
+        $fieldset->addField(
             'is_used_in_registration_form',
             'select',
             [

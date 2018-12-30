@@ -108,13 +108,17 @@ class Router implements \Magento\Framework\App\RouterInterface
     public function match(\Magento\Framework\App\RequestInterface $request)
     {
         /* Do nothing if the extension is not enabled.*/
-        if(!$this->_vendorHelper->moduleEnabled()) return;
+        if (!$this->_vendorHelper->moduleEnabled()) {
+            return;
+        }
         $identifier = trim($request->getPathInfo(), '/');
-        $condition = new \Magento\Framework\DataObject(['identifier' => $identifier, 'continue' => true]);
+        $condition = new \Magento\Framework\DataObject(['identifier' => $identifier, 'continue' => true, 'alias' => false]);
+        
         $this->_eventManager->dispatch(
             'vendorspage_controller_router_match_before',
-            ['router' => $this, 'condition' => $condition]
+            ['router' => $this, 'condition' => $condition, 'request' => $request]
         );
+        
         $identifier = $condition->getIdentifier();
 
         if ($condition->getRedirectUrl()) {
@@ -127,39 +131,57 @@ class Router implements \Magento\Framework\App\RouterInterface
             return null;
         }
 
-        if($urlKey = $this->_vendorPageHelper->getUrlKey()){
+        if ($urlKey = $this->_vendorPageHelper->getUrlKey()) {
             //check if we have reserved word in the url
-            $pageIds 		= explode('/', $identifier,3);
-            $handle 		= isset($pageIds[0])?$pageIds[0]:'';
-            $vendorId 		= isset($pageIds[1])?$pageIds[1]:'';
-            $requestPath 	= isset($pageIds[2])?$pageIds[2]:'';
+            $pageIds        = explode('/', $identifier, 3);
+            $handle         = isset($pageIds[0])?$pageIds[0]:'';
+            $vendorId       = isset($pageIds[1])?$pageIds[1]:'';
+            $requestPath    = isset($pageIds[2])?$pageIds[2]:'';
         
-            if(!(trim($handle) == $urlKey)) return false;
-        }else{
-            $pageIds = explode('/', $identifier,2);
-            $vendorId 		= isset($pageIds[0])?$pageIds[0]:'';
-            $requestPath 	= isset($pageIds[1])?$pageIds[1]:'';
+            if (!(trim($handle) == $urlKey)) {
+                return false;
+            }
+        } else {
+            $pageIds = explode('/', $identifier, 2);
+            $vendorId       = isset($pageIds[0])?$pageIds[0]:'';
+            $requestPath    = isset($pageIds[1])?$pageIds[1]:'';
         }
         
         $vendor = $this->_vendorFactory->create()->loadByIdentifier($vendorId);
-        if(!$vendor->getId() || $vendor->getStatus() != \Vnecoms\Vendors\Model\Vendor::STATUS_APPROVED) return null;
+        if (!$vendor->getId() || $vendor->getStatus() != \Vnecoms\Vendors\Model\Vendor::STATUS_APPROVED) {
+            return null;
+        }
         
-        if(!$this->_coreRegistry->registry('vendor_id')){
+        if (!$this->_coreRegistry->registry('vendor_id')) {
             $this->_coreRegistry->register('vendor_id', $vendorId);
             $this->_coreRegistry->register('vendor', $vendor);
             $this->_coreRegistry->register('current_vendor', $vendor);
         }
         
-        $targetPath = $requestPath;
+        $condition->setData('request_path', $requestPath);
+        $condition->setData('vendor', $vendor);
+        $condition->setData('vendor_id', $vendorId);
+        
+        $this->_eventManager->dispatch(
+            'vendorspage_controller_router_match_vendor',
+            ['router' => $this, 'condition' => $condition, 'request' => $request]
+        );
+        
+        if (!$condition->getContinue()) {
+            return null;
+        }
+        
+        $targetPath = $condition->getRequestPath();
         $targetPath = explode('/', $targetPath, 3);
         
-        $controller	= isset($targetPath[0]) && $targetPath[0]?$targetPath[0]:'index';
-		$action = isset($targetPath[1]) && $targetPath[1]?$targetPath[1]:'index';
-		$params = isset($targetPath[2])?$targetPath[2]:'';
-		
+        $controller     = isset($targetPath[0]) && $targetPath[0]?$targetPath[0]:'index';
+        $action = isset($targetPath[1]) && $targetPath[1]?$targetPath[1]:'index';
+        $params = isset($targetPath[2])?$targetPath[2]:'';
+        
         $request->setPathInfo('/vendorspage/'.$controller.'/'.$action.'/'.$params);
         $request->setParam('vendor_id', $vendorId);
-        $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $identifier);
+        $alias = $condition->getAlias()!== false?$condition->getAlias():$identifier;
+        $request->setAlias(\Magento\Framework\Url::REWRITE_REQUEST_PATH_ALIAS, $alias);
 
         return $this->actionFactory->create('Magento\Framework\App\Action\Forward');
     }

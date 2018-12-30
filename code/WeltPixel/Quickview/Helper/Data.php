@@ -26,6 +26,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
+     * @return bool
+     */
+    public function isEnabled() {
+        return trim($this->_quickviewOptions['general']['enable_product_listing']);
+    }
+
+    /**
      * @return string
      */
     public function getSkuTemplate() {
@@ -63,6 +70,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getShoppingCheckoutButtons() {
         return $this->_quickviewOptions['general']['enable_shopping_checkout_product_buttons'];
+    }
+
+    /**
+     * @return string
+     */
+    public function getZoomType() {
+        return  (boolean)$this->_quickviewOptions['general']['zoom_eventtype'];
     }
 
 }

@@ -90,6 +90,14 @@ require([
                         content: data.msg,
                     });
                 }else{
+                    /*
+                    if(data.msg){
+                        alert({
+                            modalClass: 'alert ves-error',
+                            title: '<?php echo __("Warning");?>',
+                            content: data.msg,
+                        });
+                    }*/
                 	jQuery('.box-message-list').html(data.message_list);
                 	tinyMCE.get('reply_msg_box').setContent('<p></p>');
                 }

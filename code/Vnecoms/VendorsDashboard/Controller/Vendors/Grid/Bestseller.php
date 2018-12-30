@@ -11,6 +11,8 @@ use Magento\Framework\Stdlib\DateTime\Filter\Date;
 
 class Bestseller extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
+    protected $_aclResource = 'Vnecoms_Vendors::dashboard';
+    
     /**
      * @var \Magento\Framework\Controller\Result\RawFactory
      */

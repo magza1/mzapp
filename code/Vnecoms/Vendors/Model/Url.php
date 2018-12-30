@@ -1,6 +1,7 @@
 <?php
 namespace Vnecoms\Vendors\Model;
 
+use Magento\Framework\App\ObjectManager;
 class Url extends \Magento\Backend\Model\Url implements \Vnecoms\Vendors\Model\UrlInterface
 {
     /**
@@ -27,7 +28,7 @@ class Url extends \Magento\Backend\Model\Url implements \Vnecoms\Vendors\Model\U
      * @param \Magento\Framework\Url\QueryParamsResolverInterface $queryParamsResolver
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Url\RouteParamsPreprocessorInterface $routeParamsPreprocessor
-     * @param unknown $scopeType
+     * @param string $scopeType
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Framework\App\CacheInterface $cache
@@ -138,11 +139,8 @@ class Url extends \Magento\Backend\Model\Url implements \Vnecoms\Vendors\Model\U
      */
     public function getAreaFrontName()
     {
-        $code = \Vnecoms\Vendors\App\Area\FrontNameResolver::AREA_CODE;
-        if ($this->_getConfig(self::XML_PATH_USE_CUSTOM_VENDOR_PATH) && $this->_getConfig(self::XML_PATH_CUSTOM_VENDOR_PATH)) {
-            $code  = $this->_getConfig(self::XML_PATH_CUSTOM_VENDOR_PATH);
-        }
-        return $code;
+        $resolver = ObjectManager::getInstance()->get('Vnecoms\Vendors\App\Area\FrontNameResolver');
+        return $resolver->getFrontName(true);
     }
 
 //     /**
@@ -240,16 +238,22 @@ class Url extends \Magento\Backend\Model\Url implements \Vnecoms\Vendors\Model\U
      */
     protected function _getScope()
     {
+        if (!$this->hasData('scope')) {
+            $this->setScope(null);
+        }
+        return $this->_getData('scope');
+        /*
         if (!$this->_scope) {
             $this->_scope = $this->_storeFactory->create(
                 [
                     'url' => $this,
-                    'data' => ['force_disable_rewrites' => false, 'disable_store_in_url' => true],
+                    'data' => ['force_disable_rewrites' => false, 'disable_store_in_url' => false],
                 ]
             );
         }
-        return $this->_scope;
+        return $this->_scope; */
     }
+
 
     /**
      * Get cache id for config path
@@ -260,6 +264,25 @@ class Url extends \Magento\Backend\Model\Url implements \Vnecoms\Vendors\Model\U
     protected function _getConfigCacheId($path)
     {
         return 'vendors/' . $path;
+    }
+    
+    /**
+     * (non-PHPdoc)
+     * @see \Magento\Framework\Url::getBaseUrl()
+     */
+    public function getBaseUrl($params = []){
+        if(!$this->_scopeConfig->getValue(\Vnecoms\Vendors\App\Area\FrontNameResolver::XML_PATH_USE_CUSTOM_VENDOR_URL)){
+            return parent::getBaseUrl($params);
+        }
+        $customUrl = $this->_scopeConfig->getValue(\Vnecoms\Vendors\App\Area\FrontNameResolver::XML_PATH_CUSTOM_VENDOR_URL);
+        $baseUrlInfo = parse_url($customUrl);
+        $baseDomain = $baseUrlInfo['host'];
+        
+        $oldBaseUrl = parent::getBaseUrl($params);
+        $oldBaseUrlInfo = parse_url($oldBaseUrl);
+        $oldBaseDomain = $oldBaseUrlInfo['host'];
+        
+        return str_replace($oldBaseDomain, $baseDomain, $oldBaseUrl);
     }
 
 }

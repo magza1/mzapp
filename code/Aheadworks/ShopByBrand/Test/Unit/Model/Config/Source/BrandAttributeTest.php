@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Config\Source;
@@ -15,11 +15,12 @@ use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\SortOrder;
 use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Config\Source\BrandAttribute
  */
-class BrandAttributeTest extends \PHPUnit_Framework_TestCase
+class BrandAttributeTest extends TestCase
 {
     /**
      * @var BrandAttribute
@@ -44,22 +45,16 @@ class BrandAttributeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->productAttributeRepositoryMock = $this->getMockForAbstractClass(
-            ProductAttributeRepositoryInterface::class
-        );
-        $this->searchCriteriaBuilderMock = $this->getMock(
+        $this->productAttributeRepositoryMock = $this->getMockBuilder(ProductAttributeRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->searchCriteriaBuilderMock = $this->createPartialMock(
             SearchCriteriaBuilder::class,
-            ['addFilter', 'addSortOrder', 'create'],
-            [],
-            '',
-            false
+            ['addFilter', 'addSortOrder', 'create']
         );
-        $this->sortOrderBuilderMock = $this->getMock(
+        $this->sortOrderBuilderMock = $this->createPartialMock(
             SortOrderBuilder::class,
-            ['setField', 'setAscendingDirection', 'create'],
-            [],
-            '',
-            false
+            ['setField', 'setAscendingDirection', 'create']
         );
         $this->source = $objectManager->getObject(
             BrandAttribute::class,
@@ -73,10 +68,14 @@ class BrandAttributeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAttributes()
     {
-        $sortOrderMock = $this->getMock(SortOrder::class, [], [], '', false);
-        $searchCriteriaMock = $this->getMock(SearchCriteria::class, [], [], '', false);
-        $searchResultsMock = $this->getMockForAbstractClass(ProductAttributeSearchResultsInterface::class);
-        $attributeMock = $this->getMockForAbstractClass(ProductAttributeInterface::class);
+        $sortOrderMock = $this->createMock(SortOrder::class);
+        $searchCriteriaMock = $this->createMock(SearchCriteria::class);
+        $searchResultsMock = $this->getMockBuilder(ProductAttributeSearchResultsInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $attributeMock = $this->getMockBuilder(ProductAttributeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->sortOrderBuilderMock->expects($this->once())
             ->method('setField')

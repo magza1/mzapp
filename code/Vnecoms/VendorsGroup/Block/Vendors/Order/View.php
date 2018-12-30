@@ -7,7 +7,8 @@
 namespace Vnecoms\VendorsGroup\Block\Vendors\Order;
 
 class View extends \Magento\Framework\View\Element\Template
-{    
+{
+
     
     /**
      * @var \Vnecoms\VendorsGroup\Helper\Data
@@ -21,7 +22,7 @@ class View extends \Magento\Framework\View\Element\Template
     
     /**
      * Constructor
-     * 
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Vnecoms\VendorsGroup\Helper\Data $groupHelper
      * @param \Vnecoms\Vendors\Model\Session $vendorSession
@@ -48,35 +49,34 @@ class View extends \Magento\Framework\View\Element\Template
     {
         parent::_prepareLayout();
         $groupId = $this->_vendorSession->getVendor()->getGroupId();
-        if(!$this->_groupHelper->canCancelOrder($groupId)){
+        if (!$this->_groupHelper->canCancelOrder($groupId)) {
             $this->getParentBlock()->removeButton('order_cancel');
         }
         
-        if(!$this->_groupHelper->canCreateInvoice($groupId)){
+        if (!$this->_groupHelper->canCreateInvoice($groupId)) {
             $this->getParentBlock()->removeButton('order_invoice');
         }
         
-        if(!$this->_groupHelper->canCreateShipment($groupId)){
+        if (!$this->_groupHelper->canCreateShipment($groupId)) {
             $this->getParentBlock()->removeButton('order_ship');
         }
         
-        if(!$this->_groupHelper->canCreateCreditMemo($groupId)){
+        if (!$this->_groupHelper->canCreateCreditMemo($groupId)) {
             $this->getParentBlock()->removeButton('order_creditmemo');
         }
         
-        if(!$this->_groupHelper->canSubmitOrderComment($groupId)){
+        if (!$this->_groupHelper->canSubmitOrderComment($groupId)) {
             $this->getLayout()->getBlock('order_tab_info')->setData('hide_comment', true);
         }
         
-        if($this->_groupHelper->hidePaymentInfo($groupId)){
+        if ($this->_groupHelper->hidePaymentInfo($groupId)) {
             $this->getLayout()->getBlock('order_tab_info')->setData('hide_payment_info', true);
         }
         
-        if($this->_groupHelper->hideCustomerEmail($groupId)){
+        if ($this->_groupHelper->hideCustomerEmail($groupId)) {
             $this->getLayout()->getBlock('order_info')->setData('hide_email', true);
         }
         
         return $this;
     }
-    
 }

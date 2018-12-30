@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Api\Data;
@@ -31,6 +31,15 @@ interface BrandInterface extends ExtensibleDataInterface
     const META_TITLE = 'meta_title';
     const META_DESCRIPTION = 'meta_description';
     const DESCRIPTION = 'description';
+    const BRAND_PRODUCTS = 'brand_additional_products';
+    /**#@-*/
+
+    /**#@+
+     * Brand product state and default position.
+     */
+    const PRODUCT_ADDED = 1;
+    const PRODUCT_REMOVED = 0;
+    const DEFAULT_POSITION = 1000;
     /**#@-*/
 
     /**
@@ -230,16 +239,31 @@ interface BrandInterface extends ExtensibleDataInterface
     public function setDescription($description);
 
     /**
+     * Get brand additional products
+     *
+     * @return \Aheadworks\ShopByBrand\Api\Data\BrandAdditionalProductsInterface[]
+     */
+    public function getBrandAdditionalProducts();
+
+    /**
+     * Set brand additional products
+     *
+     * @param \Aheadworks\ShopByBrand\Api\Data\BrandAdditionalProductsInterface[] $products
+     * @return $this
+     */
+    public function setBrandAdditionalProducts($products);
+
+    /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return BrandExtensionInterface|null
+     * @return \Aheadworks\ShopByBrand\Api\Data\BrandExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param BrandExtensionInterface $extensionAttributes
+     * @param \Aheadworks\ShopByBrand\Api\Data\BrandExtensionInterface $extensionAttributes
      * @return $this
      */
     public function setExtensionAttributes(BrandExtensionInterface $extensionAttributes);

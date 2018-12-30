@@ -1,15 +1,18 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Creditmemo;
 
-use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
 
 class Save extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_creditmemo';
+    
     /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader
      */
@@ -41,14 +44,6 @@ class Save extends \Vnecoms\Vendors\App\AbstractAction
         $this->creditmemoSender = $creditmemoSender;
         $this->resultForwardFactory = $resultForwardFactory;
         parent::__construct($context);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendrosSales::sales_creditmemo');
     }
 
     /**

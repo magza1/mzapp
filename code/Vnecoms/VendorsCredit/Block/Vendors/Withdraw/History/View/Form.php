@@ -60,6 +60,7 @@ class Form extends \Vnecoms\Vendors\Block\Vendors\AbstractBlock
     {
         return $this->_scopeConfig->getValue('withdrawal_methods/'.$this->getWithdrawal()->getMethod().'/title');
     }
+    
     /**
      * Get current withdrawal
      *
@@ -102,7 +103,25 @@ class Form extends \Vnecoms\Vendors\Block\Vendors\AbstractBlock
         $status = $this->_withdrawalStatus->getOptionArray();
         return $status[$this->getWithdrawal()->getStatus()];
     }
-    
+
+    /**
+     * get code of transfer
+     * @return mixed
+     */
+    public function getCodeOfTransfer(){
+        $code = $this->getWithdrawal()->getCodeOfTransfer();
+        return $code;
+    }
+
+    /**
+     * get reason cancel
+     * @return mixed
+     */
+    public function getReasonCancel(){
+        $code = $this->getWithdrawal()->getReasonCancel();
+        return $code;
+    }
+
     /**
      * Get status html class
      *

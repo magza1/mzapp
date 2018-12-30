@@ -154,17 +154,19 @@ class Profile extends \Magento\Framework\View\Element\Template
         );
         $basePath = 'ves_vendors/logo/';
         $path =  $basePath. $scopeConfig;
-        
-        
+
+
         if ($scopeConfig && $this->checkIsFile($path)) {
             $this->_imageHelper->init($scopeConfig)
                 ->setBaseMediaPath($basePath)
                 ->keepTransparency($this->keepTransparencyLogo())
                 ->backgroundColor([250,250,250])
                 ->resize($this->getLogoWidth(), $this->getLogoHeight());
+           
             return $this->_imageHelper->getUrl();
             $logoUrl = $this->_storeManager->getStore()
             ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $path;
+
             return $logoUrl;
         }
         
@@ -336,7 +338,7 @@ class Profile extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        if (!$this->getVendor()) {
+        if (!$this->getVendor() || !$this->_vendorHelper->moduleEnabled()) {
             return '';
         }
         return parent::_toHtml();

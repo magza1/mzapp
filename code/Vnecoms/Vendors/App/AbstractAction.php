@@ -76,6 +76,12 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      */
     protected $_canUseBaseUrl;
     
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = '';
 
     /**
      * @param \Vnecoms\Vendors\App\Action\Context $context
@@ -100,8 +106,15 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      */
     protected function _isAllowed()
     {
-        return true;
-        //return $this->_authorization->isAllowed(self::ADMIN_RESOURCE);
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $this->_aclResource,
+                'permission' => $permission
+            ]
+        );
+        return $permission->isAllowed();
     }
 
     /**
@@ -141,6 +154,17 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
         return $this;
     }
 
+    /**
+     * Define active menu item in menu block
+     *
+     * @param string $itemId current active menu item
+     * @return $this
+     */
+    public function setActiveMenu($itemId)
+    {
+        return $this->_setActiveMenu($itemId);
+    }
+    
     /**
      * @param string $label
      * @param string $title
@@ -209,16 +233,19 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
             $loginUrl = $this->_helper->getSellerRegisterType() == \Vnecoms\Vendors\Model\Source\RegisterType::TYPE_SEPARATED?
                 'marketplace/seller/login':
                 'customer/account/login';
+            
+            $redirectUrl = $this->_helper->isUsedCustomVendorUrl()?$this->getUrl('account/login'):$this->getFrontendUrl($loginUrl);
+            
             if ($this->getRequest()->getParam('isAjax')) {
                 $body = [
                     'ajaxExpired'   => 1,
-                    'ajaxRedirect'  => $this->getFrontendUrl($loginUrl),
+                    'ajaxRedirect'  => $redirectUrl,
                 ];
                 $this->_getSession()->setBeforeAuthUrl($this->getUrl('dashboard'));
                 return $this->_response->setBody(json_encode($body));
             } else {
                 $this->_getSession()->setBeforeAuthUrl($this->_backendUrl->getCurrentUrl());
-                $this->_redirectUrl($this->getFrontendUrl($loginUrl));
+                $this->_redirectUrl($redirectUrl);
                 $this->_actionFlag->set('', 'no-dispatch', true);
                 return parent::dispatch($request);
             }
@@ -246,6 +273,14 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
                 $this->_actionFlag->set('', 'no-dispatch', true);
                 return parent::dispatch($request);
             }
+        }
+        
+        if (!$this->_isAllowed()) {
+            $this->_response->setStatusHeader(403, '1.1', 'Forbidden');
+            $this->_view->loadLayout(['default', 'vendors_denied'], true, true, false);
+            $this->_view->renderLayout();
+            $this->_request->setDispatched(true);
+            return $this->_response;
         }
         
         return parent::dispatch($request);

@@ -309,12 +309,12 @@ define([
             this.source.data["product"]["associated_product_ids_serialized"] =
                 JSON.stringify(this.source.data["associated_product_ids"]);
             delete this.source.data["associated_product_ids"];
-            if (this.checkForNewAttributes()) {
-                this.formSaveParams = arguments;
-                this.attributeSetHandlerModal().openModal();
-            } else {
+           // if (this.checkForNewAttributes()) {
+              //  this.formSaveParams = arguments;
+              //  this.attributeSetHandlerModal().openModal();
+         //   } else {
                 this.formElement().save(arguments[0], arguments[1]);
-            }
+          //  }
         },
 
 

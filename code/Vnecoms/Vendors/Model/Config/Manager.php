@@ -16,7 +16,7 @@ class Manager extends \Magento\Ui\Model\Manager
     public function prepareData($name)
     {
 		if ($name === null || $this->hasData($name)) {
-            throw new LocalizedException(
+            throw new \Magento\Framework\Exception\LocalizedException(
                 new \Magento\Framework\Phrase("Invalid UI Component element name: '%1'", [$name])
             );
         }

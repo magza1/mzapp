@@ -6,7 +6,6 @@
  */
 namespace Vnecoms\VendorsMessage\Controller\Vendors\View;
 
-
 class Delete extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
 
@@ -18,7 +17,7 @@ class Delete extends \Vnecoms\Vendors\Controller\Vendors\Action
         $message = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Message');
         $message->load($this->getRequest()->getParam('id'));
         
-        if(!$message->getId() || $message->getOwnerId() != $this->_session->getCustomerId()){
+        if (!$message->getId() || $message->getOwnerId() != $this->_session->getCustomerId()) {
             $this->messageManager->addError(__("The message is not available !"));
             return $this->_redirect('message');
         }

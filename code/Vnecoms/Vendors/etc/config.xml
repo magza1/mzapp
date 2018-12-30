@@ -15,6 +15,7 @@
         	
         	<design>
         		<panel_type>1</panel_type>
+        		<skin>blue</skin>
         		<head_default_title>Vnecoms Marketplace</head_default_title>
         		<footer_text><![CDATA[<strong>Copyright &copy; 2016 <a href="http://www.vnecoms.com">Vnecoms</a>.</strong> All rights reserved.]]></footer_text>
         	</design>

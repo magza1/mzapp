@@ -40,25 +40,40 @@ class Position implements OptionSourceInterface
 
     public function getOptionArray()
     {
-        return [
-            self::SIDEBAR_TOP => __(self::SIDEBAR_TOP_LABEL),
-            self::SIDEBAR_BOTTOM => __(self::SIDEBAR_BOTTOM_LABEL),
-            self::CONTENT_TOP => __(self::CONTENT_TOP_LABEL),
-            self::PAGE_BOTTOM => __(self::PAGE_BOTTOM_LABEL),
-            self::MENU_TOP => __(self::MENU_TOP_LABEL),
-            self::MENU_BOTTOM => __(self::MENU_BOTTOM_LABEL)
-        ];
+        return $this->getTranslatedOptionArray();
     }
 
     public function toOptionArray()
     {
+        $optionsArray = [];
+        $options = $this->getTranslatedOptionArray();
+
+        foreach ($options as $key => $value) {
+            $optionsArray[] = ['value' => $key, 'label' => $value];
+        }
+        return $optionsArray;
+    }
+
+    public function getTranslatedOptionArray()
+    {
+        $translatedOptions = [];
+        $untranslatedOptions = $this->getUntranslatedOptionArray();
+
+        foreach ($untranslatedOptions as $key => $value) {
+            $translatedOptions[$key] = __($value);
+        }
+        return $translatedOptions;
+    }
+
+    public function getUntranslatedOptionArray()
+    {
         return [
-            ['value' => self::SIDEBAR_TOP,  'label' => __(self::SIDEBAR_TOP_LABEL)],
-            ['value' => self::SIDEBAR_BOTTOM,  'label' => __(self::SIDEBAR_BOTTOM_LABEL)],
-            ['value' => self::CONTENT_TOP,  'label' => __(self::CONTENT_TOP_LABEL)],
-            ['value' => self::PAGE_BOTTOM,  'label' => __(self::PAGE_BOTTOM_LABEL)],
-            ['value' => self::MENU_TOP,  'label' => __(self::MENU_TOP_LABEL)],
-            ['value' => self::MENU_BOTTOM,  'label' => __(self::MENU_BOTTOM_LABEL)],
+            self::SIDEBAR_TOP => self::SIDEBAR_TOP_LABEL,
+            self::SIDEBAR_BOTTOM => self::SIDEBAR_BOTTOM_LABEL,
+            self::CONTENT_TOP => self::CONTENT_TOP_LABEL,
+            self::PAGE_BOTTOM => self::PAGE_BOTTOM_LABEL,
+            self::MENU_TOP => self::MENU_TOP_LABEL,
+            self::MENU_BOTTOM => self::MENU_BOTTOM_LABEL
         ];
     }
 }

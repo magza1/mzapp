@@ -2,7 +2,8 @@
 namespace Vnecoms\VendorsMessage\Model;
 
 class Message extends \Magento\Framework\Model\AbstractModel
-{    
+{
+
     const ENTITY = 'vendor_message';
     
     const STATUS_DRAFT      = 0;
@@ -57,15 +58,16 @@ class Message extends \Magento\Framework\Model\AbstractModel
     
     /**
      * Get Message Detail Collection
-     * 
+     *
      * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Detail\Collection
      */
-    public function getMessageDetailCollection(){
-        if(!$this->_messageDetailCollection){
+    public function getMessageDetailCollection()
+    {
+        if (!$this->_messageDetailCollection) {
             $om = \Magento\Framework\App\ObjectManager::getInstance();
             $this->_messageDetailCollection = $om->create('Vnecoms\VendorsMessage\Model\ResourceModel\Message\Detail\Collection');
             $this->_messageDetailCollection->addFieldToFilter('message_id', $this->getId());
-            $this->_messageDetailCollection->setOrder('detail_id','ASC');
+            $this->_messageDetailCollection->setOrder('detail_id', 'ASC');
         }
         
         return $this->_messageDetailCollection;
@@ -73,12 +75,13 @@ class Message extends \Magento\Framework\Model\AbstractModel
     
     /**
      * Get First message Detail
-     * 
+     *
      * @return \Vnecoms\VendorsMessage\Model\Message\Detail
      */
-    public function getFirstMessageDetail(){
-        if(!$this->_firstMessageDetail){
-            if($this->_messageDetailCollection){
+    public function getFirstMessageDetail()
+    {
+        if (!$this->_firstMessageDetail) {
+            if ($this->_messageDetailCollection) {
                 $this->_firstMessageDetail = $this->_messageDetailCollection->getFirstItem();
             }
             
@@ -93,9 +96,10 @@ class Message extends \Magento\Framework\Model\AbstractModel
      *
      * @return \Vnecoms\VendorsMessage\Model\Message\Detail
      */
-    public function getLastMessageDetail(){
-        if(!$this->_lastMessageDetail){
-            if($this->_messageDetailCollection){
+    public function getLastMessageDetail()
+    {
+        if (!$this->_lastMessageDetail) {
+            if ($this->_messageDetailCollection) {
                 $this->_lastMessageDetail = $this->_messageDetailCollection->getLastItem();
             }
         
@@ -107,18 +111,19 @@ class Message extends \Magento\Framework\Model\AbstractModel
     
     /**
      * The relation message is the message that have same identifier with the current message.
-     * 
+     *
      * @return \Vnecoms\VendorsMessage\Model\Message
      */
-    public function getRelationMessage(){
-        if(!$this->_relationMessage){
+    public function getRelationMessage()
+    {
+        if (!$this->_relationMessage) {
             $om = \Magento\Framework\App\ObjectManager::getInstance();
             $collection = $om->create('Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection');
-            $collection->addFieldToFilter('identifier',$this->getIdentifier())
-                ->addFieldToFilter('message_id',['neq' => $this->getId()]);
-            if($collection->count()){
+            $collection->addFieldToFilter('identifier', $this->getIdentifier())
+                ->addFieldToFilter('message_id', ['neq' => $this->getId()]);
+            if ($collection->count()) {
                 $this->_relationMessage = $collection->getFirstItem();
-            }else{
+            } else {
                 /*Create Relation Message*/
                 $this->_relationMessage = $om->create('Vnecoms\VendorsMessage\Model\Message');
                 $firstMessageDetail = $this->getFirstMessageDetail();
@@ -139,8 +144,9 @@ class Message extends \Magento\Framework\Model\AbstractModel
     /**
      * Mark the message as read.
      */
-    public function markAsRead(){
-        if($this->getStatus() == self::STATUS_UNDREAD){
+    public function markAsRead()
+    {
+        if ($this->getStatus() == self::STATUS_UNDREAD) {
             $this->setStatus(self::STATUS_READ)->save();
         }
         $this->getResource()->markAsRead($this);
@@ -149,8 +155,9 @@ class Message extends \Magento\Framework\Model\AbstractModel
     /**
      * Mark the message as unread.
      */
-    public function markAsUnread(){
-        if($this->getStatus() == self::STATUS_READ){
+    public function markAsUnread()
+    {
+        if ($this->getStatus() == self::STATUS_READ) {
             $this->setStatus(self::STATUS_UNDREAD)->save();
         }
     }
@@ -158,7 +165,8 @@ class Message extends \Magento\Framework\Model\AbstractModel
     /**
      * Move the message to trash box
      */
-    public function trash(){
+    public function trash()
+    {
         $this->setIsDeleted(1)
             /* ->setIsInbox(0)
             ->setIsOutbox(0) */
@@ -168,13 +176,20 @@ class Message extends \Magento\Framework\Model\AbstractModel
     /**
      * Undelete action
      */
-    public function unTrash(){
+    public function unTrash()
+    {
         $isInbox = $isOutbox = 0;
         
-        foreach($this->getMessageDetailCollection() as $detail){
-            if($detail->getReceiverId() == $this->getOwnerId()) $isInbox = 1;
-            if($detail->getSenderId() == $this->getOwnerId()) $isOutbox = 1;
-            if($isInbox && $isOutbox) break;
+        foreach ($this->getMessageDetailCollection() as $detail) {
+            if ($detail->getReceiverId() == $this->getOwnerId()) {
+                $isInbox = 1;
+            }
+            if ($detail->getSenderId() == $this->getOwnerId()) {
+                $isOutbox = 1;
+            }
+            if ($isInbox && $isOutbox) {
+                break;
+            }
         }
         
         $this->setIsDeleted(0)

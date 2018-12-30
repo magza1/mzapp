@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\Validator;
@@ -13,11 +13,12 @@ use Magento\Eav\Model\ResourceModel\Entity\Attribute as EavResource;
 use Magento\Eav\Model\Entity\Attribute as EntityAttribute;
 use Magento\Eav\Model\Entity\AttributeFactory;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\Validator\Attribute
  */
-class AttributeTest extends \PHPUnit_Framework_TestCase
+class AttributeTest extends TestCase
 {
     /**
      * Constants used in the unit tests
@@ -63,11 +64,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->eavResourceMock = $this->getMock(EavResource::class, ['load'], [], '', false);
-        $this->attributeFactoryMock = $this->getMock(AttributeFactory::class, ['create'], [], '', false);
-        $this->productAttributeRepositoryMock = $this->getMockForAbstractClass(
-            ProductAttributeRepositoryInterface::class
-        );
+        $this->eavResourceMock = $this->createPartialMock(EavResource::class, ['load']);
+        $this->attributeFactoryMock = $this->createPartialMock(AttributeFactory::class, ['create']);
+        $this->productAttributeRepositoryMock = $this->getMockBuilder(ProductAttributeRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $this->validator = $objectManager->getObject(
             Attribute::class,
             [
@@ -112,7 +113,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     private function createBrandMock($methodModify = null, $valueModify = null)
     {
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         foreach ($this->brandData as $method => $value) {
             if ($method != $methodModify) {
                 $brandMock->expects($this->any())
@@ -137,17 +140,14 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     private function createAttributeMock($methodModify = null, $valueModify = null)
     {
         /** @var EntityAttribute|\PHPUnit_Framework_MockObject_MockObject $attributeMock */
-        $attributeMock = $this->getMock(
+        $attributeMock = $this->createPartialMock(
             EntityAttribute::class,
             [
                 'getAttributeCode',
                 'getIsVisible',
                 'getIsFilterable',
                 'getFrontendInput'
-            ],
-            [],
-            '',
-            false
+            ]
         );
         foreach ($this->attributeData as $method => $value) {
             if ($method != $methodModify) {

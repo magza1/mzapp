@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsProduct\Controller\Vendors\Product;
 
 use Magento\Framework\Controller\ResultFactory;
@@ -11,6 +7,13 @@ use Vnecoms\VendorsProduct\Model\Source\Approval as ProductApproval;
 
 class Approve extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::product_action_save';
+    
     /**
      * Update product(s) status action
      *
@@ -31,6 +34,17 @@ class Approve extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                                 ProductApproval::STATUS_PENDING_UPDATE;
             
             $product->setApproval($approvalStatus)->getResource()->saveAttribute($product, 'approval');
+
+            $vendorProductHelper =  \Magento\Framework\App\ObjectManager::getInstance()
+                ->get('Vnecoms\VendorsProduct\Helper\Data');
+
+            if($approvalStatus == ProductApproval::STATUS_PENDING){
+                /*Send new product approval notification email to admin*/
+                $vendorProductHelper->sendNewProductApprovalEmailToAdmin($product, $this->_getSession()->getVendor());
+            }else{
+                $vendorProductHelper->sendUpdateProductApprovalEmailToAdmin($product, $this->_getSession()->getVendor());
+            }
+
 
             $this->messageManager->addSuccess(__('Your product %1 has been submited for approval.', $product->getName()));
         } catch (\Magento\Framework\Exception\LocalizedException $e) {

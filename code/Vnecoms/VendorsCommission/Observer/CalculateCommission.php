@@ -35,7 +35,7 @@ class CalculateCommission implements ObserverInterface
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Vnecoms\VendorsCommission\Model\RuleFactory $ruleFactory,
-        \Magento\CatalogRule\Model\RuleFactory $catalogRuleFactory,
+        \Vnecoms\VendorsCommission\Model\TmpRuleFactory $catalogRuleFactory,
         \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_ruleFactory = $ruleFactory;
@@ -79,8 +79,9 @@ class CalculateCommission implements ObserverInterface
         if ($ruleCollection->count()) {
             $ruleDescriptionArr = [];
             $fee = 0;//fix undefined var
-            $tmpRule = $this->_catalogRuleFactory->create();
+
             foreach ($ruleCollection as $rule) {
+                $tmpRule = $this->_catalogRuleFactory->create();
                 /*If the product is not match with the conditions just continue*/
                 $tmpRule->setConditionsSerialized($rule->getConditionSerialized());
                 if (!$tmpRule->getConditions()->validate($product)) {

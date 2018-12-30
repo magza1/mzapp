@@ -127,7 +127,7 @@ class Credit extends \Magento\Framework\Model\AbstractModel
      */
     public function formatBaseCurrency($credit){
         $storeId = $this->getCustomer()->getWebsiteId();
-        $store = $this->_storeManager->getStore($storeId);
+        $store = $this->_storeManager->getWebsite($storeId);
         $baseCurrency = $store->getBaseCurrency();
         
         return $baseCurrency->formatPrecision($credit,2,[],false);

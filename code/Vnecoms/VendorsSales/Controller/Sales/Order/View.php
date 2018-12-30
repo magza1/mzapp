@@ -44,11 +44,4 @@ class View extends \Vnecoms\VendorsSales\Controller\Sales\Order
         return $resultRedirect;
     }
 
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return true;
-    }
 }

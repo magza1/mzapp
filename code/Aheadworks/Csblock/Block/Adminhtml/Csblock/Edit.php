@@ -48,7 +48,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         /* @var $model \Aheadworks\Csblock\Model\Csblock */
         $model = $this->_coreRegistry->registry('aw_csblock_model');
         if ($model && $model->getId()) {
-            $this->buttonList->update('save', 'class_name', 'Magento\Backend\Block\Widget\Button\SplitButton');
+            $this->buttonList->update('save', 'class_name', \Magento\Backend\Block\Widget\Button\SplitButton::class);
             $this->buttonList->update('save', 'options', $this->_getSaveButtonOptions());
         }
         $this->buttonList->add(

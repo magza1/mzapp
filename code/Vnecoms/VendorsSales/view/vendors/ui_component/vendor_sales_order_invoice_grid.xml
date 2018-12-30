@@ -15,7 +15,7 @@
     </argument>
     <dataSource name="vendors_sales_order_invoice_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="class" xsi:type="string">Vnecoms\VendorsSales\Ui\DataProvider\Vendor\Orders\DataProvider</argument>
             <argument name="name" xsi:type="string">vendors_sales_order_invoice_grid_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -40,6 +40,15 @@
                 <item name="template" xsi:type="string">ui/grid/toolbar</item>
             </item>
         </argument>
+
+        <exportButton name="export_button">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">vendor_sales_order_invoice_grid.vendor_sales_order_invoice_grid.sales_order_invoice_columns.ids</item>
+                </item>
+            </argument>
+        </exportButton>
+
         <!--
       <bookmark name="bookmarks">
           <argument name="data" xsi:type="array">

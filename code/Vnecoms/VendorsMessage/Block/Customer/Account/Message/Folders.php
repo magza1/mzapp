@@ -46,18 +46,19 @@ class Folders extends \Magento\Framework\View\Element\Template
     }
    
    /**
-     * Get Unread Message Collection
-     *
-     * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection
-     */
-    public function getUnreadMessageCollection(){
-        if(!$this->_unreadMessageCollection){
+    * Get Unread Message Collection
+    *
+    * @return \Vnecoms\VendorsMessage\Model\ResourceModel\Message\Collection
+    */
+    public function getUnreadMessageCollection()
+    {
+        if (!$this->_unreadMessageCollection) {
             $this->_unreadMessageCollection = $this->_messageFactory->create()->getCollection();
-            $this->_unreadMessageCollection->addFieldToFilter('owner_id',$this->_customerSession->getCustomerId())
-            ->addFieldToFilter('status',\Vnecoms\VendorsMessage\Model\Message::STATUS_UNDREAD)
-            ->addFieldToFilter('is_inbox',1)
-            ->addFieldToFilter('is_deleted',0)
-            ->setOrder('message_id','DESC')
+            $this->_unreadMessageCollection->addFieldToFilter('owner_id', $this->_customerSession->getCustomerId())
+            ->addFieldToFilter('status', \Vnecoms\VendorsMessage\Model\Message::STATUS_UNDREAD)
+            ->addFieldToFilter('is_inbox', 1)
+            ->addFieldToFilter('is_deleted', 0)
+            ->setOrder('message_id', 'DESC')
             ->setPageSize(5);
         }
     
@@ -70,16 +71,18 @@ class Folders extends \Magento\Framework\View\Element\Template
      *
      * @return int
      */
-    public function getUnreadMessageCount(){
+    public function getUnreadMessageCount()
+    {
         return $this->getUnreadMessageCollection()->getSize();
     }
    
    /**
-     * Get Inbox URL
-     * 
-     * @return string
-     */
-    public function getInboxURL(){
+    * Get Inbox URL
+    *
+    * @return string
+    */
+    public function getInboxURL()
+    {
         return $this->getUrl("customer/message");
     }
     
@@ -88,7 +91,8 @@ class Folders extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getOutboxURL(){
+    public function getOutboxURL()
+    {
         return $this->getUrl("customer/message/sent");
     }
     
@@ -97,7 +101,8 @@ class Folders extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getDraftURL(){
+    public function getDraftURL()
+    {
         return $this->getUrl("customer/message/draft");
     }
     
@@ -106,17 +111,19 @@ class Folders extends \Magento\Framework\View\Element\Template
      *
      * @return string
      */
-    public function getTrashURL(){
+    public function getTrashURL()
+    {
         return $this->getUrl("customer/message/trash");
     }
     
     /**
      * Is Active Box
-     * 
+     *
      * @param string $box
      * @return boolean
      */
-    public function isActiveBox($box){
+    public function isActiveBox($box)
+    {
         return $box == $this->getActiveBox();
     }
 }

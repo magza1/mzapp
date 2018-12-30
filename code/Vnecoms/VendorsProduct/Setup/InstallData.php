@@ -99,6 +99,8 @@ class InstallData implements InstallDataInterface
             ]
         );
         
+        $categorySetup->updateAttribute(Product::ENTITY, 'approval', 'used_in_product_listing',1);
+        
         $setup->endSetup();
     }
 }

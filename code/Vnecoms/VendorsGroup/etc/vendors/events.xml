@@ -6,9 +6,15 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
 	<event name="controller_action_predispatch_catalog_product_new">
 		<observer name="vendorsgroup_predispatch_catalog_product_new" instance="Vnecoms\VendorsGroup\Observer\ProductNewPredispatch" />
 	</event>
+
+	<event name="controller_action_predispatch_catalog_product_save">
+		<observer name="vendorsgroup_predispatch_catalog_product_save" instance="Vnecoms\VendorsGroup\Observer\ProductSavePredispatch" />
+	</event>
+
 	<event name="controller_action_predispatch_pricecomparison_selectandsell_new">
 		<observer name="vendorsgroup_pricecomparison_selectandsell_new" instance="Vnecoms\VendorsGroup\Observer\SelectAndSellNewPredispatch" />
 	</event>
@@ -27,5 +33,12 @@
 	<event name="controller_action_predispatch_sales_order_creditmemo_new">
 		<observer name="vendorsgroup_sales_order_creditmemo_new" instance="Vnecoms\VendorsGroup\Observer\CreateCreditMemoPredispatch" />
 	</event>
-	
+
+	<event name="vnecoms_vendorsdomain_field_prepare">
+		<observer name="vendorsgroup_set_domain_permission" instance="Vnecoms\VendorsGroup\Observer\DomainPermission" />
+	</event>
+
+	<event name="ves_vendor_menu_check_acl">
+		<observer name="vendorsgroup_check_acl_before_load" instance="Vnecoms\VendorsGroup\Observer\CheckVendorsMenu" />
+	</event>
 </config>

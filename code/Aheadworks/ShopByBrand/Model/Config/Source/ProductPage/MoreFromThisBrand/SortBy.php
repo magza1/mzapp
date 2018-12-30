@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Model\Config\Source\ProductPage\MoreFromThisBrand;
@@ -40,6 +40,11 @@ class SortBy implements OptionSourceInterface
     const RANDOM = 'random';
 
     /**
+     * 'Position' option
+     */
+    const POSITION = 'position';
+
+    /**
      * @var array
      */
     private $options;
@@ -70,6 +75,10 @@ class SortBy implements OptionSourceInterface
                 [
                     'value' => self::RANDOM,
                     'label' => __('Random')
+                ],
+                [
+                    'value' => self::POSITION,
+                    'label' => __('Position')
                 ]
             ];
         }

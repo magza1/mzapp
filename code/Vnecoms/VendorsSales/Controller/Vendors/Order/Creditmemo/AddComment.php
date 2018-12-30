@@ -1,14 +1,18 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Creditmemo;
 
 use Magento\Sales\Model\Order\Email\Sender\CreditmemoCommentSender;
 
 class AddComment extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_creditmemo';
+    
     /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\CreditmemoLoader
      */
@@ -58,13 +62,6 @@ class AddComment extends \Vnecoms\Vendors\App\AbstractAction
         parent::__construct($context);
     }
 
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Magento_Sales::sales_creditmemo');
-    }
 
     /**
      * Add comment to creditmemo history

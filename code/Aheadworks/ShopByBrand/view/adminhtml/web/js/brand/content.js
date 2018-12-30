@@ -1,6 +1,6 @@
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 define([
@@ -123,6 +123,9 @@ define([
                 var wysiwyg = new tinyMceWysiwygSetup($(this).attr('id'), wysiwygConfig);
 
                 wysiwyg.setup('exact');
+
+                varienGlobalEvents.clearEventHandlers('open_browser_callback');
+                varienGlobalEvents.attachEventHandler('open_browser_callback', wysiwyg.openFileBrowser);
             });
         }
     });

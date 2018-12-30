@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\Content;
@@ -17,11 +17,12 @@ use Magento\Framework\DB\Select;
 use Magento\Framework\EntityManager\EntityMetadataInterface;
 use Magento\Framework\EntityManager\MetadataPool;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\Content\ReadHandler
  */
-class ReadHandlerTest extends \PHPUnit_Framework_TestCase
+class ReadHandlerTest extends TestCase
 {
     /**
      * @var ReadHandler
@@ -51,21 +52,15 @@ class ReadHandlerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resourceConnectionMock = $this->getMock(
+        $this->resourceConnectionMock = $this->createPartialMock(
             ResourceConnection::class,
-            ['getConnectionByName', 'getTableName'],
-            [],
-            '',
-            false
+            ['getConnectionByName', 'getTableName']
         );
-        $this->metadataPoolMock = $this->getMock(MetadataPool::class, ['getMetadata'], [], '', false);
-        $this->dataObjectHelperMock = $this->getMock(DataObjectHelper::class, ['populateWithArray'], [], '', false);
-        $this->brandContentFactoryMock = $this->getMock(
+        $this->metadataPoolMock = $this->createPartialMock(MetadataPool::class, ['getMetadata']);
+        $this->dataObjectHelperMock = $this->createPartialMock(DataObjectHelper::class, ['populateWithArray']);
+        $this->brandContentFactoryMock = $this->createPartialMock(
             BrandContentInterfaceFactory::class,
-            ['create'],
-            [],
-            '',
-            false
+            ['create']
         );
         $this->readHandler = $objectManager->getObject(
             ReadHandler::class,
@@ -95,11 +90,19 @@ class ReadHandlerTest extends \PHPUnit_Framework_TestCase
         ];
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
-        $contentMock = $this->getMockForAbstractClass(BrandContentInterface::class);
-        $metadataMock = $this->getMockForAbstractClass(EntityMetadataInterface::class);
-        $connectionMock = $this->getMockForAbstractClass(AdapterInterface::class);
-        $selectMock = $this->getMock(Select::class, ['from', 'where'], [], '', false);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $contentMock = $this->getMockBuilder(BrandContentInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $metadataMock = $this->getMockBuilder(EntityMetadataInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $connectionMock = $this->getMockBuilder(AdapterInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $selectMock = $this->createPartialMock(Select::class, ['from', 'where']);
 
         $brandMock->expects($this->once())
             ->method('getBrandId')

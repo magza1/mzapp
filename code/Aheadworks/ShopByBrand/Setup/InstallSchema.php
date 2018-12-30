@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Setup;
@@ -208,6 +208,55 @@ class InstallSchema implements InstallSchemaInterface
                 'website_id',
                 Table::ACTION_CASCADE
             )->setComment('Brand To Website Relation Table');
+        $installer->getConnection()->createTable($table);
+
+        /**
+         * Create table 'aw_sbb_additional_products'
+         */
+        $table = $installer->getConnection()
+            ->newTable($installer->getTable('aw_sbb_additional_products'))
+            ->addColumn(
+                'entity_id',
+                Table::TYPE_INTEGER,
+                null,
+                ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+                'Id'
+            )->addColumn(
+                'brand_id',
+                Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false],
+                'Brand Id'
+            )->addColumn(
+                'product_id',
+                Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false],
+                'Product Id'
+            )->addColumn(
+                'position_in_brand',
+                Table::TYPE_INTEGER,
+                null,
+                ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+                'Position'
+            )->addColumn(
+                'state',
+                Table::TYPE_SMALLINT,
+                null,
+                ['unsigned' => true, 'nullable' => false],
+                'State'
+            )->addForeignKey(
+                $installer->getFkName(
+                    'aw_sbb_additional_products',
+                    'brand_id',
+                    'aw_sbb_brand',
+                    'brand_id'
+                ),
+                'brand_id',
+                $installer->getTable('aw_sbb_brand'),
+                'brand_id',
+                Table::ACTION_CASCADE
+            );
         $installer->getConnection()->createTable($table);
     }
 }

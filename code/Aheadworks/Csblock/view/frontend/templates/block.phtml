@@ -4,6 +4,8 @@
 * See LICENSE.txt for license details.
 */
 
+// @codingStandardsIgnoreFile
+
 /** @var $block \Aheadworks\Csblock\Block\Csblock */
 $canShow = true;
 if (!$block->isAjax()): ?>
@@ -13,6 +15,6 @@ if (!$block->isAjax()): ?>
 
 <?php if ($canShow && $blockContent = $block->getBlocks()): ?>
 <div>
-    <?php echo $blockContent ?>
+    <?php /* @noEscape */ echo $blockContent ?>
 </div>
 <?php endif; ?>

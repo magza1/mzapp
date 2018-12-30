@@ -67,14 +67,6 @@ class MassPrintShippingLabel extends AbstractMassAction
     }
 
     /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorSales::shipment');
-    }
-
-    /**
      * Batch print shipping labels for whole shipments.
      * Push pdf document with shipping labels to user browser
      *

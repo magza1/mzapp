@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller\Adminhtml\Brand;
@@ -10,11 +10,12 @@ use Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\NewAction;
 use Magento\Backend\Model\View\Result\Forward;
 use Magento\Backend\Model\View\Result\ForwardFactory;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\NewAction
  */
-class NewActionTest extends \PHPUnit_Framework_TestCase
+class NewActionTest extends TestCase
 {
     /**
      * @var NewAction
@@ -29,7 +30,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultForwardFactoryMock = $this->getMock(ForwardFactory::class, ['create'], [], '', false);
+        $this->resultForwardFactoryMock = $this->createPartialMock(ForwardFactory::class, ['create']);
         $this->action = $objectManager->getObject(
             NewAction::class,
             ['resultForwardFactory' => $this->resultForwardFactoryMock]
@@ -38,7 +39,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $forwardMock = $this->getMock(Forward::class, ['forward'], [], '', false);
+        $forwardMock = $this->createPartialMock(Forward::class, ['forward']);
         $this->resultForwardFactoryMock->expects($this->once())
             ->method('create')
             ->willReturn($forwardMock);

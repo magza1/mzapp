@@ -19,7 +19,7 @@ class File extends \Vnecoms\Vendors\Block\Adminhtml\Form\Element\File
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Vnecoms\Vendors\Helper\Data $vendorUrl
-     * @param unknown $data
+     * @param array $data
      */
     public function __construct(
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,

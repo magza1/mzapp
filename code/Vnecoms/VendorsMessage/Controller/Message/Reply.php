@@ -74,12 +74,47 @@ class Reply extends \Magento\Customer\Controller\AbstractAccount
                 'content' => $this->getRequest()->getParam('content'),
                 'is_read' => 0,
             ];
+
+            $errors = [];
+            $warnings = [];
+            $transport = new \Magento\Framework\DataObject(
+                [
+                    'detail_data'=>$msgDetailData ,
+                    'errors'=>$errors,
+                    'warnings' => $warnings
+                ]
+            );
+            /*Save the message to sender outbox*/
+            $this->_eventManager->dispatch(
+                'messsage_prepare_save',
+                [
+                    'transport'=>$transport ,
+                ]
+            );
+            $errors = $transport->getErrors();
+            $warnings = $transport->getWarnings();
+            if($errors){
+                throw new \Exception(implode("<br />", $errors));
+            }
+
+            $result = [];
+
             $messageDetail = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Message\Detail');
             
             $relationMessage = $message->getRelationMessage();
             
             /*Save the detail message to sender outbox*/           
             $messageDetail->setData($msgDetailData)->setData('is_read',1)->setMessageId($message->getId())->save();
+
+            if($warnings){
+                $result["msg"] = implode("<br />", $warnings);
+                $warningData = [
+                    'message_id'  => $message->getId(),
+                    'detail_message_id' =>   $messageDetail->getId()
+                ];
+                $warning = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Warning');
+                $warning->setData($warningData)->save();
+            }
             
             /*save the detail message to receiver inbox*/
             $messageDetail->setData($msgDetailData)->setMessageId($relationMessage->getId())->save();
@@ -103,10 +138,9 @@ class Reply extends \Magento\Customer\Controller\AbstractAccount
             
             $block = $this->_view->getLayout()->createBlock('Vnecoms\VendorsMessage\Block\Customer\Account\Message\View')->setTemplate('customer/account/message/view/list.phtml');
             
-            $result = [
-                'error' => false,
-                'message_list' => $block->toHtml()
-            ];
+            $result[ 'error'] = false;
+            $result[ 'message_list'] = $block->toHtml();
+
         }catch (\Exception $e){
             $result = [
                 'error' => true,

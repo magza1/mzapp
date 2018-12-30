@@ -2,6 +2,7 @@
 namespace Vnecoms\VendorsPage\Block\Profile;
 
 use Vnecoms\VendorsPage\Model\Source\ProfilePosition as Profile;
+
 /**
  * Class View
  * @package Magento\Catalog\Block\Category
@@ -36,13 +37,16 @@ class Left extends \Vnecoms\Vendors\Block\Profile
             $imageHelper,
             $orderResourceFactory,
             $filter,
-            $vendorFactory,$data
+            $vendorFactory,
+            $data
         );
     }
     
-    protected function _toHtml(){
-        if($this->_pageHelper->getProfileBlockPosition() != Profile::POSITION_LEFT)
+    protected function _toHtml()
+    {
+        if ($this->_pageHelper->getProfileBlockPosition() != Profile::POSITION_LEFT) {
             return '';
+        }
         return parent::_toHtml();
     }
 }

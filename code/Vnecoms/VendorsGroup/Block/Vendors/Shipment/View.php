@@ -7,7 +7,8 @@
 namespace Vnecoms\VendorsGroup\Block\Vendors\Shipment;
 
 class View extends \Magento\Framework\View\Element\Template
-{    
+{
+
     
     /**
      * @var \Vnecoms\VendorsGroup\Helper\Data
@@ -21,7 +22,7 @@ class View extends \Magento\Framework\View\Element\Template
     
     /**
      * Constructor
-     * 
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Vnecoms\VendorsGroup\Helper\Data $groupHelper
      * @param \Vnecoms\Vendors\Model\Session $vendorSession
@@ -50,22 +51,21 @@ class View extends \Magento\Framework\View\Element\Template
         $groupId = $this->_vendorSession->getVendor()->getGroupId();
         
         
-        if(!$this->_groupHelper->canSubmitOrderComment($groupId)){
+        if (!$this->_groupHelper->canSubmitOrderComment($groupId)) {
             $this->getLayout()->getBlock('form')->setData('hide_comment', true);
-            if($orderItemBlock = $this->getLayout()->getBlock('order_items')){
+            if ($orderItemBlock = $this->getLayout()->getBlock('order_items')) {
                 $orderItemBlock->setData('hide_comment', true);
             }
         }
         
-        if($this->_groupHelper->hidePaymentInfo($groupId)){
+        if ($this->_groupHelper->hidePaymentInfo($groupId)) {
             $this->getLayout()->getBlock('form')->setData('hide_payment_info', true);
         }
         
-        if($this->_groupHelper->hideCustomerEmail($groupId)){
+        if ($this->_groupHelper->hideCustomerEmail($groupId)) {
             $this->getLayout()->getBlock('order_info')->setData('hide_email', true);
         }
         
         return $this;
     }
-    
 }

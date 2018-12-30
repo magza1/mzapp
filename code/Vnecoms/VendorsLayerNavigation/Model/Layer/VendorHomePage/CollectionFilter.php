@@ -30,10 +30,9 @@ class CollectionFilter implements CollectionFilterInterface
     protected $registry;
 
     /**
-     * CollectionFilter constructor.
-     *
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
-     * @param \Magento\Catalog\Model\Config             $catalogConfig
+     * @param \Magento\Catalog\Model\Config $catalogConfig
+     * @param \Magento\Framework\Registry $registry
      */
     public function __construct(
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
@@ -64,6 +63,7 @@ class CollectionFilter implements CollectionFilterInterface
             ->setVisibility($this->productVisibility->getVisibleInCatalogIds());
 
         $vendor = $this->registry->registry('vendor');
+        
         if ($vendor) {
             $om = \Magento\Framework\App\ObjectManager::getInstance();
 

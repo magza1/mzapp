@@ -18,7 +18,7 @@ class Credit extends \Magento\Framework\View\Element\Template
     /**
      * Constructor
      *
-     * @param Template\Context $context
+     * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
     public function __construct(

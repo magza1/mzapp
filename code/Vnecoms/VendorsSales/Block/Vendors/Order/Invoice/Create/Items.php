@@ -72,4 +72,15 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Invoice\Create\Items
     {
         return $this->getUrl('sales/*/updateQty', ['order_id' => $this->getVendorOrder()->getId()]);
     }
+
+
+    /**
+     * Check if capture operation is allowed in ACL
+     *
+     * @return bool
+     */
+    public function isCaptureAllowed()
+    {
+        return true;
+    }
 }

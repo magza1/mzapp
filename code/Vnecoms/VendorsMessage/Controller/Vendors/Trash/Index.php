@@ -6,7 +6,6 @@
  */
 namespace Vnecoms\VendorsMessage\Controller\Vendors\Trash;
 
-
 class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
 
@@ -15,7 +14,7 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
      */
     public function execute()
     {
-        $this->getRequest()->setParam('owner_id',$this->_session->getCustomerId());
+        $this->getRequest()->setParam('owner_id', $this->_session->getCustomerId());
         $this->_initAction();
         $title = $this->_view->getPage()->getConfig()->getTitle();
         $title->prepend(__("Messages"));

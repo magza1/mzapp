@@ -39,7 +39,7 @@ class Data extends AbstractHelper
     
     /**
      * Constructor
-     * 
+     *
      * @param Context $context
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Vnecoms\Vendors\Model\VendorFactory $vendorFactory
@@ -60,10 +60,11 @@ class Data extends AbstractHelper
     
     /**
      * Get URL Key
-     * 
+     *
      * @return string
      */
-    public function getUrlKey(){
+    public function getUrlKey()
+    {
         return $this->scopeConfig->getValue(self::XML_PATH_URL_KEY);
     }
     
@@ -72,14 +73,15 @@ class Data extends AbstractHelper
      * @param string|VES_Vendors_Model_Vendor $vendor
      * @param string $urlKey
      * @parem array $param
-     * 
+     *
      * @return string
      */
-    public function getUrl($vendor, $urlKey='',$param =  array()){
+    public function getUrl($vendor, $urlKey = '', $param = [])
+    {
         $vendorId = $vendor;
-        if($vendor instanceof \Vnecoms\Vendors\Model\Vendor){
+        if ($vendor instanceof \Vnecoms\Vendors\Model\Vendor) {
             $vendorId = $vendor->getVendorId();
-        }elseif(is_numeric($vendor)){
+        } elseif (is_numeric($vendor)) {
             $vendorObj = $this->_vendorFactory->create()->load($vendor);
             $vendorId = $vendorObj->getVendorId();
         }
@@ -101,12 +103,12 @@ class Data extends AbstractHelper
 //         );
         
         $baseUrlKey = $this->getUrlKey();
-        $tmpUrl = $this->_urlBuilder->getUrl($vendorId.'/'.$urlKey,$param);
+        $tmpUrl = $this->_urlBuilder->getUrl($vendorId.'/'.$urlKey, $param);
         
-        if($baseUrlKey){
+        if ($baseUrlKey) {
             return str_replace(
-                $this->_urlBuilder->getUrl('',array('_nosid'=>1)),
-                $this->_urlBuilder->getUrl($baseUrlKey,array('_nosid'=>1)),
+                $this->_urlBuilder->getUrl('', ['_nosid'=>1]),
+                $this->_urlBuilder->getUrl($baseUrlKey, ['_nosid'=>1]),
                 $tmpUrl
             );
         }
@@ -119,16 +121,18 @@ class Data extends AbstractHelper
      *
      * @return string
      */
-    public function getProfileBlockPosition(){
+    public function getProfileBlockPosition()
+    {
         return $this->scopeConfig->getValue(self::XML_PROFILE_BLOCK_POSITION);
     }
     
     /**
      * Get number of showing products on homepage.
-     * 
+     *
      * @return string
      */
-    public function getNumOfShowingProductOnHomePage(){
+    public function getNumOfShowingProductOnHomePage()
+    {
         return $this->scopeConfig->getValue(self::XML_NUM_OF_SHOWING_PRODUCT);
     }
     
@@ -137,7 +141,8 @@ class Data extends AbstractHelper
      *
      * @return boolean
      */
-    public function canShowSellerDescription(){
+    public function canShowSellerDescription()
+    {
         return $this->scopeConfig->getValue(self::XML_SHOW_SELLER_DESCRIPTION);
     }
     
@@ -146,7 +151,8 @@ class Data extends AbstractHelper
      *
      * @return boolean
      */
-    public function canShowSellerShippingPolicy(){
+    public function canShowSellerShippingPolicy()
+    {
         return $this->scopeConfig->getValue(self::XML_SHOW_SELLER_SHIPPING_POLICY);
     }
     
@@ -155,7 +161,8 @@ class Data extends AbstractHelper
      *
      * @return boolean
      */
-    public function canShowSellerRefundPolicy(){
+    public function canShowSellerRefundPolicy()
+    {
         return $this->scopeConfig->getValue(self::XML_SHOW_SELLER_REFUND_POLICY);
     }
     
@@ -164,7 +171,8 @@ class Data extends AbstractHelper
      *
      * @param int $vendorId
      */
-    public function getVendorBanner($vendorId){
+    public function getVendorBanner($vendorId)
+    {
         return $this->_configHelper->getVendorConfig('page/general/banner', $vendorId);
     }
     
@@ -173,16 +181,18 @@ class Data extends AbstractHelper
      *
      * @param int $vendorId
      */
-    public function getVendorDescription($vendorId){
+    public function getVendorDescription($vendorId)
+    {
         return $this->_configHelper->getVendorConfig('page/general/description', $vendorId);
     }
     
     /**
      * Get vendor shipping policy
-     * 
+     *
      * @param int $vendorId
      */
-    public function getVendorShipping($vendorId){
+    public function getVendorShipping($vendorId)
+    {
         return $this->_configHelper->getVendorConfig('page/general/shipping_policy', $vendorId);
     }
     
@@ -191,16 +201,18 @@ class Data extends AbstractHelper
      *
      * @param int $vendorId
      */
-    public function getVendorRefund($vendorId){
+    public function getVendorRefund($vendorId)
+    {
         return $this->_configHelper->getVendorConfig('page/general/refund_policy', $vendorId);
     }
     
     /**
      * Get Meta Title
-     * 
+     *
      * @param int $vendorId
      */
-    public function getMetaTitle($vendorId){
+    public function getMetaTitle($vendorId)
+    {
         return $this->_configHelper->getVendorConfig('page/meta/title', $vendorId);
     }
     
@@ -209,7 +221,8 @@ class Data extends AbstractHelper
      *
      * @param int $vendorId
      */
-    public function getMetaDescription($vendorId){
+    public function getMetaDescription($vendorId)
+    {
         return $this->_configHelper->getVendorConfig('page/meta/description', $vendorId);
     }
     
@@ -218,7 +231,8 @@ class Data extends AbstractHelper
      *
      * @param int $vendorId
      */
-    public function getMetaKeywords($vendorId){
+    public function getMetaKeywords($vendorId)
+    {
         return $this->_configHelper->getVendorConfig('page/meta/keywords', $vendorId);
     }
 }

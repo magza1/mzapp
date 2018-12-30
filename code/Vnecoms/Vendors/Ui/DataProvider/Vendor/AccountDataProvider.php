@@ -1,33 +1,26 @@
 <?php
+/**
+ * Copyright © 2016 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
 namespace Vnecoms\Vendors\Ui\DataProvider\Vendor;
 
-use Vnecoms\Vendors\Model\ResourceModel\Vendor\CollectionFactory;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\Search\SearchCriteriaBuilder;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\View\Element\UiComponent\DataProvider\Reporting;
+use Magento\Framework\Api\Search\SearchResultInterface;
 
-/**
- * Class ProductDataProvider
- */
-class AccountDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
+class AccountDataProvider extends \Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider
 {
-
     /**
-     * account collection
-     *
-     * @var \Vnecoms\Vendors\Model\ResourceModel\Vendor\Collection
-     */
-    protected $collection;
-
-    /**
-     * @var \Magento\Framework\Event\ManagerInterface
-     */
-    protected $_eventManager;
-    
-    /**
-     *
-     * @param unknown $name
-     * @param unknown $primaryFieldName
-     * @param unknown $requestFieldName
-     * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param CollectionFactory $collectionFactory
+     * @param string $name
+     * @param string $primaryFieldName
+     * @param string $requestFieldName
+     * @param Reporting $reporting
+     * @param SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param RequestInterface $request
+     * @param FilterBuilder $filterBuilder
      * @param array $meta
      * @param array $data
      */
@@ -35,32 +28,57 @@ class AccountDataProvider extends \Magento\Ui\DataProvider\AbstractDataProvider
         $name,
         $primaryFieldName,
         $requestFieldName,
-        \Magento\Framework\Event\ManagerInterface $eventManager,
-        CollectionFactory $collectionFactory,
+        Reporting $reporting,
+        SearchCriteriaBuilder $searchCriteriaBuilder,
+        RequestInterface $request,
+        FilterBuilder $filterBuilder,
         array $meta = [],
         array $data = []
     ) {
-        parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
-        $this->_eventManager = $eventManager;
-        $this->collection = $collectionFactory->create();
-        $this->_eventManager->dispatch('vnecoms_vendors_ui_accountdataprovider_collection_prepare', ['collection' => $this->collection]);
+        parent::__construct(
+            $name,
+            $primaryFieldName,
+            $requestFieldName,
+            $reporting,
+            $searchCriteriaBuilder,
+            $request,
+            $filterBuilder,
+            $meta,
+            $data
+        );
     }
 
     /**
-     * Get data
+     * Add field to select
      *
+     * @param string|array $field
+     * @param string|null $alias
+     * @return void
+     */
+    public function addField($field, $alias = null)
+    {
+        return $this;
+    }
+
+    /**
+     * @param SearchResultInterface $searchResult
      * @return array
      */
-    public function getData()
+    protected function searchResultToOutput(SearchResultInterface $searchResult)
     {
-        if (!$this->getCollection()->isLoaded()) {
-            $this->getCollection()->load();
-        }
-        $vendors = $this->getCollection()->toArray();
+        $arrItems = [];
 
-        return [
-            'totalRecords' => sizeof($vendors),
-            'items' => array_values($vendors),
-        ];
+        $arrItems['items'] = [];
+        foreach ($searchResult->getItems() as $item) {
+            $itemData = [];
+            foreach ($item->getCustomAttributes() as $attribute) {
+                $itemData[$attribute->getAttributeCode()] = $attribute->getValue();
+            }
+            $arrItems['items'][] = $itemData;
+        }
+
+        $arrItems['totalRecords'] = $searchResult->getTotalCount();
+
+        return $arrItems;
     }
 }

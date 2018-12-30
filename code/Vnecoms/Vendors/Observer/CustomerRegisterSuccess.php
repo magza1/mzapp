@@ -7,6 +7,7 @@ namespace Vnecoms\Vendors\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 use Vnecoms\Vendors\Model\Vendor;
+use Magento\Customer\Model\Session;
 
 class CustomerRegisterSuccess implements ObserverInterface
 {
@@ -31,16 +32,35 @@ class CustomerRegisterSuccess implements ObserverInterface
      */
     protected $_messageManager;
     
+    /**
+     * @var Session
+     */
+    protected $customerSession;
+    
+    /**
+     * @var \Vnecoms\Vendors\Helper\Data
+     */
+    protected $vendorHelper;
+    
+    /**
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+     * @param \Vnecoms\Vendors\Helper\Data $vendorHelper
+     * @param \Magento\Framework\Message\ManagerInterface $messageManager
+     * @param \Vnecoms\Vendors\Model\VendorFactory $vendorFactory
+     * @param Session $customerSession
+     */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Vnecoms\Vendors\Helper\Data $vendorHelper,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Vnecoms\Vendors\Model\VendorFactory $vendorFactory
+        \Vnecoms\Vendors\Model\VendorFactory $vendorFactory,
+        Session $customerSession
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_vendorHelper = $vendorHelper;
         $this->_vendorFactory = $vendorFactory;
         $this->_messageManager = $messageManager;
+        $this->customerSession = $customerSession;
     }
     
     /**
@@ -85,14 +105,21 @@ class CustomerRegisterSuccess implements ObserverInterface
             }
             
             $vendor->save();
+            
+            if($this->_vendorHelper->isUsedCustomVendorUrl()){
+                $redirectUrl = $this->_vendorHelper->getUrl('account/login', ['success_message' => base64_encode(__("Your seller account has been created. You can now login to vendor panel."))]);
+            }else{
+                $redirectUrl = $this->_vendorHelper->getHomePageUrl();
+                $this->_messageManager->addSuccess($message);
+            }
+
+            $this->customerSession->setBeforeAuthUrl($redirectUrl);
 
             if ($this->_vendorHelper->isRequiredVendorApproval()) {
                 $vendor->sendNewAccountEmail("registered");
             } else {
                 $vendor->sendNewAccountEmail("active");
             }
-
-            $this->_messageManager->addSuccess($message);
         }
     }
 }

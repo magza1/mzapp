@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Creditmemo\AbstractCreditmemo;
 
 use Magento\Framework\Registry;
@@ -10,6 +7,13 @@ use Magento\Framework\Stdlib\DateTime\Filter\Date;
 
 class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_creditmemo';
+    
     /**
      * Constructor
      *
@@ -24,14 +28,6 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
     }
 
     /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorsSales::sales_creditmemo');
-    }
-
-    /**
      * Init layout, menu and breadcrumb
      *
      * @return \Magento\Backend\Model\View\Result\Page
@@ -39,7 +35,7 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
     protected function _initAction()
     {
         parent::_initAction();
-        $this->_setActiveMenu('Vnecoms_VendorsSales::sales_shipment')
+        $this->_setActiveMenu('Vnecoms_VendorsSales::sales_creditmemo')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Invoices'), __('Creditmemos'));
     }

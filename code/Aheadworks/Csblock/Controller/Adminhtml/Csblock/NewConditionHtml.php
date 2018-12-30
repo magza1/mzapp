@@ -28,21 +28,15 @@ class NewConditionHtml extends \Magento\CatalogRule\Controller\Adminhtml\Promo\C
             $prefix = $this->getRequest()->getParam('prefix');
         }
 
-        $rule = 'Aheadworks\Csblock\Model\Csblock';
+        $rule = \Aheadworks\Csblock\Model\Csblock::class;
         if ($this->getRequest()->getParam('rule')) {
             $rule = base64_decode($this->getRequest()->getParam('rule'));
         }
-        $model = $this->_objectManager->create(
-            $type
-        )->setId(
-                $id
-            )->setType(
-                $type
-            )->setRule(
-                $this->_objectManager->create($rule)
-            )->setPrefix(
-                $prefix
-            );
+        $model = $this->_objectManager->create($type)
+            ->setId($id)
+            ->setType($type)
+            ->setRule($this->_objectManager->create($rule))
+            ->setPrefix($prefix);
         if (!empty($typeArr[1])) {
             $model->setAttribute($typeArr[1]);
         }

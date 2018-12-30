@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\Source;
@@ -13,11 +13,12 @@ use Magento\Eav\Api\AttributeRepositoryInterface;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\Eav\Model\Entity\Attribute\Source\Table;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\Source\OptionId
  */
-class OptionIdTest extends \PHPUnit_Framework_TestCase
+class OptionIdTest extends TestCase
 {
     /**
      * @var OptionId
@@ -37,15 +38,12 @@ class OptionIdTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->attributeRepositoryMock = $this->getMockForAbstractClass(
-            AttributeRepositoryInterface::class
-        );
-        $this->brandOptionResourceMock = $this->getMock(
+        $this->attributeRepositoryMock = $this->getMockBuilder(AttributeRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->brandOptionResourceMock = $this->createPartialMock(
             BrandOptionResource::class,
-            ['getUsedOptionIds'],
-            [],
-            '',
-            false
+            ['getUsedOptionIds']
         );
         $this->source = $objectManager->getObject(
             OptionId::class,
@@ -68,16 +66,11 @@ class OptionIdTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $attributeMock = $this->getMockForAbstractClass(
-            AbstractAttribute::class,
-            [],
-            '',
-            false,
-            false,
-            false,
-            ['getSource']
-        );
-        $sourceMock = $this->getMock(Table::class, ['getAllOptions'], [], '', false);
+        $attributeMock = $this->getMockBuilder(AbstractAttribute::class)
+            ->setMethods(['getSource'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $sourceMock = $this->createPartialMock(Table::class, ['getAllOptions']);
 
         $class = new \ReflectionClass($this->source);
         $attributeCodeProperty = $class->getProperty('attributeCode');
@@ -111,16 +104,11 @@ class OptionIdTest extends \PHPUnit_Framework_TestCase
         $optionValue = 1;
         $optionLabel = 'Manufacturer';
 
-        $attributeMock = $this->getMockForAbstractClass(
-            AbstractAttribute::class,
-            [],
-            '',
-            false,
-            false,
-            false,
-            ['getSource']
-        );
-        $sourceMock = $this->getMock(Table::class, ['getAllOptions'], [], '', false);
+        $attributeMock = $this->getMockBuilder(AbstractAttribute::class)
+            ->setMethods(['getSource'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $sourceMock = $this->createPartialMock(Table::class, ['getAllOptions']);
 
         $class = new \ReflectionClass($this->source);
         $attributeCodeProperty = $class->getProperty('attributeCode');
@@ -159,16 +147,11 @@ class OptionIdTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
-        $attributeMock = $this->getMockForAbstractClass(
-            AbstractAttribute::class,
-            [],
-            '',
-            false,
-            false,
-            false,
-            ['getSource']
-        );
-        $sourceMock = $this->getMock(Table::class, ['getAllOptions'], [], '', false);
+        $attributeMock = $this->getMockBuilder(AbstractAttribute::class)
+            ->setMethods(['getSource'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $sourceMock = $this->createPartialMock(Table::class, ['getAllOptions']);
 
         $class = new \ReflectionClass($this->source);
         $attributeCodeProperty = $class->getProperty('attributeCode');

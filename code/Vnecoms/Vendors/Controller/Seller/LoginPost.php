@@ -17,13 +17,34 @@ class LoginPost extends \Magento\Customer\Controller\Account\LoginPost
     /**
      * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    private $cookieMetadataFactory;
+    protected $cookieMetadataFactory;
     
     /**
      * @var \Magento\Framework\Stdlib\Cookie\PhpCookieManager
      */
-    private $cookieMetadataManager;
-    
+    protected $cookieMetadataManager;
+    /**
+     * @var ScopeConfigInterface
+     */
+    protected $scopeConfig;
+
+
+    /**
+     * Get scope config
+     *
+     * @return ScopeConfigInterface
+     * @deprecated
+     */
+    protected function getScopeConfig()
+    {
+        if (!($this->scopeConfig instanceof \Magento\Framework\App\Config\ScopeConfigInterface)) {
+            return \Magento\Framework\App\ObjectManager::getInstance()->get(
+                \Magento\Framework\App\Config\ScopeConfigInterface::class
+            );
+        } else {
+            return $this->scopeConfig;
+        }
+    }
     
     /**
      * Retrieve cookie manager
@@ -31,7 +52,7 @@ class LoginPost extends \Magento\Customer\Controller\Account\LoginPost
      * @deprecated
      * @return \Magento\Framework\Stdlib\Cookie\PhpCookieManager
      */
-    private function getCookieManager()
+    protected function getCookieManager()
     {
         if (!$this->cookieMetadataManager) {
             $this->cookieMetadataManager = \Magento\Framework\App\ObjectManager::getInstance()->get(
@@ -47,7 +68,7 @@ class LoginPost extends \Magento\Customer\Controller\Account\LoginPost
      * @deprecated
      * @return \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
-    private function getCookieMetadataFactory()
+    protected function getCookieMetadataFactory()
     {
         if (!$this->cookieMetadataFactory) {
             $this->cookieMetadataFactory = \Magento\Framework\App\ObjectManager::getInstance()->get(
@@ -123,7 +144,9 @@ class LoginPost extends \Magento\Customer\Controller\Account\LoginPost
                 $this->messageManager->addError(__('A login and a password are required.'));
             }
         }
-    
-        return $this->accountRedirect->getRedirect();
+
+        $resultRedirect = $this->resultRedirectFactory->create();
+        $resultRedirect->setPath('*/*/login');
+        return $resultRedirect;
     }
 }

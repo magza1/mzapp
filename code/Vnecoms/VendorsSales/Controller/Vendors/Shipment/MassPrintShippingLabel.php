@@ -1,12 +1,7 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Shipment;
 
-use Magento\Backend\App\Action;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
@@ -19,6 +14,13 @@ use Magento\Sales\Model\ResourceModel\Order\Shipment\CollectionFactory;
 
 class MassPrintShippingLabel extends \Vnecoms\VendorsSales\Controller\Vendors\Order\AbstractMassAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_shipments';
+    
     /**
      * @var LabelGenerator
      */
@@ -47,14 +49,6 @@ class MassPrintShippingLabel extends \Vnecoms\VendorsSales\Controller\Vendors\Or
         $this->fileFactory = $fileFactory;
         $this->labelGenerator = $labelGenerator;
         parent::__construct($context, $filter);
-    }
-
-    /**
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Magento_Sales::shipment');
     }
 
     /**

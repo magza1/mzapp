@@ -11,9 +11,9 @@ define([
     'use strict';
 
     return Column.extend({
-    	defaults: {
+        defaults: {
             bodyTmpl: 'ui/grid/cells/html',
-    	},
+        },
         /**
          * Formats incoming date based on the 'dateFormat' property.
          *
@@ -27,23 +27,27 @@ define([
             $differentTime = Math.round($differentTime/1000);
             
             var $minutes = Math.round($differentTime / 60);
-            if($minutes == 0) return $t("Now");
-            else if($minutes < 60){
+            if ($minutes == 0) {
+return $t("Now"); } else if ($minutes < 60) {
                 return __("%1 minutes", $minutes);
             }
             
             var $hours = Math.round($minutes / 60);
-            if($hours < 24) return $t("Today");
+            if ($hours < 24) {
+return $t("Today"); }
             
             var $days = Math.round($hours / 24);
-            if($days == 1) return $t("Yesterday");
-            if($days < 7) return $days + $t(" days");
+            if ($days == 1) {
+return $t("Yesterday"); }
+            if ($days < 7) {
+return $days + $t(" days"); }
             
             format = 'MMM/DD/YYYY';
             date = date.isValid() ?
                 date.format(format || this.dateFormat) :
                 '';
-        	if(value['status'] == 1) return "<strong>"+date+"</strong>";
+            if (value['status'] == 1) {
+return "<strong>"+date+"</strong>"; }
             return date;
         }
     });

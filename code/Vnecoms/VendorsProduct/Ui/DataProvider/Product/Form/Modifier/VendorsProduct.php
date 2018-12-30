@@ -85,18 +85,14 @@ class VendorsProduct extends AbstractModifier
         if (isset($this->_meta['schedule-design-update'])) {
             unset($this->_meta['schedule-design-update']);
         }
-        if (isset($this->_meta['gift-options'])) {
-            unset($this->_meta['gift-options']);
-        }
         if (isset($this->_meta['design'])) {
             unset($this->_meta['design']);
         }
-        if (isset($this->_meta['websites'])) {
+        
+        if (!$this->_vendorProductHelper->canVendorSetWebsite() && isset($this->_meta['websites'])) {
             unset($this->_meta['websites']);
         }
-        if (isset($this->_meta['related'])) {
-            unset($this->_meta['related']);
-        }
+
     }
     
     /**
@@ -122,15 +118,18 @@ class VendorsProduct extends AbstractModifier
      */
     public function updateCustomOptionsJs()
     {
-        $this->_meta['custom_options']['children']['options']['children']['record']
-        ['children']['container_option']['children']['container_common']
-        ['children']['type']['arguments']['data']['config']['component']
-        = 'Vnecoms_VendorsProduct/js/custom-options-type';
-        
-        $this->_meta['custom_options']['children']['options']['children']['record']
-        ['children']['container_option']['children']['container_common']
-        ['children']['title']['arguments']['data']['config']['component']
-        = 'Vnecoms_VendorsProduct/component/static-type-input';
+       if(isset($this->_meta['custom_options'])){
+           $this->_meta['custom_options']['children']['options']['children']['record']
+           ['children']['container_option']['children']['container_common']
+           ['children']['type']['arguments']['data']['config']['component']
+               = 'Vnecoms_VendorsProduct/js/custom-options-type';
+
+           $this->_meta['custom_options']['children']['options']['children']['record']
+           ['children']['container_option']['children']['container_common']
+           ['children']['title']['arguments']['data']['config']['component']
+               = 'Vnecoms_VendorsProduct/component/static-type-input';
+       }
+
     }
     
     /**

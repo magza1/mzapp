@@ -13,7 +13,7 @@ class Social extends \Magento\Framework\View\Element\Template
      */
     protected $_coreRegistry;
     
-    /**     
+    /**
      * @var string
      */
     protected $_title;
@@ -29,7 +29,7 @@ class Social extends \Magento\Framework\View\Element\Template
     protected $_configHelper;
     
     /**
-     * 
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Vnecoms\VendorsPage\Helper\Data $pageHelper
@@ -49,40 +49,47 @@ class Social extends \Magento\Framework\View\Element\Template
         $this->_coreRegistry = $registry;
         $this->_configHelper = $configHelper;
         
-        parent::__construct($context,$data);
+        parent::__construct($context, $data);
     }
     
     /**
      * Get Vendor object
-     * 
+     *
      * @return \Vnecoms\Vendors\Model\Vendor
      */
-    public function getVendor(){
+    public function getVendor()
+    {
         return $this->_coreRegistry->registry('vendor');
     }
     
     /**
      * Get title
-     * 
+     *
      * @return string
      */
-    public function getTitle(){
+    public function getTitle()
+    {
         return $this->getData('title');
     }
     
     /**
      * Get Social URL
-     * 
+     *
      * @return string
      */
-    public function getSocialUrl(){
+    public function getSocialUrl()
+    {
         return $this->_configHelper->getVendorConfig(
-            $this->getData('config_path'), $this->getVendor()->getId()
+            $this->getData('config_path'),
+            $this->getVendor()->getId()
         );
     }
     
-    public function _toHtml(){
-        if(!$this->getData('config_path') || !$this->getSocialUrl()) return '';
+    public function _toHtml()
+    {
+        if (!$this->getData('config_path') || !$this->getSocialUrl()) {
+            return '';
+        }
         return parent::_toHtml();
     }
 }

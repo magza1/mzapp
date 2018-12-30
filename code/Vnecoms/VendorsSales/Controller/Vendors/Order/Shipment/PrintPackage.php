@@ -1,18 +1,20 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment;
 
-use Vnecoms\Vendors\App\AbstractAction;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class PrintPackage extends \Vnecoms\Vendors\App\AbstractAction
 {
-
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_shipments';
+    
     /**
      * @var \Vnecoms\VendorsSales\Controller\Vendors\Order\ShipmentLoader
      */

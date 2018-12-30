@@ -1,12 +1,16 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Creditmemo;
 
 class Index extends \Vnecoms\VendorsSales\Controller\Vendors\Creditmemo\AbstractCreditmemo\Index
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_creditmemo';
+    
     /**
      * Index page
      *

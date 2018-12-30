@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model;
@@ -14,11 +14,12 @@ use Magento\Framework\UrlInterface;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Url
  */
-class UrlTest extends \PHPUnit_Framework_TestCase
+class UrlTest extends TestCase
 {
     /**
      * @var Url
@@ -48,20 +49,21 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->urlBuilderMock = $this->getMockForAbstractClass(UrlInterface::class);
-        $this->configMock = $this->getMock(Config::class, ['getBrandUrlSuffix'], [], '', false);
-        $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
-        $this->imageManagementMock = $this->getMock(
+        $this->urlBuilderMock = $this->getMockBuilder(UrlInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->configMock = $this->createPartialMock(Config::class, ['getBrandUrlSuffix']);
+        $this->storeManagerMock = $this->getMockBuilder(StoreManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->imageManagementMock = $this->createPartialMock(
             ImageManagement::class,
             [
                 'getImagePlaceholderUrl',
                 'hasImage',
                 'createImage',
                 'getImageUrl'
-            ],
-            [],
-            '',
-            false
+            ]
         );
         $this->url = $objectManager->getObject(
             Url::class,
@@ -81,7 +83,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $brandUrl = 'http://localhost/brand/some_brand.html';
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $brandMock->expects($this->once())
             ->method('getUrlKey')
@@ -108,7 +112,9 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $brandUrl = 'http://localhost/brand/some_brand.html';
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $brandMock->expects($this->once())
             ->method('getUrlKey')
@@ -138,7 +144,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $imageName = 'logo.jpg';
         $baseUrl = 'http://localhost/';
 
-        $storeMock = $this->getMock(Store::class, ['getBaseUrl'], [], '', false);
+        $storeMock = $this->createPartialMock(Store::class, ['getBaseUrl']);
 
         $this->storeManagerMock->expects($this->once())
             ->method('getStore')

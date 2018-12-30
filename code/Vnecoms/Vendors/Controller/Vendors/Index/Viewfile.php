@@ -16,6 +16,13 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class Viewfile extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
     /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::account';
+    
+    /**
      * @var \Magento\Framework\Controller\Result\RawFactory
      */
     protected $resultRawFactory;

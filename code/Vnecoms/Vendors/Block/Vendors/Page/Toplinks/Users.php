@@ -74,18 +74,44 @@ class Users extends \Vnecoms\Vendors\Block\Vendors\AbstractBlock
     
     /**
      * @param string $label
-     * @param string|null $title
-     * @param string|null $url
-     * @param int|null $sortOrder
-     * @return $this
+     * @param string $title
+     * @param string $url
+     * @param number $position
+     * @param string $iconClass
+     * @param string $resource
+     * @return \Vnecoms\Vendors\Block\Vendors\Page\Toplinks\Users
      */
-    public function addLink($label, $title = null, $url = '',$position=0,$iconClass='')
+    public function addLink($label, $title = null, $url = '', $position=0, $iconClass='', $resource = 'Vnecoms_Vendors::allowed')
     {
+        if(!$this->isAllowedLink($resource)) return;
         if (empty($title)) {
             $title = $label;
         }
-        $this->_links[$this->_getNewPosition($position)] = ['label' => __($label), 'title' => __($title), 'url' => $url,'sort_order'=>$position,'icon_class'=>$iconClass];
+        $this->_links[$this->_getNewPosition($position)] = [
+            'label' => __($label),
+            'title' => __($title),
+            'url' => $url,
+            'sort_order'=>$position,
+            'icon_class'=>$iconClass,
+            'resource' => $resource
+        ];
         return $this;
+    }
+    
+    /**
+     * @param string $resource
+     * @return boolean
+     */
+    protected function isAllowedLink($resource = ''){
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $resource,
+                'permission' => $permission
+            ]
+        );
+        return $permission->isAllowed();
     }
     
     /**
@@ -118,8 +144,10 @@ class Users extends \Vnecoms\Vendors\Block\Vendors\AbstractBlock
      */
     public function getLogoutLink()
     {
-        return $this->_frontendUrl->getUrl('customer/account/logout');
-        //return $this->getUrl('account/logout');
+        if($this->canShowBuyerDashboardLink())
+            return $this->_frontendUrl->getUrl('customer/account/logout');
+        
+        return $this->getUrl('account/logout');
     }
     
     /**
@@ -131,6 +159,12 @@ class Users extends \Vnecoms\Vendors\Block\Vendors\AbstractBlock
         return $this->_frontendUrl->getUrl('customer/account');
     }
     
+    /**
+     * Can show buyer dashboard link
+     */
+    public function canShowBuyerDashboardLink(){
+        return !$this->_scopeConfig->getValue(\Vnecoms\Vendors\App\Area\FrontNameResolver::XML_PATH_USE_CUSTOM_VENDOR_URL);
+    }
     /**
      * @return string
      */

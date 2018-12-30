@@ -18,6 +18,13 @@ use Magento\Ui\Component\MassAction\Filter;
 abstract class AbstractMassAction extends \Vnecoms\Vendors\App\AbstractAction
 {
     /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales';
+    
+    /**
      * @var string
      */
     protected $redirectUrl = '*/*/';

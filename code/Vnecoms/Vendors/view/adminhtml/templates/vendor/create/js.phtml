@@ -51,6 +51,16 @@
                 },
                 '<?php echo __("The vendor id is not available.")?>'
             ],
+            'validate-cpassword-customer': [
+                function (value, element) {
+                    var pass = false;
+                    if ($('.validate-customer-password').size()) {
+                        pass = $('.validate-customer-password')[0];
+                    }
+                    return (pass.value == value);
+                },
+                '<?php echo __("Please make sure your passwords match.")?>'
+            ]
         };
 
         $.each(rules, function (i, rule) {

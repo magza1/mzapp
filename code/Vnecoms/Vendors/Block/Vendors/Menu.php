@@ -56,7 +56,7 @@ class Menu extends \Magento\Backend\Block\Menu
         $cacheKeyInfo = [
             'vendors_top_nav',
             $this->getActive(),
-            $this->_vendorSession->getVendor()->getId(),
+            $this->_vendorSession->getCustomerId(),
             $this->_localeResolver->getLocale(),
         ];
         // Add additional key parameters if needed
@@ -165,4 +165,16 @@ class Menu extends \Magento\Backend\Block\Menu
     {
         return $this->_vendorSession->getCustomer()->getName();
     }
+	
+	/**
+     * (non-PHPdoc)
+     * @see \Magento\Framework\View\Element\AbstractBlock::getCacheTags()
+     */
+    protected function getCacheTags(){
+        $tags = parent::getCacheTags();
+        $tags[] = 'vendor_menu';
+        $tags[] = 'vendor_menu_'.$this->_vendorSession->getCustomerId();
+        return $tags;
+    }
+	
 }

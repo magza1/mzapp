@@ -4,6 +4,7 @@ namespace Vnecoms\Vendors\Block\Adminhtml\Vendor\Create\Tab;
 use Magento\Backend\Block\Widget\Form;
 use Magento\Backend\Block\Widget\Form\Generic;
 use Magento\Backend\Block\Widget\Tab\TabInterface;
+use Magento\Customer\Model\AccountManagement;
 
 class Main extends Generic implements TabInterface
 {
@@ -150,27 +151,31 @@ class Main extends Generic implements TabInterface
             ]
         );
 
-        $fieldset->addField(
+        $fieldset->addType('vendor_password', 'Vnecoms\Vendors\Block\Adminhtml\Form\Element\Password');
+        $password = $fieldset->addField(
             'password',
-            'password',
+            'vendor_password',
             [
                 'name' => 'password',
                 'label' => __('Password'),
-                'id' => 'customer_pass',
+                'id' => 'password',
                 'title' => __('Email'),
-                'class' => 'input-text validate-admin-password required-entry',
+                'class' => 'input-text validate-password validate-customer-password required-entry',
                 'required' => true,
+                'data-password-min-length' => $this->getMinimumPasswordLength(),
+                'data-password-min-character-sets' => $this->getRequiredCharacterClassesNumber()
             ]
         );
+
         $fieldset->addField(
             'confirmation',
-            'password',
+            'vendor_password',
             [
                 'name' => 'password_confirmation',
                 'label' => __('Confirm Password'),
                 'id' => 'confirmation',
                 'title' => __('Confirm Password'),
-                'class' => 'input-text validate-cpassword required-entry',
+                'class' => 'input-text validate-cpassword-customer required-entry',
                 'required' => true,
             ]
         );
@@ -181,5 +186,28 @@ class Main extends Generic implements TabInterface
         $form->setValues($data);
         $this->setForm($form);
         return parent::_prepareForm();
+    }
+
+
+    /**
+     * Get minimum password length
+     *
+     * @return string
+     * @since 100.1.0
+     */
+    public function getMinimumPasswordLength()
+    {
+        return $this->_scopeConfig->getValue(AccountManagement::XML_PATH_MINIMUM_PASSWORD_LENGTH);
+    }
+
+    /**
+     * Get number of password required character classes
+     *
+     * @return string
+     * @since 100.1.0
+     */
+    public function getRequiredCharacterClassesNumber()
+    {
+        return $this->_scopeConfig->getValue(AccountManagement::XML_PATH_REQUIRED_CHARACTER_CLASSES_NUMBER);
     }
 }

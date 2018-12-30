@@ -7,7 +7,8 @@
 namespace Vnecoms\VendorsGroup\Block\Vendors;
 
 class Product extends \Magento\Framework\View\Element\Template
-{    
+{
+
     
     /**
      * @var \Vnecoms\VendorsGroup\Helper\Data
@@ -21,7 +22,7 @@ class Product extends \Magento\Framework\View\Element\Template
     
     /**
      * Constructor
-     * 
+     *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Vnecoms\VendorsGroup\Helper\Data $groupHelper
      * @param \Vnecoms\Vendors\Model\Session $vendorSession
@@ -48,10 +49,11 @@ class Product extends \Magento\Framework\View\Element\Template
     {
         parent::_prepareLayout();
         $groupId = $this->_vendorSession->getVendor()->getGroupId();
-        if($this->_groupHelper->canAddNewProduct($groupId)) return;
+        if ($this->_groupHelper->canAddNewProduct($groupId)) {
+            return;
+        }
         
         $this->getParentBlock()->removeButton('add_new');
         return $this;
     }
-    
 }

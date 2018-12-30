@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller;
@@ -15,11 +15,12 @@ use Magento\Framework\App\Action\Forward;
 use Magento\Framework\App\ActionFactory;
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Router
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends TestCase
 {
     /**
      * Constants used in the unit tests
@@ -55,10 +56,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->actionFactoryMock = $this->getMock(ActionFactory::class, ['create'], [], '', false);
-        $this->brandResourceMock = $this->getMock(BrandResource::class, ['getBrandIdByUrlKey'], [], '', false);
-        $this->configMock = $this->getMock(Config::class, ['getBrandUrlSuffix'], [], '', false);
-        $this->requestMock = $this->getMock(
+        $this->actionFactoryMock = $this->createPartialMock(ActionFactory::class, ['create']);
+        $this->brandResourceMock = $this->createPartialMock(BrandResource::class, ['getBrandIdByUrlKey']);
+        $this->configMock = $this->createPartialMock(Config::class, ['getBrandUrlSuffix']);
+        $this->requestMock = $this->createPartialMock(
             Http::class,
             [
                 'getPathInfo',
@@ -68,10 +69,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 'setControllerName',
                 'setActionName',
                 'setParams'
-            ],
-            [],
-            '',
-            false
+            ]
         );
         $this->router = $objectManager->getObject(
             Router::class,
@@ -151,12 +149,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             'valid path' => [
                 Url::ROUTE_TO_BRAND . '/' . self::BRAND_URL_KEY,
                 '',
-                $this->getMock(ActionInterface::class)
+                $this->createMock(ActionInterface::class)
             ],
             'valid path with suffix' => [
                 Url::ROUTE_TO_BRAND . '/' . self::BRAND_URL_KEY . '.html',
                 '.html',
-                $this->getMock(ActionInterface::class)
+                $this->createMock(ActionInterface::class)
             ],
             'missing route to brand part' => [
                 self::BRAND_URL_KEY,

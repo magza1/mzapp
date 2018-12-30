@@ -13,8 +13,8 @@ use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 class CreateShipmentPredispatch implements ObserverInterface
 {
         /**
-     * @var \Vnecoms\VendorsGroup\Helper\Data
-     */
+         * @var \Vnecoms\VendorsGroup\Helper\Data
+         */
     protected $_groupHelper;
     
     /**
@@ -34,7 +34,7 @@ class CreateShipmentPredispatch implements ObserverInterface
     
     /**
      * Constructor
-     * 
+     *
      * @param \Vnecoms\VendorsGroup\Helper\Data $groupHelper
      * @param \Vnecoms\Vendors\Model\Session $vendorSession
      * @param \Magento\Framework\App\Response\RedirectInterface $redirect
@@ -53,7 +53,7 @@ class CreateShipmentPredispatch implements ObserverInterface
     }
     
     /**
-     * 
+     *
      *
      * @param \Magento\Framework\Event\Observer $observer
      * @return self
@@ -61,15 +61,15 @@ class CreateShipmentPredispatch implements ObserverInterface
     public function execute(\Magento\Framework\Event\Observer $observer)
     {
         $groupId = $this->_vendorSession->getVendor()->getGroupId();
-        if(!$this->_groupHelper->canCreateShipment($groupId)){
+        if (!$this->_groupHelper->canCreateShipment($groupId)) {
             $controllerAction = $observer->getControllerAction();
             $this->messageManager->addError(__("You are not allowed to do this action."));
-            if($orderId = $controllerAction->getRequest()->getParam('order_id')){
-                $this->_redirect->redirect($controllerAction->getResponse(), 'sales/order/view',['order_id' => $orderId]);
-            }else{
+            if ($orderId = $controllerAction->getRequest()->getParam('order_id')) {
+                $this->_redirect->redirect($controllerAction->getResponse(), 'sales/order/view', ['order_id' => $orderId]);
+            } else {
                 $this->_redirect->redirect($controllerAction->getResponse(), 'sales/order');
             }
-            $controllerAction->getActionFlag()->set('', \Magento\Framework\App\ActionInterface::FLAG_NO_DISPATCH,true);
+            $controllerAction->getActionFlag()->set('', \Magento\Framework\App\ActionInterface::FLAG_NO_DISPATCH, true);
             return;
         }
     }

@@ -28,6 +28,14 @@ class Index extends AbstractAction
     }
 
     /**
+     * (non-PHPdoc)
+     * @see \Vnecoms\Vendors\App\AbstractAction::_isAllowed()
+     */
+    protected function _isAllowed(){
+        return true;
+    }
+    
+    /**
      * Noroute action
      *
      * @return \Magento\Backend\Model\View\Result\Page

@@ -25,4 +25,10 @@
             </argument>
         </arguments>
     </type> 
+
+    <type name="Magento\Tax\Helper\Data">
+        <plugin name="sales.tax" type="Vnecoms\VendorsSales\Plugin\Tax\Helper\Data" sortOrder="1" disabled="false"/>
+    </type>
+
+
 </config>

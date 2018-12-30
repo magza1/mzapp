@@ -55,7 +55,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 
     public function _construct()
     {
-        $this->_init('Magento\Framework\DataObject', 'Aheadworks\Csblock\Model\ResourceModel\Csblock');
+        $this->_init(\Magento\Framework\DataObject::class, \Aheadworks\Csblock\Model\ResourceModel\Csblock::class);
     }
 
     /**

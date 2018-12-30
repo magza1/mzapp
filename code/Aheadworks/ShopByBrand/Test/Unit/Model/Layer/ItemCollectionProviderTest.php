@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Layer;
@@ -11,11 +11,12 @@ use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\ResourceModel\Product\CollectionFactory;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Layer\ItemCollectionProvider
  */
-class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
+class ItemCollectionProviderTest extends TestCase
 {
     /**
      * @var ItemCollectionProvider
@@ -30,7 +31,7 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->collectionFactoryMock = $this->getMock(CollectionFactory::class, ['create'], [], '', false);
+        $this->collectionFactoryMock = $this->createPartialMock(CollectionFactory::class, ['create']);
         $this->provider = $objectManager->getObject(
             ItemCollectionProvider::class,
             ['collectionFactory' => $this->collectionFactoryMock]
@@ -39,9 +40,9 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCollection()
     {
-        $collectionMock = $this->getMock(Collection::class, [], [], '', false);
+        $collectionMock = $this->createMock(Collection::class);
         /** @var Category|\PHPUnit_Framework_MockObject_MockObject $categoryMock */
-        $categoryMock = $this->getMock(Category::class, [], [], '', false);
+        $categoryMock = $this->createMock(Category::class);
         $this->collectionFactoryMock->expects($this->once())
             ->method('create')
             ->willReturn($collectionMock);

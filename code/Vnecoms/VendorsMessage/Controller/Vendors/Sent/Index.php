@@ -6,7 +6,6 @@
  */
 namespace Vnecoms\VendorsMessage\Controller\Vendors\Sent;
 
-
 class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
 
@@ -15,7 +14,7 @@ class Index extends \Vnecoms\Vendors\Controller\Vendors\Action
      */
     public function execute()
     {
-        $this->getRequest()->setParam('owner_id',$this->_session->getCustomerId());
+        $this->getRequest()->setParam('owner_id', $this->_session->getCustomerId());
         $this->_initAction();
         $this->_addBreadcrumb(__("Messages"), __("Messages"))->_addBreadcrumb(__("Sent Messages"), __("Sent Messages"));
         $title = $this->_view->getPage()->getConfig()->getTitle();

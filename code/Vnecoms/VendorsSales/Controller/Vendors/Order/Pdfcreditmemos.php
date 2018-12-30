@@ -1,8 +1,5 @@
 <?php
-/**
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order;
 
 use Magento\Framework\App\ResponseInterface;
@@ -24,6 +21,12 @@ use Vnecoms\VendorsSales\Model\ResourceModel\Order\CollectionFactory;
  */
 class Pdfcreditmemos extends \Vnecoms\VendorsSales\Controller\Vendors\Order\AbstractMassAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_creditmemo';
     /**
      * @var FileFactory
      */

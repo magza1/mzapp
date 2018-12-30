@@ -26,8 +26,6 @@ class Delete extends \Aheadworks\Csblock\Controller\Adminhtml\Csblock
 
     protected $contentModelFactory;
 
-
-
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\View\LayoutFactory $layoutFactory

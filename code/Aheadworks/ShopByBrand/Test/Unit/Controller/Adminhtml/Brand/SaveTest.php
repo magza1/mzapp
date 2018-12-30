@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller\Adminhtml\Brand;
@@ -20,12 +20,13 @@ use Magento\Framework\App\Request\Http;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Message\ManagerInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\Save
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class SaveTest extends \PHPUnit_Framework_TestCase
+class SaveTest extends TestCase
 {
     /**
      * @var Save
@@ -75,26 +76,26 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->dataPersistorMock = $this->getMockForAbstractClass(DataPersistorInterface::class);
-        $this->postDataProcessorMock = $this->getMock(
+        $this->dataPersistorMock = $this->getMockBuilder(DataPersistorInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->postDataProcessorMock = $this->createPartialMock(
             PostDataProcessor::class,
-            ['prepareEntityData'],
-            [],
-            '',
-            false
+            ['prepareEntityData']
         );
-        $this->brandFactoryMock = $this->getMock(BrandInterfaceFactory::class, ['create'], [], '', false);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
-        $this->dataObjectHelperMock = $this->getMock(
+        $this->brandFactoryMock = $this->createPartialMock(BrandInterfaceFactory::class, ['create']);
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->dataObjectHelperMock = $this->createPartialMock(
             DataObjectHelper::class,
-            ['populateWithArray'],
-            [],
-            '',
-            false
+            ['populateWithArray']
         );
-        $this->requestMock = $this->getMock(Http::class, ['getPostValue', 'getParam'], [], '', false);
-        $this->resultRedirectFactoryMock = $this->getMock(RedirectFactory::class, ['create'], [], '', false);
-        $this->messageManagerMock = $this->getMockForAbstractClass(ManagerInterface::class);
+        $this->requestMock = $this->createPartialMock(Http::class, ['getPostValue', 'getParam']);
+        $this->resultRedirectFactoryMock = $this->createPartialMock(RedirectFactory::class, ['create']);
+        $this->messageManagerMock = $this->getMockBuilder(ManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $context = $objectManager->getObject(
             Context::class,
             [
@@ -123,8 +124,10 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             'field' => 'value'
         ];
 
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->requestMock->expects($this->once())
             ->method('getPostValue')
@@ -175,8 +178,10 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             'field' => 'value'
         ];
 
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $exception = new \Exception('Exception message');
 
         $this->requestMock->expects($this->once())
@@ -225,8 +230,10 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             'field' => 'value'
         ];
 
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->requestMock->expects($this->once())
             ->method('getPostValue')
@@ -279,8 +286,10 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             'field' => 'value'
         ];
 
-        $resultRedirectMock = $this->getMock(ResultRedirect::class, ['setPath'], [], '', false);
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $resultRedirectMock = $this->createPartialMock(ResultRedirect::class, ['setPath']);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $exception = new \Exception('Exception message');
 
         $this->requestMock->expects($this->once())

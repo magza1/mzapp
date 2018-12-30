@@ -83,6 +83,15 @@
                     </item>
                 </argument>
             </action>
+            <action name="approval">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">approval</item>
+                        <item name="label" xsi:type="string" translate="true">Submit for approval</item>
+                        <item name="url" xsi:type="url" path="catalog/product/massApproval"/>
+                    </item>
+                </argument>
+            </action>
             <action name="status">
                 <argument name="data" xsi:type="array">
                     <item name="config" xsi:type="array">

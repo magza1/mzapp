@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Invoice;
 
 use Magento\Framework\Exception\LocalizedException;
@@ -20,6 +16,13 @@ use Vnecoms\VendorsSales\Model\Service\InvoiceService;
  */
 class UpdateQty extends \Vnecoms\VendorsSales\Controller\Vendors\Invoice\AbstractInvoice\View
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_order_action_invoice';
+    
     /**
      * @var JsonFactory
      */

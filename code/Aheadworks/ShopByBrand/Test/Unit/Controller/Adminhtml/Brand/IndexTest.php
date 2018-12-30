@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Controller\Adminhtml\Brand;
@@ -12,11 +12,12 @@ use Magento\Framework\View\Page\Title;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Framework\View\Page\Config as PageConfig;
 use Magento\Framework\View\Result\PageFactory;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Controller\Adminhtml\Brand\Index
  */
-class IndexTest extends \PHPUnit_Framework_TestCase
+class IndexTest extends TestCase
 {
     /**
      * @var Index
@@ -31,7 +32,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->resultPageFactoryMock = $this->getMock(PageFactory::class, ['create'], [], '', false);
+        $this->resultPageFactoryMock = $this->createPartialMock(PageFactory::class, ['create']);
         $this->action = $objectManager->getObject(
             Index::class,
             ['resultPageFactory' => $this->resultPageFactoryMock]
@@ -40,9 +41,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
     public function testExecute()
     {
-        $resultPageMock = $this->getMock(Page::class, ['setActiveMenu', 'getConfig'], [], '', false);
-        $pageConfigMock = $this->getMock(PageConfig::class, ['getTitle'], [], '', false);
-        $titleMock = $this->getMock(Title::class, ['prepend'], [], '', false);
+        $resultPageMock = $this->createPartialMock(Page::class, ['setActiveMenu', 'getConfig']);
+        $pageConfigMock = $this->createPartialMock(PageConfig::class, ['getTitle']);
+        $titleMock = $this->createPartialMock(Title::class, ['prepend']);
 
         $this->resultPageFactoryMock->expects($this->once())
             ->method('create')

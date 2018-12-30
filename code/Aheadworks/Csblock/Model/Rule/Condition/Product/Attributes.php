@@ -17,7 +17,6 @@ use Magento\Store\Model\ScopeInterface;
 class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 {
 
-
     protected $_multiselectOverwrite = [
         'eq' => 'mEq',
         'neq' => 'mNeq',
@@ -85,7 +84,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         $this->_storeManager = $storeManager;
         $this->metadataPool = $metadataPool;
         $this->scopeConfig = $scopeConfig;
-        $this->setType('Aheadworks\Csblock\Model\Rule\Condition\Product\Attributes');
+        $this->setType(\Aheadworks\Csblock\Model\Rule\Condition\Product\Attributes::class);
         $this->setValue(null);
     }
 
@@ -141,13 +140,11 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             if ($attribute->isStatic()) {
                 $condition = $this->_prepareSqlCondition("e.{$attributeCode}", $this->getValue());
                 $this->_addWhereConditionToCollection($productCollection, $condition);
-            } else{
+            } else {
                 $table = $attribute->getBackendTable();
                 $tableAlias = 'attr_table_' .$attribute->getId();
 
                 if (!$productCollection->getFlag("aw_csblock_{$tableAlias}_joined")) {
-
-
                     $productCollection
                         ->getSelect()
                         ->joinLeft(
@@ -176,7 +173,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
                     );
                 }
                 $conditions[] = $this->_prepareSqlCondition("{$tableAlias}.value", $this->getValue());
-                $condition = join (' AND ', $conditions);
+                $condition = join(' AND ', $conditions);
 
                 $this->_addWhereConditionToCollection($productCollection, $condition);
             }
@@ -193,7 +190,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         $method = $this->_getMethod();
         $callback = $this->_getPrepareValueCallback();
         if ($callback) {
-            $value = call_user_func(array($this, $callback), $value);
+            $value = call_user_func([$this, $callback], $value);
         }
 
         if ($this->getAttributeObject()->getAttributeCode() == 'category_ids'
@@ -202,8 +199,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             $method = $this->_categoryOverwrite[$method];
         }
 
-        if (
-            $this->getAttributeObject()->getFrontendInput() == 'multiselect'
+        if ($this->getAttributeObject()->getFrontendInput() == 'multiselect'
             && array_key_exists($method, $this->_multiselectOverwrite)
         ) {
             $method = $this->_multiselectOverwrite[$method];
@@ -225,7 +221,6 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
 
             if ($count <= 1) {
                 $condition = "REGEXP '^{$value}$'";
-
             } else {
                 /*remove from count value first and last position for regexp */
                 $centerElementCount = $count - 2;
@@ -250,12 +245,11 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             );
         }
         if ($method == 'nlike' || $method == 'nfinset') {
-            $condition  = join (' AND ', $conditions);
+            $condition  = join(' AND ', $conditions);
         } else {
-            $condition  = join (' OR ', $conditions);
+            $condition  = join(' OR ', $conditions);
         }
         return $condition;
-
     }
 
     /**
@@ -385,5 +379,4 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         }
         return $this->_defaultOperatorInputByType;
     }
-
 }

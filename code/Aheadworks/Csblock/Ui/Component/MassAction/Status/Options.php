@@ -76,7 +76,7 @@ class Options implements JsonSerializable
     {
         if ($this->options === null) {
             $statusSource = \Magento\Framework\App\ObjectManager::getInstance()
-                ->create('Aheadworks\Csblock\Model\Source\Status');
+                ->create(\Aheadworks\Csblock\Model\Source\Status::class);
             $options = $statusSource->toOptionArrayForMassStatus();
             $this->prepareData();
             foreach ($options as $optionCode) {

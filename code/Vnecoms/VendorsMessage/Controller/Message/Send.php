@@ -55,8 +55,7 @@ class Send extends \Magento\Framework\App\Action\Action
      */
     public function execute()
     {
-        
-        
+
         /*If not logged in*/
         
         $vendor = $this->_objectManager->create('Vnecoms\Vendors\Model\Vendor');
@@ -64,7 +63,11 @@ class Send extends \Magento\Framework\App\Action\Action
         
         if(!$vendor->getId() || !$this->_customerSession->isLoggedIn()){
             /*The request is not valid*/
-            $this->messageManager->addError(__("The request is not valid."));
+            $result = [
+                'error' => true,
+                'msg' => __("The request is not valid.")
+            ];
+
         }else{
             $receiver = $vendor->getCustomer();
             $sender = $this->_customerSession->getCustomer();
@@ -73,7 +76,7 @@ class Send extends \Magento\Framework\App\Action\Action
             $messageDetail = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Message\Detail');
             
             $identifier = md5(md5($sender->getId().$receiver->getId()).time());
-            
+
             $senderMsgData = [
                 'identifier' => $identifier,
                 'owner_id' => $sender->getId(),
@@ -82,6 +85,7 @@ class Send extends \Magento\Framework\App\Action\Action
                 'is_outbox' => 1,
                 'is_deleted' => 0,
             ];
+
             $receiverMsgData = [
                 'identifier' => $identifier,
                 'owner_id' => $receiver->getId(),
@@ -90,6 +94,7 @@ class Send extends \Magento\Framework\App\Action\Action
                 'is_outbox' => 0,
                 'is_deleted' => 0,
             ];
+
             $msgDetailData =[
                 'sender_id' => $sender->getId(),
                 'sender_email' => $sender->getEmail(),
@@ -101,19 +106,77 @@ class Send extends \Magento\Framework\App\Action\Action
                 'content' => $this->getRequest()->getParam('content'),
                 'is_read' => 0,
             ];
-            
+
+            $errors = [];
+            $warnings = [];
+
+            $transport = new \Magento\Framework\DataObject(
+                [
+                    'detail_data'=>$msgDetailData ,
+                    'errors'=>$errors,
+                    'warnings' => $warnings
+                ]
+            );
             /*Save the message to sender outbox*/
-            $message->setData($senderMsgData)->save();
-            $messageDetail->setData($msgDetailData)->setMessageId($message->getId())->save();
-            
-            /*Save the message to receiver inbox*/
-            $message->setData($receiverMsgData)->save();
-            $messageDetail->setData($msgDetailData)->setMessageId($message->getId())->save();
-            
-            /*Send notification email to receiver*/
-            $this->_messageHelper->sendNewReviewNotificationToCustomer($messageDetail);
-            
-            $this->messageManager->addSuccess(__("Your message is sent successfully."));
+            $this->_eventManager->dispatch(
+                'messsage_prepare_save',
+                [
+                    'transport'=>$transport ,
+                ]
+            );
+
+            $errors = $transport->getErrors();
+            $warnings = $transport->getWarnings();
+
+            try {
+
+                if($errors){
+                    throw new \Exception(implode("<br />", $errors));
+                }
+
+                $result = [];
+
+                $message->setData($senderMsgData)->save();
+                $messageDetail->setData($msgDetailData)->setMessageId($message->getId())->save();
+
+                if($warnings){
+                    $result["msg"] = implode("<br />", $warnings);
+                    $warningData = [
+                      'message_id'  => $message->getId(),
+                      'detail_message_id' =>   $messageDetail->getId()
+                    ];
+                    $warning = $this->_objectManager->create('Vnecoms\VendorsMessage\Model\Warning');
+                    $warning->setData($warningData)->save();
+                }
+
+                /*Save the message to receiver inbox*/
+                $message->setData($receiverMsgData)->save();
+                $messageDetail->setData($msgDetailData)->setMessageId($message->getId())->save();
+
+                /*Send notification email to receiver*/
+                $this->_messageHelper->sendNewReviewNotificationToCustomer($messageDetail);
+
+
+
+                $result["error"] = false;
+
+            }catch (\Magento\Framework\Exception\LocalizedException $e) {
+                    $result = [
+                        'error' => true,
+                        'msg' => $e->getMessage()
+                    ];
+            } catch (\RuntimeException $e) {
+                $result = [
+                    'error' => true,
+                    'msg' => $e->getMessage()
+                ];
+            } catch (\Exception $e) {
+                $result = [
+                    'error' => true,
+                    'msg' => $e->getMessage()
+                ];
+            }
+            $this->getResponse()->setBody(json_encode($result));
         }        
     }
 }

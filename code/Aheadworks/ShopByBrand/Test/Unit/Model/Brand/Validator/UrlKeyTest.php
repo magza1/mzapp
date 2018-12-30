@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\Validator;
@@ -10,11 +10,12 @@ use Aheadworks\ShopByBrand\Api\Data\BrandInterface;
 use Aheadworks\ShopByBrand\Model\Brand\Validator\UrlKey;
 use Aheadworks\ShopByBrand\Model\ResourceModel\Validator\UrlKeyIsUnique;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\Validator\UrlKey
  */
-class UrlKeyTest extends \PHPUnit_Framework_TestCase
+class UrlKeyTest extends TestCase
 {
     /**
      * @var UrlKey
@@ -29,7 +30,7 @@ class UrlKeyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->uniquenessValidatorMock = $this->getMock(UrlKeyIsUnique::class, ['validate'], [], '', false);
+        $this->uniquenessValidatorMock = $this->createPartialMock(UrlKeyIsUnique::class, ['validate']);
         $this->validator = $objectManager->getObject(
             UrlKey::class,
             ['uniquenessValidator' => $this->uniquenessValidatorMock]
@@ -45,7 +46,9 @@ class UrlKeyTest extends \PHPUnit_Framework_TestCase
     public function testIsValid($urlKey, $expectedResult, $expectedMessages)
     {
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $brandMock->expects($this->any())
             ->method('getUrlKey')
@@ -63,7 +66,9 @@ class UrlKeyTest extends \PHPUnit_Framework_TestCase
         $urlKey = 'brand';
 
         /** @var BrandInterface|\PHPUnit_Framework_MockObject_MockObject $brandMock */
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $brandMock->expects($this->any())
             ->method('getUrlKey')

@@ -1,9 +1,5 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Invoice\AbstractInvoice;
 
 use Magento\Framework\App\ResponseInterface;
@@ -21,6 +17,13 @@ use Vnecoms\VendorsSales\Model\ResourceModel\Order\Invoice\CollectionFactory;
  */
 abstract class Pdfinvoices extends \Vnecoms\VendorsSales\Controller\Vendors\Order\AbstractMassAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_invoices';
+    
     /**
      * @var FileFactory
      */
@@ -57,14 +60,6 @@ abstract class Pdfinvoices extends \Vnecoms\VendorsSales\Controller\Vendors\Orde
         $this->pdfInvoice = $pdfInvoice;
         $this->collectionFactory = $collectionFactory;
         parent::__construct($context, $filter);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Magento_Sales::sales_invoice');
     }
 
     /**

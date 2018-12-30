@@ -51,14 +51,4 @@ abstract class AbstractConfig extends \Vnecoms\Vendors\App\AbstractAction
         }
         return parent::dispatch($request);
     }
-
-    /**
-     * Check is allow modify system configuration
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return true;
-    }
 }

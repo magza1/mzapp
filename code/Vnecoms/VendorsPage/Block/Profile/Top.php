@@ -2,6 +2,7 @@
 namespace Vnecoms\VendorsPage\Block\Profile;
 
 use Vnecoms\VendorsPage\Model\Source\ProfilePosition as Profile;
+
 /**
  * Class View
  * @package Magento\Catalog\Block\Category
@@ -36,16 +37,20 @@ class Top extends \Vnecoms\Vendors\Block\Profile
             $imageHelper,
             $orderResourceFactory,
             $filter,
-            $vendorFactory,$data
+            $vendorFactory,
+            $data
         );
     }
     
-    protected function _prepareLayout(){
+    protected function _prepareLayout()
+    {
         return parent::_prepareLayout();
     }
-    protected function _toHtml(){
-        if($this->_pageHelper->getProfileBlockPosition() != Profile::POSITION_TOP)
+    protected function _toHtml()
+    {
+        if ($this->_pageHelper->getProfileBlockPosition() != Profile::POSITION_TOP) {
             return '';
+        }
         return parent::_toHtml();
     }
 }

@@ -1,16 +1,16 @@
 <?php
-/**
- *
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
 namespace Vnecoms\VendorsProduct\Controller\Vendors\Product;
 
-use Magento\Framework\Registry;
-use Magento\Framework\Stdlib\DateTime\Filter\Date;
 
 class NewAction extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::product_action_save';
+    
     /**
      * @var Initialization\StockDataFilter
      */

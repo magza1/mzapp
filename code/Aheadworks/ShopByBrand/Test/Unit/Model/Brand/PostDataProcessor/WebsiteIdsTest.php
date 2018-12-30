@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Brand\PostDataProcessor;
@@ -11,11 +11,12 @@ use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
 use Magento\Store\Api\Data\WebsiteInterface;
 use Magento\Store\Api\WebsiteManagementInterface;
 use Magento\Store\Model\StoreManagerInterface;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Brand\PostDataProcessor\WebsiteIds
  */
-class WebsiteIdsTest extends \PHPUnit_Framework_TestCase
+class WebsiteIdsTest extends TestCase
 {
     /**
      * @var WebsiteIds
@@ -35,8 +36,12 @@ class WebsiteIdsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->websiteManagementMock = $this->getMockForAbstractClass(WebsiteManagementInterface::class);
-        $this->storeManagerMock = $this->getMockForAbstractClass(StoreManagerInterface::class);
+        $this->websiteManagementMock = $this->getMockBuilder(WebsiteManagementInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->storeManagerMock = $this->getMockBuilder(StoreManagerInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $this->dataProcessor = $objectManager->getObject(
             WebsiteIds::class,
             [
@@ -55,7 +60,9 @@ class WebsiteIdsTest extends \PHPUnit_Framework_TestCase
             'website_ids' => [$websiteId]
         ];
 
-        $websiteMock = $this->getMockForAbstractClass(WebsiteInterface::class);
+        $websiteMock = $this->getMockBuilder(WebsiteInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->websiteManagementMock->expects($this->once())
             ->method('getCount')

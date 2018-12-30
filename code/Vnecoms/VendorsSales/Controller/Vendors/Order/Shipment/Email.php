@@ -1,12 +1,7 @@
 <?php
-/**
- *
- * Copyright © 2016 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
+
 namespace Vnecoms\VendorsSales\Controller\Vendors\Order\Shipment;
 
-use Magento\Backend\App\Action;
 use Magento\Framework\Controller\ResultFactory;
 
 /**
@@ -16,6 +11,13 @@ use Magento\Framework\Controller\ResultFactory;
  */
 class Email extends \Vnecoms\Vendors\App\AbstractAction
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales_shipments';
+    
     /**
      * @var \Magento\Shipping\Controller\Adminhtml\Order\ShipmentLoader
      */
@@ -31,16 +33,6 @@ class Email extends \Vnecoms\Vendors\App\AbstractAction
     ) {
         $this->shipmentLoader = $shipmentLoader;
         parent::__construct($context);
-    }
-
-    /**
-     * Check if email sending is allowed for the current user
-     *
-     * @return bool
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Vnecoms_VendorsSales::shipment');
     }
 
     /**

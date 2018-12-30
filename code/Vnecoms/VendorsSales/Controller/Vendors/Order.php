@@ -21,6 +21,8 @@ use Psr\Log\LoggerInterface;
  */
 abstract class Order extends \Vnecoms\Vendors\Controller\Vendors\Action
 {
+    protected $_aclResource = 'Vnecoms_VendorsSales::sales';
+    
     /**
      * Array of actions which can be processed without secret key validation
      *

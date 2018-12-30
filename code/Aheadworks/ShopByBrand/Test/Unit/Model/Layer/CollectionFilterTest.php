@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Test\Unit\Model\Layer;
@@ -9,17 +9,19 @@ namespace Aheadworks\ShopByBrand\Test\Unit\Model\Layer;
 use Aheadworks\ShopByBrand\Api\BrandRepositoryInterface;
 use Aheadworks\ShopByBrand\Api\Data\BrandInterface;
 use Aheadworks\ShopByBrand\Model\Layer\CollectionFilter;
+use Aheadworks\ShopByBrand\Model\ResourceModel\Product\Collection as BrandProductCollection;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Config as CatalogConfig;
 use Magento\Catalog\Model\ResourceModel\Product\Collection;
 use Magento\Catalog\Model\Product\Visibility;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\TestFramework\Unit\Helper\ObjectManager;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Test for \Aheadworks\ShopByBrand\Model\Layer\CollectionFilter
  */
-class CollectionFilterTest extends \PHPUnit_Framework_TestCase
+class CollectionFilterTest extends TestCase
 {
     /**
      * @var CollectionFilter
@@ -46,26 +48,40 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
      */
     private $brandRepositoryMock;
 
+    /**
+     * @var BrandProductCollection|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $brandProductCollectionMock;
+
     protected function setUp()
     {
         $objectManager = new ObjectManager($this);
-        $this->catalogConfigMock = $this->getMock(CatalogConfig::class, ['getProductAttributes'], [], '', false);
-        $this->productVisibilityMock = $this->getMock(
+        $this->catalogConfigMock = $this->createPartialMock(CatalogConfig::class, ['getProductAttributes']);
+        $this->productVisibilityMock = $this->createPartialMock(
             Visibility::class,
-            ['getVisibleInCatalogIds'],
-            [],
-            '',
-            false
+            ['getVisibleInCatalogIds']
         );
-        $this->requestMock = $this->getMockForAbstractClass(RequestInterface::class);
-        $this->brandRepositoryMock = $this->getMockForAbstractClass(BrandRepositoryInterface::class);
+        $this->requestMock = $this->getMockBuilder(RequestInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->brandRepositoryMock = $this->getMockBuilder(BrandRepositoryInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $this->brandProductCollectionMock = $this->createPartialMock(
+            BrandProductCollection::class,
+            [
+                'getBrandProductsIds',
+                'addAdditionalProducts'
+            ]
+        );
         $this->collectionFilter = $objectManager->getObject(
             CollectionFilter::class,
             [
                 'catalogConfig' => $this->catalogConfigMock,
                 'productVisibility' => $this->productVisibilityMock,
                 'request' => $this->requestMock,
-                'brandRepository' => $this->brandRepositoryMock
+                'brandRepository' => $this->brandRepositoryMock,
+                'productCollection' => $this->brandProductCollectionMock
             ]
         );
     }
@@ -74,15 +90,17 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
     {
         $brandId = 1;
         $attributeCode = 'manufacturer';
+        $filteredField = 'entity_id';
         $optionId = 2;
         $productAttributes = ['size', 'color'];
         $visibility = [
             Visibility::VISIBILITY_IN_CATALOG,
             Visibility::VISIBILITY_BOTH
         ];
+        $productIds = [1, 2];
 
         /** @var Collection|\PHPUnit_Framework_MockObject_MockObject $collectionMock */
-        $collectionMock = $this->getMock(
+        $collectionMock = $this->createPartialMock(
             Collection::class,
             [
                 'addAttributeToSelect',
@@ -93,14 +111,13 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
                 'addStoreFilter',
                 'setVisibility',
                 'addFieldToFilter'
-            ],
-            [],
-            '',
-            false
+            ]
         );
         /** @var Category|\PHPUnit_Framework_MockObject_MockObject $categoryMock */
-        $categoryMock = $this->getMock(Category::class, [], [], '', false);
-        $brandMock = $this->getMockForAbstractClass(BrandInterface::class);
+        $categoryMock = $this->createMock(Category::class);
+        $brandMock = $this->getMockBuilder(BrandInterface::class)
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
 
         $this->catalogConfigMock->expects($this->once())
             ->method('getProductAttributes')
@@ -139,15 +156,13 @@ class CollectionFilterTest extends \PHPUnit_Framework_TestCase
             ->method('get')
             ->with($brandId)
             ->willReturn($brandMock);
-        $brandMock->expects($this->once())
-            ->method('getAttributeCode')
-            ->willReturn($attributeCode);
-        $brandMock->expects($this->once())
-            ->method('getOptionId')
-            ->willReturn($optionId);
+        $this->brandProductCollectionMock->expects($this->once())
+            ->method('getBrandProductsIds')
+            ->with($brandMock)
+            ->willReturn($productIds);
         $collectionMock->expects($this->once())
             ->method('addFieldToFilter')
-            ->with($attributeCode, $optionId);
+            ->with($filteredField, ['in' => $productIds]);
 
         $this->collectionFilter->filter($collectionMock, $categoryMock);
     }

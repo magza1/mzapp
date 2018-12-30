@@ -15,7 +15,7 @@
     </argument>
     <dataSource name="vendors_sales_order_view_shipment_grid_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="class" xsi:type="string">Vnecoms\VendorsSales\Ui\DataProvider\Vendor\Orders\DataProvider</argument>
             <argument name="name" xsi:type="string">vendors_sales_order_view_shipment_grid_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
             <argument name="requestFieldName" xsi:type="string">id</argument>
@@ -23,6 +23,7 @@
                 <item name="config" xsi:type="array">
                     <item name="update_url" xsi:type="url" path="mui/index/render"/>
                     <item name="filter_url_params" xsi:type="array">
+                        <item name="order_id" xsi:type="string">*</item>
                     	<item name="vendor_order_id" xsi:type="string">*</item>
                     </item>
                 </item>

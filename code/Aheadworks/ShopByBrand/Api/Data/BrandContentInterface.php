@@ -1,7 +1,7 @@
 <?php
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 
 namespace Aheadworks\ShopByBrand\Api\Data;
@@ -103,14 +103,14 @@ interface BrandContentInterface extends ExtensibleDataInterface
     /**
      * Retrieve existing extension attributes object or create a new one
      *
-     * @return BrandContentExtensionInterface|null
+     * @return \Aheadworks\ShopByBrand\Api\Data\BrandContentExtensionInterface|null
      */
     public function getExtensionAttributes();
 
     /**
      * Set an extension attributes object
      *
-     * @param BrandContentExtensionInterface $extensionAttributes
+     * @param \Aheadworks\ShopByBrand\Api\Data\BrandContentExtensionInterface $extensionAttributes
      * @return $this
      */
     public function setExtensionAttributes(BrandContentExtensionInterface $extensionAttributes);

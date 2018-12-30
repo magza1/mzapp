@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <!--
 /**
-* Copyright 2016 aheadWorks. All rights reserved.
-* See LICENSE.txt for license details.
+* Copyright 2018 aheadWorks. All rights reserved. 
+*  See LICENSE.txt for license details.
 */
 -->
 
@@ -28,7 +28,7 @@
             <argument name="filterList" xsi:type="object">brandFilterList</argument>
         </arguments>
     </virtualType>
-    <virtualType name="Aheadworks\Layerednav\Model\Layer\Brand\FilterList" type="Aheadworks\Layerednav\Model\Layer\Category\FilterList">
+    <virtualType name="Aheadworks\Layerednav\Model\Layer\Brand\FilterList" type="Aheadworks\Layerednav\Model\Layer\FilterListCategory">
         <arguments>
             <argument name="filterableAttributes" xsi:type="object">Aheadworks\ShopByBrand\Model\Layer\FilterableAttributeList</argument>
         </arguments>

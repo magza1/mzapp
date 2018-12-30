@@ -25,7 +25,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getSaveUrl()
     {
-        return $this->getUrl('*/*/save');
+        return $this->getUrl('*/*/complete');
     }
     
     /**

@@ -1,18 +1,21 @@
 <?php
-/**
- *
- * Copyright © 2015 Magento. All rights reserved.
- * See COPYING.txt for license details.
- */
 namespace Vnecoms\VendorsProduct\Controller\Vendors\Product;
 
 use Magento\Framework\Registry;
 use Zend\Stdlib\Parameters;
 use Magento\Framework\Stdlib\DateTime\Filter\Date;
 use Vnecoms\VendorsProduct\Model\Source\Approval;
+use Magento\Framework\App\Request\DataPersistorInterface;
 
 class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
 {
+    /**
+     * Authorization level of a basic admin session
+     *
+     * @see _isAllowed()
+     */
+    protected $_aclResource = 'Vnecoms_Vendors::product_action_save';
+    
     /**
      * @var \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper
      */
@@ -39,6 +42,11 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
     protected $vendorProductHelper;
 
     /**
+     * @var DataPersistorInterface
+     */
+    protected $dataPersistor;
+
+    /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -49,11 +57,6 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
      * @var unknown
      */
     protected $notCheckAttributes = [
-        'media_gallery',
-        'quantity_and_stock_status',
-        'image',
-        'small_image',
-        'thumbnail',
         'affect_product_custom_options',
         'options',
         'shipping_product_rate',
@@ -130,8 +133,10 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                 $product = $this->initializationHelper->initialize($product);
                 $this->productTypeManager->processProduct($product);
 
-                /*Set the curent website id*/
-                $product->setWebsiteIds([$this->storeManager->getWebsite()->getId() => $this->storeManager->getWebsite()->getId()]);
+                if(!$this->vendorProductHelper->canVendorSetWebsite()){
+                    /*Set the curent website id*/
+                    $product->setWebsiteIds([$this->storeManager->getWebsite()->getId() => $this->storeManager->getWebsite()->getId()]);
+                }
 
                 /*Update Approval Attribute*/
                 $savedraft = $this->getRequest()->getParam('savedraft', false);
@@ -151,9 +156,7 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                     if ($this->vendorProductHelper->isUpdateProductsApproval()) {
                         if (!in_array($product->getApproval(), [Approval::STATUS_PENDING, Approval::STATUS_NOT_SUBMITED, Approval::STATUS_UNAPPROVED])) {
                             $changedData = $this->_getChangedData($product);
-
-
-
+                            //var_dump($changedData);exit;
                             if (sizeof($changedData)) {
                                 $saveProductFlag = false;
                                 /*Save changed data*/
@@ -200,7 +203,7 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                             }
                         }
                     } else {
-                        if ($product->getApproval() != Approval::STATUS_APPROVED) {
+                        if ($product->getApproval() == Approval::STATUS_PENDING_UPDATE) {
                             $product->setApproval(Approval::STATUS_APPROVED);
                         }
                     }
@@ -232,17 +235,30 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                 } else {
                     $tmpProduct = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($product->getId())->setStoreId($this->getRequest()->getParam('store', 0));
                     $productData = $this->getRequest()->getPost('product', []);
-                    $changedData = [];
-                    foreach ($this->notCheckAttributes as $attributeCode) {
-                        if (isset($productData[$attributeCode])) {
-                            $changedData[$attributeCode] = $productData[$attributeCode];
+
+                    if (!$this->vendorProductHelper->getUpdateProductsApprovalFlag()) {
+                        $changedData = [];
+                        $notCheckAttributes = $this->notCheckAttributes;
+                        $notCheckAttributes = array_merge($this->vendorProductHelper->getUpdateProductsApprovalAttributes(), $notCheckAttributes);
+                        foreach ($notCheckAttributes as $attributeCode) {
+                            if (isset($productData[$attributeCode])) {
+                                $changedData[$attributeCode] = $productData[$attributeCode];
+                            }
+                        }
+                    }else{
+                        $changedData = $productData;
+                        $checkAttributes = $this->vendorProductHelper->getUpdateProductsApprovalAttributes();
+                        foreach ($checkAttributes as $attributeCode) {
+                            if (isset($changedData[$attributeCode])) {
+                                unset($changedData[$attributeCode]);
+                            }
                         }
                     }
 
-
-                    if(!isset($changedData["category_ids"]) && isset($productDat["category_ids"])){
+                    /*
+                    if(!isset($changedData["category_ids"]) && isset($productData["category_ids"])){
                         $changedData["category_ids"] = $productData["category_ids"];
-                    }
+                    } */
 
                     $tmpProduct = $this->initializationHelper->initializeFromData($tmpProduct, $changedData);
 
@@ -252,10 +268,10 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                     $tmpProduct->setVendorId($this->_session->getVendor()->getId());
 
 
-
-
-                    /*Set the curent website id*/
-                    $tmpProduct->setWebsiteIds([$this->storeManager->getWebsite()->getId() => $this->storeManager->getWebsite()->getId()]);
+                    if(!$this->vendorProductHelper->canVendorSetWebsite()){
+                        /*Set the curent website id*/
+                        $tmpProduct->setWebsiteIds([$this->storeManager->getWebsite()->getId() => $this->storeManager->getWebsite()->getId()]);
+                    }
                     $tmpProduct->save();
                 }
 
@@ -288,7 +304,7 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                         )
                     );
                 }
-
+                $this->getDataPersistor()->clear('catalog_product');
                 $this->_eventManager->dispatch(
                     'controller_action_catalog_product_save_entity_after',
                     ['controller' => $this]
@@ -300,12 +316,12 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                 }
             } catch (\Magento\Framework\Exception\LocalizedException $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_session->setProductData($data);
+                $this->getDataPersistor()->set('catalog_product', $data);
                 $redirectBack = $productId ? true : 'new';
             } catch (\Exception $e) {
                 $this->_objectManager->get('Psr\Log\LoggerInterface')->critical($e);
                 $this->messageManager->addError($e->getMessage());
-                $this->_session->setProductData($data);
+                $this->getDataPersistor()->set('catalog_product', $data);
                 $redirectBack = $productId ? true : 'new';
             }
         } else {
@@ -379,7 +395,7 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
 
         foreach ($productAttrCollection as $attribute) {
             $attrCode = $attribute->getAttributeCode();
-
+            $attrType = $attribute->getBackendType();
             if (in_array($attrCode, $notUsedProductAttr)) {
                 continue;
             }
@@ -393,7 +409,7 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
                 }
             }
 
-            if ($this->compareAttributeValue($attrCode, $newData, $product->getOrigData($attrCode))) {
+            if ($this->compareAttributeValue($attrCode,$attrType, $newData, $product->getOrigData($attrCode))) {
                 $changedData[$attrCode] = $newData;
             }
         }
@@ -409,44 +425,105 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
      * @param unknown $data
      * @param unknown $originData
      */
-    private function compareAttributeValue($attrCode, $data, $originData)
+    private function compareAttributeValue($attrCode,$attrType, $data, $originData)
     {
+        if (!$this->vendorProductHelper->getUpdateProductsApprovalFlag()) {
+            $notCheckAttributes = $this->notCheckAttributes;
+            $notCheckAttributes = array_merge($this->vendorProductHelper->getUpdateProductsApprovalAttributes(),$notCheckAttributes);
+            if (is_array($data) &&
+                !in_array($attrCode, $notCheckAttributes)
+            ) {
+                if (!is_array($originData)) {
+                    $originData = explode(',', $originData);
+                }
 
 
-        $notCheckAttributes = $this->notCheckAttributes;
-        if (is_array($data) &&
-            !in_array($attrCode, $notCheckAttributes)
-        ) {
-            if (!is_array($originData)) {
-                $originData = explode(',', $originData);
-            }
-
-
-            if (sizeof($data) <= 0 && sizeof($originData) > 0) {
-                $result = true;
-            } else {
-                $checkMultipleArray = isset($data[0]) && is_array($data[0]);
-                // fix array_diff with "tier_price"
-                if (!$checkMultipleArray) {
-                    $result = sizeof(array_diff($data, $originData)) || sizeof(array_diff($originData, $data));
+                if (sizeof($data) <= 0 && sizeof($originData) > 0) {
+                    $result = true;
                 } else {
-                    if ($attrCode == "tier_price") {
-                        $diff = array_diff(array_map('json_encode', $data), array_map('json_encode', $originData));
-                        $result = sizeof(array_map('json_decode', $diff));
+                    $checkMultipleArray = isset($data[0]) && is_array($data[0]);
+                    // fix array_diff with "tier_price"
+                    if (!$checkMultipleArray) {
+                        $result = sizeof(array_diff($data, $originData)) || sizeof(array_diff($originData, $data));
                     } else {
-                        $result = false;
+                        if ($attrCode == "tier_price") {
+                            $diff = array_diff(array_map('json_encode', $data), array_map('json_encode', $originData));
+                            $result = sizeof(array_map('json_decode', $diff));
+                        } else {
+                            $result = false;
+                        }
                     }
                 }
-            }
-        } else {
-            $result = ($data!== false) && ($data !== null) && ($data != $originData);
-        }
+            } else {
+                switch ($attrType){
+                    case "decimal":
+                        $originData = str_replace(',', '', $originData);
+                        if(is_numeric($originData))
+                            $originData = number_format($originData, 2, '.', ',');
 
-        $additionalCompare = false;
-        if (in_array($attrCode, $notCheckAttributes)) {
-            /*Ignore checking value changes*/
-        } else {
-            $additionalCompare = true;
+                        $data = str_replace(',', '', $data);
+                        if(is_numeric($data))
+                            $data = number_format($data, 2, '.', ',');
+                        break;
+                }
+
+
+                $result = ($data !== false) && ($data !== null) && ($data != $originData);
+            }
+
+            $additionalCompare = false;
+            if (in_array($attrCode, $notCheckAttributes)) {
+                /*Ignore checking value changes*/
+            } else {
+                $additionalCompare = true;
+            }
+        }else{
+            $checkAttributes = $this->vendorProductHelper->getUpdateProductsApprovalAttributes();
+            $additionalCompare = false;
+            $result = false;
+            if (in_array($attrCode, $checkAttributes)) {
+                if (is_array($data)) {
+                    if (!is_array($originData)) {
+                        $originData = explode(',', $originData);
+                    }
+
+
+                    if (sizeof($data) <= 0 && sizeof($originData) > 0) {
+                        $result = true;
+                    } else {
+                        $checkMultipleArray = isset($data[0]) && is_array($data[0]);
+                        // fix array_diff with "tier_price"
+                        if (!$checkMultipleArray) {
+                            $result = sizeof(array_diff($data, $originData)) || sizeof(array_diff($originData, $data));
+                        } else {
+                            if ($attrCode == "tier_price") {
+                                $diff = array_diff(array_map('json_encode', $data), array_map('json_encode', $originData));
+                                $result = sizeof(array_map('json_decode', $diff));
+                            } else {
+                                $result = false;
+                            }
+                        }
+                    }
+                } else {
+                    switch ($attrType){
+                        case "decimal":
+                            $originData = str_replace(',', '', $originData);
+                            if(is_numeric($originData))
+                                $originData = number_format($originData, 2, '.', ',');
+
+                            $data = str_replace(',', '', $data);
+                            if(is_numeric($data))
+                                $data = number_format($data, 2, '.', ',');
+                            break;
+                    }
+
+
+
+                    $result = ($data !== false) && ($data !== null) && ($data != $originData);
+                }
+
+                $additionalCompare = true;
+            }
         }
 
         $transport = new \Magento\Framework\DataObject([
@@ -461,5 +538,20 @@ class Save extends \Vnecoms\VendorsProduct\Controller\Vendors\Product
         $additionalCompare = $transport->getData('compare');
 
         return $result && $additionalCompare;
+    }
+
+    /**
+     * Retrieve data persistor
+     *
+     * @return DataPersistorInterface|mixed
+     * @deprecated
+     */
+    protected function getDataPersistor()
+    {
+        if (null === $this->dataPersistor) {
+            $this->dataPersistor = $this->_objectManager->get(DataPersistorInterface::class);
+        }
+
+        return $this->dataPersistor;
     }
 }

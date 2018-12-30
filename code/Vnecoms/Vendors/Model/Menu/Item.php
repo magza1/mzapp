@@ -86,7 +86,15 @@ class Item extends \Magento\Backend\Model\Menu\Item
                 'result' => $result
             ]
         );
-        return $result->getIsAllowed();
+        $permission = new \Vnecoms\Vendors\Model\AclResult();
+        $this->_eventManager->dispatch(
+            'ves_vendor_check_acl',
+            [
+                'resource' => $this->_resource,
+                'permission' => $permission
+            ]
+        );
+        return $result->getIsAllowed() && $permission->isAllowed();
     }
     
     /**
@@ -113,6 +121,20 @@ class Item extends \Magento\Backend\Model\Menu\Item
             );
         }
         return '#';
+    }
+    
+    /**
+     * Get menu item data represented as an array
+     *
+     * @return array
+     * @since 100.2.0
+     */
+    public function toArray()
+    {
+        $arrMenu = parent::toArray();
+        $arrMenu['icon'] = $this->_icon_class;
+        
+        return $arrMenu;
     }
     
     public function __wakeup()

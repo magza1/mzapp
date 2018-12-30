@@ -14,7 +14,7 @@ class Collection extends \Magento\Framework\Model\ResourceModel\Db\Collection\Ab
 {
     public function _construct()
     {
-        $this->_init('Magento\Framework\DataObject', 'Aheadworks\Csblock\Model\ResourceModel\Content');
+        $this->_init(\Magento\Framework\DataObject::class, \Aheadworks\Csblock\Model\ResourceModel\Content::class);
     }
 
     public function addBlockIdFilter($blockId)

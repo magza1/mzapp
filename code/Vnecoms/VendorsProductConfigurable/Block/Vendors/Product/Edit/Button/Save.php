@@ -82,8 +82,8 @@ class Save extends Generic
                         'buttonAdapter' => [
                             'actions' => [
                                 [
-                                    'targetName' => 'product_form.product_form',
-                                    'actionName' => 'save',
+                                    'targetName' => $this->getSaveTarget(),
+                                    'actionName' => $this->getSaveAction(),
                                     'params' => [
                                         true,
                                         [

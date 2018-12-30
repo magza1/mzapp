@@ -13,12 +13,16 @@ use \Vnecoms\VendorsProduct\Model\Source\Approval;
  */
 class Data extends AbstractHelper
 {
+    const XML_CATALOG_ALLOW_VENDOR_SET_WEBSITE  = 'vendors/catalog/can_set_website';
     const XML_CATALOG_NEW_PRODUCT_APPROVAL      = 'vendors/catalog/new_product_approval';
     const XML_CATALOG_UPDATE_PRODUCT_APPROVAL   = 'vendors/catalog/update_product_approval';
+    const XML_CATALOG_UPDATE_ATTRIBUTE_APPROVAL_FLAG   = 'vendors/catalog/attribute_approval_flag';
+    const XML_CATALOG_UPDATE_ATTRIBUTE_APPROVAL   = 'vendors/catalog/attribute_approval';
     const XML_CATALOG_EMAIL_SENDER              = 'vendors/catalog/sender_email_identity';
     const XML_CATALOG_ADMIN_EMAIL               = 'vendors/catalog/admin_email_identity';
     const XML_CATALOG_PRODUCT_TYPE_RESTRICTION  = 'vendors/catalog/product_type_restriction';
     const XML_CATALOG_ATTRIBUTE_SET_RESTRICTION = 'vendors/catalog/attribute_set_restriction';
+    const XML_CATALOG_ATTRIBUTE_RESTRICTION     = 'vendors/catalog/attribute_restriction';
     const XML_CATALOG_NEW_PRODUCT_APPROVAL_EMAIL_ADMIN      = 'vendors/catalog/new_product_approval_email_admin';
     const XML_CATALOG_UPDATE_PRODUCT_APPROVAL_EMAIL_ADMIN   = 'vendors/catalog/update_product_approval_email_admin';
     const XML_CATALOG_PRODUCT_APPROVED_EMAIL_VENDOR         = 'vendors/catalog/product_approved_email_vendor';
@@ -42,6 +46,12 @@ class Data extends AbstractHelper
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
      */
     protected $scopeConfig;
+
+    /**
+     * These attributes will not be saved from vendor cpanel.
+     * @var array
+     */
+    protected $_joinProductAttribute;
     
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -56,21 +66,46 @@ class Data extends AbstractHelper
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Vnecoms\Vendors\Helper\Email $emailHelper,
-        array $notAllowedProductAttributes = []
+        array $notAllowedProductAttributes = [],
+        array $joinProductAttribute = []
     ) {
         parent::__construct($context);
         $this->scopeConfig = $context->getScopeConfig();
         $this->_notAllowedProductAttributes = $notAllowedProductAttributes;
+        $this->_joinProductAttribute = $joinProductAttribute;
         $this->_emailHelper = $emailHelper;
     }
 
+
+    /**
+     * Get the list of product attributes which will not be used on vendor cpanel.
+     * @return array
+     */
+    public function getJoinProductAttribute()
+    {
+        return $this->_joinProductAttribute;
+    }
+
+    
     /**
      * Get the list of product attributes which will not be used on vendor cpanel.
      * @return array
      */
     public function getNotUsedVendorAttributes()
     {
-        return $this->_notAllowedProductAttributes;
+        $attributeRestriction = $this->scopeConfig->getValue(self::XML_CATALOG_ATTRIBUTE_RESTRICTION);
+        $attributeRestriction = $attributeRestriction?explode(',', $attributeRestriction):[];
+        
+        return array_merge($this->_notAllowedProductAttributes, $attributeRestriction);
+    }
+    
+    /**
+     * Can vendor set website id for product
+     * 
+     * @return boolean
+     */
+    public function canVendorSetWebsite(){
+        return (bool)$this->scopeConfig->getValue(self::XML_CATALOG_ALLOW_VENDOR_SET_WEBSITE);
     }
     
     /**
@@ -89,6 +124,25 @@ class Data extends AbstractHelper
     public function isUpdateProductsApproval()
     {
         return $this->scopeConfig->getValue(self::XML_CATALOG_UPDATE_PRODUCT_APPROVAL);
+    }
+
+
+    /**
+     * Is Required approval for updating product info
+     * @return boolean
+     */
+    public function getUpdateProductsApprovalFlag()
+    {
+        return $this->scopeConfig->getValue(self::XML_CATALOG_UPDATE_ATTRIBUTE_APPROVAL_FLAG);
+    }
+
+    /**
+     * Is Required approval for updating product info
+     * @return boolean
+     */
+    public function getUpdateProductsApprovalAttributes()
+    {
+        return explode(",",$this->scopeConfig->getValue(self::XML_CATALOG_UPDATE_ATTRIBUTE_APPROVAL));
     }
     
     /**

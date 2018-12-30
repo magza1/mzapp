@@ -370,7 +370,7 @@ define([
                             self.infowindow.setContent($store[0]);
                             self.infowindow.setPosition(store.marker.getPosition());
                             self.infowindow.open(self.map, store.marker);
-                            self.map.setZoom(parseFloat(14));//hard-fix zoom level
+                            self.map.setZoom(parseFloat(15));//hard-fix zoom level
 
                             if(self.panorama.getVisible()) {
                                 self.streetView(store.marker);

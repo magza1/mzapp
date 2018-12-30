@@ -215,7 +215,10 @@ class Csblock extends \Magento\Framework\View\Element\Template
         ;
         $html = '';
         foreach ($contentCollection->getItems() as $content) {
-            $html .= $this->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId($content->getStaticBlockId())->toHtml();
+            $html .= $this->getLayout()
+                ->createBlock(\Magento\Cms\Block\Block::class)
+                ->setBlockId($content->getStaticBlockId())
+                ->toHtml();
         }
         return $html;
     }

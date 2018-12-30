@@ -106,8 +106,11 @@ class RegisterPost extends \Magento\Customer\Controller\AbstractAccount
                 }
                 
                 $vendor->save();
+                if($this->_vendorHelper->isUsedCustomVendorUrl()){
+                    return $this->_redirect('vendors/account/login',['success_message' => base64_encode(__("Your seller account has been created. You can now login to vendor panel."))]);
+                }
                 $this->_messageManager->addSuccess($message);
-                return $this->_redirect('customer/account');
+                return $this->_redirect('vendors');
             } catch (\Exception $e) {
                 $this->_messageManager->addError($e->getMessage());
                 $this->_vendorSession->setFormData($vendorData);

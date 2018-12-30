@@ -89,7 +89,7 @@ class Main extends Generic implements TabInterface
         
         $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Group Information')]);
         
-        $this->_eventManager->dispatch('ves_vendors_group_tab_main_prepare_before', ['tab'=>$this,'form'=>$form,'fiendset'=>$fieldset]);
+        $this->_eventManager->dispatch('ves_vendors_group_tab_main_prepare_before', ['tab'=>$this,'form'=>$form,'fieldset'=>$fieldset]);
         
         if ($model->getId()) {
             $fieldset->addField('vendor_group_id', 'hidden', ['name' => 'vendor_group_id']);
@@ -102,7 +102,7 @@ class Main extends Generic implements TabInterface
             ['name' => 'vendor_group_code', 'label' => __('Group'), 'title' => __('Group'), 'required' => true]
         );
         
-        $this->_eventManager->dispatch('ves_vendors_group_tab_main_prepare_after', ['tab'=>$this,'form'=>$form,'fiendset'=>$fieldset]);
+        $this->_eventManager->dispatch('ves_vendors_group_tab_main_prepare_after', ['tab'=>$this,'form'=>$form,'fieldset'=>$fieldset]);
         
         $form->setValues($model->getData());
 

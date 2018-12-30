@@ -14,6 +14,6 @@ class Content extends \Magento\Framework\Model\AbstractModel
 {
     protected function _construct()
     {
-        $this->_init('Aheadworks\Csblock\Model\ResourceModel\Content');
+        $this->_init(\Aheadworks\Csblock\Model\ResourceModel\Content::class);
     }
 }

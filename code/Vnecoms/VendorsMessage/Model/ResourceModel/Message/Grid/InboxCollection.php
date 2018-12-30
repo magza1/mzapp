@@ -38,7 +38,6 @@ class InboxCollection extends \Magento\Framework\View\Element\UiComponent\DataPr
             'created_at',
             'msg_detail.created_at'
         );
-
     }
     
     /**
@@ -49,8 +48,8 @@ class InboxCollection extends \Magento\Framework\View\Element\UiComponent\DataPr
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addFieldToFilter('is_deleted',0);
-        $this->addFieldToFilter('is_inbox',1);
+        $this->addFieldToFilter('is_deleted', 0);
+        $this->addFieldToFilter('is_inbox', 1);
         $this->getSelect()->joinLeft(
             ['msg_detail' => $this->getTable('ves_vendor_message_detail')],
             'main_table.message_id = msg_detail.message_id',
